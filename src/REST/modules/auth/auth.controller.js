@@ -28,12 +28,13 @@ class AuthController {
 
     async login(req, res, next){
         try {
-            const {username, password, otp, rememberMe } = req.body
-            const loginResult = await this.#service.authenticateUser(username, password, otp, rememberMe)
+            const {username, password, rememberMe, otp } = req.body
+            const loginResult = await this.#service.authenticateUser(username, password,otp, rememberMe)
 
             if(loginResult.requires2FA){
-                return this.#sendResponse(res, 200, '2FA required', {userId: loginResult.userId})
+                return this.#sendResponse(res, 200, '2FA required', {userId: loginResult.userId, otp: loginResult.otp})
             }
+
             const {token, user} = loginResult;
 
             const cookieOptions = {
@@ -53,29 +54,30 @@ class AuthController {
         }
     }
 
-    async validateOTP(req, res, next){
-        try {
-            const {userId, otp, rememberMe} = req.body;
-            const {token, user} = await this.#service.validateOTP(userId, otp, rememberMe)
+    // async validateOTP(req, res, next){
+    //     try {
+    //         const {userId, otp, rememberMe} = req.body;
+    //         const {token, user} = await this.#service.validateOTP(userId, otp, rememberMe)
 
-            const cookieOptions = {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "Strict",
-                maxAge: rememberMe ? 7 * 24 * 60 * 60 * 1000 : 1 * 60 * 60 * 1000, // 7 days for Remember Me, 1 hour otherwise
-            };
-            res.cookie("token", token, cookieOptions);
-            return this.#sendResponse(res, 200, "2FA validated, login successful", { token, user });
+    //         const cookieOptions = {
+    //             httpOnly: true,
+    //             secure: process.env.NODE_ENV === "production",
+    //             sameSite: "Strict",
+    //             maxAge: rememberMe ? 7 * 24 * 60 * 60 * 1000 : 1 * 60 * 60 * 1000, // 7 days for Remember Me, 1 hour otherwise
+    //         };
+    //         res.cookie("token", token, cookieOptions);
+    //         return this.#sendResponse(res, 200, "2FA validated, login successful", { token, user });
         
-        } catch (error) {
-            next(error)
-        }
-    }
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
 
     async enable2FA(req, res, next){
         try {
-            const {otpSecret} = await this.#service.enable2FA(req.user.id)
-            return this.#sendResponse(res, 200, '2FA enabled', {otpSecret})
+            const userId = req.user.id;
+            await this.#service.enable2FA(userId)
+            return this.#sendResponse(res, 200, '2FA enabled')
         } catch (error) {
             next(error)
         }
@@ -84,16 +86,43 @@ class AuthController {
     async generateBackupCodes(req, res, next){
         try {
             const backupCodes = await this.#service.generateBackupCode(req.user.id)
-            return this.#sendResponse(res, 200, 'backup Codes generated', {backupCodes})
+            return this.#sendResponse(res, 200, 'New backup codes generated. Please store them securely.', {backupCodes})
         } catch (error) {
             next(error)
         }
     }
     async validateBackupCodes(req, res, next){
         try {
-            const { code } = req.body
-            await this.#service.validateBackupCode(req.user.id, code)
-            return this.#sendResponse(res, 200, 'backup Codes validated')
+            const { code , rememberMe } = req.body
+            const {token, user} = await this.#service.validateBackupCode(req.user.id, code, rememberMe)
+            const cookieOptions = {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "Strict",
+                maxAge: rememberMe ? 7 * 24 * 60 * 60 * 1000 : 1 * 60 * 60 * 1000, // 7 days for Remember Me, 1 hour otherwise
+            };
+            res.cookie("token", token, cookieOptions);
+                return this.#sendResponse(res, 200, 'Backup code validated, login successful', {token, user})
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async requestPasswordReset(req, res, next){
+        try {
+            const {phoneNumber} = req.body;
+            const {otp, user} = await this.#service.initiatePasswordReset(phoneNumber)
+            return this.#sendResponse(res, 200, "Password reset OTP sent to the phone number.", {otp, phoneNumber, user})
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async resetPassword(req, res, next){
+        try {
+            const {phoneNumber, otp, newPassword} = req.body;
+            await this.#service.validateOtpAndResetPassword(phoneNumber, otp, newPassword)
+            return this.#sendResponse(res, 200, 'password reset successful')
         } catch (error) {
             next(error)
         }

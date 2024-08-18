@@ -7,7 +7,7 @@ const User = require("../user/user.model")
 const {logger} = require("../../../common/utils")
 
 
-const saltRounds = process.env.SALT_ROUNDS || 10;
+const saltRounds = process.env.SALT_ROUNDS || 12;
 const secretKey = process.env.JWT_SECRET
 const maxFailedAttempts = process.env.MAX_FAILED_ATTEMPTS || 3;
 const lockoutTime = process.env.LOCKOUT_TIME || 30 * 60 * 1000; //30 minutes
@@ -42,9 +42,9 @@ class AuthService {
     }
 
     // Authenticate user with password and (otp if enabled)
-    async authenticateUser(username, password, rememberMe){
+    async authenticateUser(username, password,otp , rememberMe){
         const user = await this.#model.findOne({where: {username}})
-        if(!user) throw new Error('User not found')
+        if(!user) throw new Error('user not found')
 
         // Check if account is locked and if the lockout period has expired
         if (user.isLocked && user.lockedUntil > new Date()) {
@@ -60,74 +60,84 @@ class AuthService {
             throw new Error('invalid password')
         }
 
-        await this.resetFailedAttempts(user)
+        // await this.resetFailedAttempts(user)
 
         logger.info(`User ${user.username} successfully logged in`);
         
         // If 2FA is enabled, return an indication that OTP is required
         if(user.is2FAEnabled){
-            return {requires2FA: true, userId: user.id}
+            if(!otp){
+                const generatedOtp = this.#generateOTP();
+                const otpExpires = Date.now() + 5 * 60 * 1000;
+                await user.update({otp: generatedOtp, otpExpires})  
+                return {requires2FA: true, userId: user.id, otp: generatedOtp}
+            } else {
+                if(user.otpExpires < Date.now()) throw new Error('otp hast expired')
+                if(user.otp !== otp) throw new Error('invalid OTP')
+                await user.update({otp: null, otpExpires: null})
+            }
         }
 
         const token = this.#generateJWT(user, rememberMe)
         return { token, user}
     }
 
-    async validateOTP(userId, otp, rememberMe){
-        const user = await this.#findUserById(userId)
+    // async validateOTP(userId, otp, rememberMe){
+    //     const user = await this.#findUserById(userId)
 
-        if(!user.is2FAEnabled){
-            throw new Error('2FA is not enabled for this user')
-        }
+    //     if(!user.is2FAEnabled){
+    //         throw new Error('2FA is not enabled for this user')
+    //     }
+    //     if(user.otpExpires < Date.now()){
+    //         throw new Error("OTP has expired")
+    //     }
+    //     if(user.otp !== otp){
+    //         throw new Error('invalid OTP')
+    //     }
+    //     await user.update({otp: null, otpExpires: null})
 
-        const isOTPValid = totp.check(otp, user.otpSecret) 
-        if(!isOTPValid){
-            throw new Error('invalid OTP')
-        }
-        const token = this.#generateJWT(user, rememberMe)
-        logger.info(`User ${user.username} successfully verified OTP`);
-        return {token, user}
-    }
+    //     const token = this.#generateJWT(user, rememberMe)
+    //     logger.info(`User ${user.username} successfully verified OTP`);
+    //     return {token, user}
+    // }
 
     //enable 2fa for user
     async enable2FA(userId){
         const user = await this.#findUserById(userId)
-        const otpSecret = authenticator.generateSecret()
-        await user.update({ otpSecret, is2FAEnabled: true})
-        return {otpSecret}
+        await user.update({is2FAEnabled: true})
+        return true
     }
 
     // Validate and consume a backup code
-    async validateBackupCode(userId, code){
+    async validateBackupCode(userId, code, rememberMe = false){
         const user = await this.#findUserById(userId)
+        let isValid = false
 
-        const validCode = await Promise.any(
-            user.backupCodes.map(async (storedCode) => {
-                return await bcrypt.compare(code, storedCode)
-            })
-        ) 
-        if(!validCode) throw new Error('Invalid backup code')
-
-
-        const updatedBackupCode = await Promise.all(
-            user.backupCodes.filter(async (storedCode) => {
-                return !(await bcrypt.compare(code, storedCode))
-            })
-        )
-
-        await user.update({backupCodes: updatedBackupCode})
-        return true
+        const updatedBackupCodes =  []
+        for (let storedCode of user.backupCodes) {
+            if(await bcrypt.compare(code, storedCode)){
+                isValid = true
+            }else {
+                updatedBackupCodes.push(storedCode)
+            }
+        }
+        if(!isValid){
+            throw new Error('invalid backup code')
+        }
+        await user.update({backupCodes: updatedBackupCodes})
+        const token = this.#generateJWT(user, rememberMe)
+        await this.resetFailedAttempts(user)
+        return {token, user, remainBackupCodes: updatedBackupCodes.length}
     }
 
     // Generate backup codes for a user
     async generateBackupCode(userId){
         const user = await this.#findUserById(userId)
-        
         const hashedBackupCodes = []
         const backupCodes = []
 
         for (let i = 0; i < 5; i++) {
-            const code = crypto.randomBytes(4).toString('hex');
+            const code = crypto.randomInt(100000, 999999).toString();
             const hashedCode = await bcrypt.hash(code, saltRounds)
             backupCodes.push(code)
             hashedBackupCodes.push(hashedCode)
@@ -154,6 +164,33 @@ class AuthService {
         await user.save()
     }
 
+    async initiatePasswordReset(phoneNumber){
+        const user = await this.#model.findOne({where: {phoneNumber}})
+        if(!user) throw new Error('User not found')
+
+        // Generate an OTP using otplib
+        const otp = this.#generateOTP()
+        const otpExpires = Date.now() + 15 * 60 * 1000 // 15 min validity 
+        await user.update({otp, otpExpires})
+
+        return {user, otp}
+    }
+
+    async validateOtpAndResetPassword(phoneNumber, otp, newPassword){
+        const user = await this.#model.findOne({ where: {phoneNumber}})
+        if(!user) throw new Error('user not found')
+
+        if(user.otp !== otp || user.otpExpires < Date.now()) throw new Error('invalid or expired OTP')
+        
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds)
+        await user.update({
+            password: hashedPassword,
+            otp: null,
+            otpExpires: null
+        })
+        return true
+    }
+
     #validatePassword(password){
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return regex.test(password)
@@ -167,6 +204,10 @@ class AuthService {
             { expiresIn }
         );
     };
+    #generateOTP(){
+        const code =  crypto.randomInt(100000, 999999).toString()
+        return code
+    }
 
 }
 

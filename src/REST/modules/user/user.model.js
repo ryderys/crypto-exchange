@@ -18,22 +18,32 @@ const UserSchema = sequelize.define('User', {
     },
     email: {
         type: DataTypes.STRING,
+        allowNull: true,
+    },
+    phoneNumber: {
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true
+    },
+    otp: {
+        type: DataTypes.STRING(10),
+        allowNull: true
+    },
+    otpExpires: {
+        type: DataTypes.DATE,
+        allowNull: true
     },
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    otpSecret: {
-        type: DataTypes.STRING
     },
     is2FAEnabled: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     },
     backupCodes: {
-        type: DataTypes.JSON
+        type: DataTypes.JSON,
+        allowNull: true
     },
     failedLoginAttempts: {
         type: DataTypes.INTEGER,
@@ -47,14 +57,22 @@ const UserSchema = sequelize.define('User', {
         type: DataTypes.DATE,
         allowNull: true,
     },
+    resetPasswordExpires: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+    resetPasswordToken: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     createdAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW()
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
     }
+}, {
+    // indexes: [
+    //     {unique: true, fields: ['username']},
+    //     {unique: true, fields: ['phoneNumber']},
+    // ]
 })
-
 module.exports = UserSchema

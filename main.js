@@ -2,7 +2,6 @@ require("dotenv").config()
 const Application = require('./src/app')
 const {sequelize} = require("./config/sequelize")
 
-const {syncModels} = require('./src/REST/models/index')
 
 const PORT = process.env.PORT || 3000;
 

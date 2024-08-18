@@ -25,5 +25,6 @@ const syncModels = async () => {
     }
 }
 module.exports = {
-    models,syncModels
+    models,
+    syncModels
 }

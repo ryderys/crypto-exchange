@@ -3,6 +3,7 @@ const {sequelize} = require("../config/sequelize")
 const { AllRoutes } = require("./app.routes");
 const SwaggerConfig = require("../config/swagger.config");
 const { syncModels } = require("./REST/models");
+const cookieParser = require("cookie-parser");
 
 module.exports = class Application {
     #app = express();
@@ -21,8 +22,7 @@ module.exports = class Application {
             await this.#sequelize.authenticate()
             console.log('Connection to the database successful!');
 
-            await this.#sequelize.sync()
-            console.log('models synchronized with the database');
+            await syncModels()
             
         } catch (error) {
             console.error('Unable to connect to the database:', error);
@@ -33,6 +33,7 @@ module.exports = class Application {
     configApplication(){
         this.#app.use(express.json());
         this.#app.use(express.urlencoded({extended: true}))
+        this.#app.use(cookieParser())
         SwaggerConfig(this.#app)
     }
 
