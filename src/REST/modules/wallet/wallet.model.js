@@ -8,8 +8,8 @@ const WalletSchema = sequelize.define('Wallet', {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
-    ballance: {
-        type: DataTypes.FLOAT,
+    balance: {
+        type: DataTypes.DECIMAL(20, 8),
         defaultValue: 0.0,
         allowNull: false
     },
@@ -28,18 +28,16 @@ const WalletSchema = sequelize.define('Wallet', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-    },
+    }
+}, {
+    timestamps: true,
+    indexes: [
+        {fields: ['userId']},
+        { unique: true, fields: ['userId', 'currency']}
+    ]
 })
 
-User.hasMany(WalletSchema, {foreignKey: 'userId', as: 'user'})
-WalletSchema.belongsTo(User, {foreignKey: 'userId', as: 'wallets'})
+User.hasMany(WalletSchema, {foreignKey: 'userId', as: 'wallets'})
+WalletSchema.belongsTo(User, {foreignKey: 'userId', as: 'user'})
 
 module.exports = WalletSchema
