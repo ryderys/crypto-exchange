@@ -87,7 +87,7 @@
  *              name: date
  *              schema:
  *                  type: string
- *              description: Date in the format dd-mm-yyyy (e.g., 30-12-2022)
+ *                  description: Date in the format dd-mm-yyyy (e.g., 30-12-2022)
  *      responses:
  *          200:
  *              description: Historical data for the coin on the specified date

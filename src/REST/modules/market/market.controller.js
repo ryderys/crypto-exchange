@@ -53,7 +53,7 @@ class MarketController{
         }
     }
 
-    async getTrendingCoins(){
+    async getTrendingCoins(req, res, next){
         try {
             const trendingCoins = await this.#service.getTrendingCoins()
             return res.status(200).json({trendingCoins})
@@ -61,7 +61,7 @@ class MarketController{
             next(error)
         }
     }
-    async getGlobalMarket(){
+    async getGlobalMarket(req, res, next){
         try {
             const globalMarket = await this.#service.getGlobalMarketData()
             return res.status(200).json({globalMarket})
