@@ -28,7 +28,26 @@ const WalletSchema = sequelize.define('Wallet', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    }
+    },
+    isLocked: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    dailyLimit: {
+        type: DataTypes.FLOAT,
+        defaultValue: 1000.0,
+        allowNull: false
+    },
+    withdrawnToday: {
+        type: DataTypes.FLOAT,
+        defaultValue: 0.0,
+        allowNull: false
+    },
+    lastWithdrawalDate: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+
 }, {
     timestamps: true,
     indexes: [

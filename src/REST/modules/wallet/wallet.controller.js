@@ -16,6 +16,7 @@ class WalletController{
             }
         });
     }
+    
 
     async createWallet(req, res, next) {
         try {
@@ -24,11 +25,12 @@ class WalletController{
             const wallet = await this.#service.createWallet(userId, currency, password)
             return this.#sendResponse(res, 201, 'Wallet created successfully', {wallet})
         } catch (error) {
+            console.error(error)
             next(error)
         }
     }
 
-    async getWallet(req, res, next){
+    async getWalletByUserId(req, res, next){
         try {
             const userId = req.user.id;
             const wallets = await this.#service.getWalletByUserId(userId)
@@ -38,10 +40,12 @@ class WalletController{
         }
     }
 
-    async depositFunds(req, res, next){
+    async depositByCurrency(req, res, next){
         try {
-            const {walletId, amount} = req.body;
-            const wallet = await this.#service.depositFunds(walletId, amount)
+            const {currency, amount} = req.body;
+            const userId = req.user.id
+            
+            const wallet = await this.#service.depositFundsByCurrency(userId,currency, +amount)
             return this.#sendResponse(res, 200, 'Funds deposited successfully', {wallet})
         } catch (error) {
             next(error)
@@ -81,8 +85,27 @@ class WalletController{
     async checkBalance(req, res, next){
         try {
             const {walletId} = req.params
-            const {balance} = await this.#service.checkBalance(walletId)
+            const balance = await this.#service.checkBalance(walletId)
             return this.#sendResponse(res, 200, 'Balance fetched successfully', {balance})
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async lockWallet(req, res, next){
+        try {
+            const {walletId} = req.body;
+            const wallet = await this.#service.lockWallet(walletId)
+            return this.#sendResponse(res, 200, 'Wallet locked successfully', { wallet })
+        } catch (error) {
+            next(error)
+        }
+    }
+    async unlockWallet(req, res, next){
+        try {
+            const {walletId} = req.body;
+            const wallet = await this.#service.unlockWallet(walletId)
+            return this.#sendResponse(res, 200, 'Wallet unlocked successfully', { wallet })
         } catch (error) {
             next(error)
         }

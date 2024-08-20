@@ -98,13 +98,11 @@
  *                  rememberMe:
  *                      type: boolean
  *                      description: 'Optional, to extend the session if backup code is used'
- * 
- *          
- *          responses:
- *              UnauthorizedError:
- *                  description: 'JWT token is missing or invalid'
- *              BadRequestError:
- *                  description: 'Invalid input or request data'
+ *      responses:
+ *          UnauthorizedError:
+ *              description: 'JWT token is missing or invalid'
+ *          BadRequestError:
+ *              description: 'Invalid input or request data'
  */
 
 /**
