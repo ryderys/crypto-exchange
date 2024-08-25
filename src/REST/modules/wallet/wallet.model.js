@@ -8,10 +8,14 @@ const WalletSchema = sequelize.define('Wallet', {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
-    balance: {
-        type: DataTypes.DECIMAL(20, 8),
-        defaultValue: 0.0,
+    walletName: {
+        type: DataTypes.STRING,
         allowNull: false
+    },
+    balances: {
+        type: DataTypes.JSON,
+        allowNull: false,
+        defaultValue: {}
     },
     currency: {
         type: DataTypes.STRING,
@@ -50,10 +54,10 @@ const WalletSchema = sequelize.define('Wallet', {
 
 }, {
     timestamps: true,
-    indexes: [
-        {fields: ['userId']},
-        { unique: true, fields: ['userId', 'currency']}
-    ]
+    // indexes: [
+    //     {fields: ['userId']},
+    //     { unique: true, fields: ['userId', 'currency']}
+    // ]
 })
 
 User.hasMany(WalletSchema, {foreignKey: 'userId', as: 'wallets'})

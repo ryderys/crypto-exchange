@@ -13,18 +13,50 @@
  *              type: object
  *              required:
  *                  -   password
+ *                  -   currency
  *              properties:
  *                  currency:
  *                      type: string
- *                      description: The currency for the wallet (e.g., 'bitcoin')
+ *                      description: The currency for storing on the wallet 
+ *                      enum:
+ *                          -   USD
+ *                          -   EURO
+ *                          -   POUND
  *                  password:
  *                      type: string
  *                      description: Password to protect the wallet
+ *                  walletName:
+ *                      type: string
+ *                      description: the name of the wallet
  *          Deposit:
  *              type: object
  *              required:
  *                  -   currency
  *                  -   amount
+ *                  -   walletId
+ *              properties:
+ *                  currency:
+ *                      type: string
+ *                      description: The currency for storing on the wallet 
+ *                      enum:
+ *                          -   USD
+ *                          -   EURO
+ *                          -   POUND
+ *                  amount:
+ *                      type: number
+ *                      description: the amount of deposit
+ *                  walletId:
+ *                      type: string
+ *                      description: the id of the wallet
+ *                  preferredCurrency:
+ *                      type: string
+ *                      description: Preferred currency to convert the deposit to (optional)
+ *          withdraw:
+ *              type: object
+ *              required:
+ *                  -   currency
+ *                  -   amount
+ *                  -   walletId
  *              properties:
  *                  currency:
  *                      type: string
@@ -32,22 +64,12 @@
  *                  amount:
  *                      type: number
  *                      description: the amount of deposit
- *          Withdraw:
- *              type: object
- *              required:
- *                  -   walletId
- *                  -   amount
- *                  -   password
- *              properties:
  *                  walletId:
  *                      type: string
- *                      description: the wallet ID
- *                  amount:
+ *                      description: the id of the wallet
+ *                  preferredCurrency:
  *                      type: string
- *                      description: the amount of deposit
- *                  password:
- *                      type: string
- *                      description: Wallet password to authorize the withdrawal
+ *                      description: Preferred currency to convert the withdrawal  to (optional)
  *              
  *          Transfer:
  *              type: object
@@ -69,6 +91,22 @@
  *                  password:
  *                      type: string
  *                      description: Wallet password to authorize the withdrawal
+ *          Convert:
+ *              type: object
+ *              required:
+ *                  -   fromCurrency
+ *                  -   toCurrency
+ *                  -   amount
+ *              properties:
+ *                  fromCurrency:
+ *                      type: string
+ *                      description: the original currency
+ *                  toCurrency:
+ *                      type: string
+ *                      description: the target currency
+ *                  amount:
+ *                      type: string
+ *                      description: the amount to convert
  *          Lock-Unlock:
  *              type: object
  *              required:
@@ -144,6 +182,7 @@
  *              description: Invalid deposit amount
  *              
  */
+
 /**
  * @swagger
  * /wallet/withdraw:
@@ -196,7 +235,33 @@
 
 /**
  * @swagger
- * /wallet/{walletId}/transactions:
+ * /wallet/convert:
+ *  post:
+ *      summary: convert funds from one currency to another
+ *      tags:
+ *          -   Wallet
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/x-www-form-urlencoded:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Convert'
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/Convert'
+ *      responses:
+ *          200:
+ *              description: Funds converted successfully
+ *          404:
+ *              description: Wallet not found
+ *          400:    
+ *              description: Invalid input or insufficient balance
+ *              
+ */
+
+/**
+ * @swagger
+ * /wallet/transactions/{walletId}:
  *  get:
  *      summary: Get transaction history for a wallet
  *      tags:
@@ -218,7 +283,7 @@
 
 /**
  * @swagger
- * /wallet/{walletId}/balance:
+ * /wallet/balance/{walletId}:
  *  get:
  *      summary: Check the balance of a wallet
  *      tags:

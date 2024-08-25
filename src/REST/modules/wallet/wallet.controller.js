@@ -20,9 +20,9 @@ class WalletController{
 
     async createWallet(req, res, next) {
         try {
-            const {currency, password} = req.body;
+            const {walletName,currency, password} = req.body;
             const userId = req.user.id
-            const wallet = await this.#service.createWallet(userId, currency, password)
+            const wallet = await this.#service.createWallet(userId,walletName ,currency, password)
             return this.#sendResponse(res, 201, 'Wallet created successfully', {wallet})
         } catch (error) {
             console.error(error)
@@ -40,13 +40,22 @@ class WalletController{
         }
     }
 
-    async depositByCurrency(req, res, next){
+    async depositFunds(req, res, next){
         try {
-            const {currency, amount} = req.body;
+            const {walletId,currency, amount, preferredCurrency} = req.body;
             const userId = req.user.id
+            const wallet = await this.#service.depositFunds(userId,walletId,currency, amount, preferredCurrency)
             
-            const wallet = await this.#service.depositFundsByCurrency(userId,currency, +amount)
             return this.#sendResponse(res, 200, 'Funds deposited successfully', {wallet})
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async getSupportedCurrencies(req, res, next){
+        try {
+            const currencies = await this.#service.getSupportedCurrencies();
+            return this.#sendResponse(res, 200, 'Supported currencies fetched successfully', { currencies });
         } catch (error) {
             next(error)
         }
@@ -54,8 +63,10 @@ class WalletController{
 
     async withdrawFunds(req, res, next){
         try {
-            const { walletId, amount, password} = req.body
-            const wallet = await this.#service.withdrawFunds(walletId, amount, password)
+            const { walletId,currency, amount, password, preferredCurrency} = req.body
+            const userId = req.user.id
+
+            const wallet = await this.#service.withdrawFunds(walletId, userId, currency, amount, password, preferredCurrency)
             return this.#sendResponse(res, 200, 'Funds withdrawn successfully', {wallet})
         } catch (error) {
             next(error)
@@ -66,11 +77,23 @@ class WalletController{
         try {
             const { senderWalletId,recipientWalletId, amount, password} = req.body
             const {recipientWallet, senderWallet} = await this.#service.transferFunds(senderWalletId,recipientWalletId, amount, password)
-            return this.#sendResponse(res, 200, 'Funds transferred successfully', {recipientWallet, senderWallet})
+            return this.#sendResponse(res, 200, 'Funds transferred successfully', {senderWallet, recipientWallet})
         } catch (error) {
             next(error)
         }
     }
+    async convertFunds(req, res, next){
+        try {
+            const {walletId, fromCurrency, amount, toCurrency} = req.body
+            const userId = req.user.id
+            const wallet = await this.#service.convertFunds(userId,walletId, fromCurrency, toCurrency ,amount)
+            return this.#sendResponse(res, 200, 'Funds converted successfully', {wallet})
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
 
     async getTransactionHistory(req, res, next){
         try {
@@ -101,6 +124,7 @@ class WalletController{
             next(error)
         }
     }
+
     async unlockWallet(req, res, next){
         try {
             const {walletId} = req.body;
