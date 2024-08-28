@@ -24,6 +24,7 @@ router.get('/transactions:walletId/', authenticate, walletController.getTransact
 
 router.get('/balance/:walletId', authenticate, walletController.checkBalance)
 
+router.delete('/remove/:walletId', authenticate, walletController.deleteWallet)
 
 module.exports = {
     walletRouter: router

@@ -20,8 +20,8 @@
  *                      description: The currency for storing on the wallet 
  *                      enum:
  *                          -   USD
- *                          -   EURO
- *                          -   POUND
+ *                          -   EUR
+ *                          -   GBP
  *                  password:
  *                      type: string
  *                      description: Password to protect the wallet
@@ -40,8 +40,8 @@
  *                      description: The currency for storing on the wallet 
  *                      enum:
  *                          -   USD
- *                          -   EURO
- *                          -   POUND
+ *                          -   EUR
+ *                          -   GBP
  *                  amount:
  *                      type: number
  *                      description: the amount of deposit
@@ -60,7 +60,11 @@
  *              properties:
  *                  currency:
  *                      type: string
- *                      description: The currency of the wallet (e.g., 'bitcoin')
+ *                      description: The currency for storing on the wallet 
+ *                      enum:
+ *                          -   USD
+ *                          -   EUR
+ *                          -   GBP
  *                  amount:
  *                      type: number
  *                      description: the amount of deposit
@@ -195,10 +199,10 @@
  *          content:
  *              application/x-www-form-urlencoded:
  *                  schema:
- *                      $ref: '#/components/schemas/Withdraw'
+ *                      $ref: '#/components/schemas/withdraw'
  *              application/json:
  *                  schema:
- *                      $ref: '#/components/schemas/Withdraw'
+ *                      $ref: '#/components/schemas/withdraw'
  *      responses:
  *          200:
  *              description: Funds withdrawn successfully
@@ -264,6 +268,27 @@
  * /wallet/transactions/{walletId}:
  *  get:
  *      summary: Get transaction history for a wallet
+ *      tags:
+ *          -   Wallet
+ *      parameters:
+ *          -   in: path
+ *              name: walletId
+ *              required: true
+ *              schema:
+ *                  type: string
+ *              description: the wallet ID
+ *      responses:
+ *          200:
+ *              description: Transaction history fetched successfully
+ *          404:
+ *              description: Wallet not found
+ *              
+ */
+/**
+ * @swagger
+ * /wallet/remove/{walletId}:
+ *  delete:
+ *      summary: delete a wallet
  *      tags:
  *          -   Wallet
  *      parameters:

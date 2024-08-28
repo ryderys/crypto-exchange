@@ -14,7 +14,6 @@ const UserSchema = sequelize.define('User', {
     username: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        unique: true
     },
     email: {
         type: DataTypes.STRING,
@@ -23,7 +22,6 @@ const UserSchema = sequelize.define('User', {
     phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
     },
     otp: {
         type: DataTypes.STRING(10),
@@ -70,9 +68,9 @@ const UserSchema = sequelize.define('User', {
         defaultValue: DataTypes.NOW()
     }
 }, {
-    // indexes: [
-    //     {unique: true, fields: ['username']},
-    //     {unique: true, fields: ['phoneNumber']},
-    // ]
+    indexes: [
+        {unique: true, fields: ['username']},
+        {unique: true, fields: ['phoneNumber']},
+    ]
 })
 module.exports = UserSchema

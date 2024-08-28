@@ -25,7 +25,17 @@ class WalletController{
             const wallet = await this.#service.createWallet(userId,walletName ,currency, password)
             return this.#sendResponse(res, 201, 'Wallet created successfully', {wallet})
         } catch (error) {
-            console.error(error)
+            next(error)
+        }
+    }
+
+    async deleteWallet(req, res, next){
+        try {
+            const userId = req.user.id
+            const {walletId} = req.params;
+            const {message} = await this.#service.deleteWallet(userId, walletId)
+            return this.#sendResponse(res, 200, message )
+        } catch (error) {
             next(error)
         }
     }
@@ -118,7 +128,9 @@ class WalletController{
     async lockWallet(req, res, next){
         try {
             const {walletId} = req.body;
-            const wallet = await this.#service.lockWallet(walletId)
+            const userId = req.user.id
+
+            const wallet = await this.#service.lockWallet(walletId, userId)
             return this.#sendResponse(res, 200, 'Wallet locked successfully', { wallet })
         } catch (error) {
             next(error)
@@ -128,7 +140,8 @@ class WalletController{
     async unlockWallet(req, res, next){
         try {
             const {walletId} = req.body;
-            const wallet = await this.#service.unlockWallet(walletId)
+            const userId = req.user.id
+            const wallet = await this.#service.unlockWallet(walletId, userId)
             return this.#sendResponse(res, 200, 'Wallet unlocked successfully', { wallet })
         } catch (error) {
             next(error)
