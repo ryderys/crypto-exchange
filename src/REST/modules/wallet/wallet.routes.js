@@ -7,6 +7,8 @@ router.post('/create', authenticate, walletController.createWallet)
 
 router.get('/myWallet', authenticate, walletController.getWalletByUserId)
 
+router.get('/myWallet/currencies', authenticate, walletController.getAvailableCurrenciesForUser)
+
 router.post('/deposit', authenticate, walletController.depositFunds)
 
 router.post('/withdraw', authenticate, walletController.withdrawFunds)

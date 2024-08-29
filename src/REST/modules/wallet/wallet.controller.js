@@ -63,6 +63,16 @@ class WalletController{
         }
     }
 
+    async getAvailableCurrenciesForUser(req, res, next){
+        try {
+            const userId = req.user.id;
+            const currencies = await this.#service.getAvailableCurrenciesForUser(userId)
+            return this.#sendResponse(res, 200, 'currencies fetched successfully', {currencies})
+        } catch (error) {
+            next(error)
+        }
+    }
+
     async getSupportedCurrencies(req, res, next){
         try {
             const currencies = await this.#service.getSupportedCurrencies();
@@ -86,8 +96,8 @@ class WalletController{
 
     async transferFunds(req, res, next){
         try {
-            const { senderWalletId,recipientWalletId, amount, password} = req.body
-            const {recipientWallet, senderWallet} = await this.#service.transferFunds(senderWalletId,recipientWalletId, amount, password)
+            const { senderWalletId,recipientWalletId, amount, currency, password} = req.body            
+            const {recipientWallet, senderWallet} = await this.#service.transferFunds(senderWalletId,recipientWalletId, amount, currency, password)
             return this.#sendResponse(res, 200, 'Funds transferred successfully', {senderWallet, recipientWallet})
         } catch (error) {
             next(error)

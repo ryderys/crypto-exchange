@@ -24,3 +24,74 @@
 {"level":"info","message":"Withdrew 98.50 EUR from wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68 (Fee: 1.50 EUR)"}
 {"level":"info","message":"Updated balance for EUR: -203"}
 {"level":"info","message":"Withdrew 200.00 EUR from wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68 (Fee: 3.00 EUR)"}
+{"level":"info","message":"Updated balance for USD: 0"}
+{"level":"info","message":"Withdrew 197.00 USD from wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68 (Fee: 3.00 USD)"}
+{"level":"warn","message":"Retrying transaction due to error: Insufficient balance. Your balance is 0.00 USD but tried to withdraw 200.00 USD plus a fee of 3.00 USD."}
+{"level":"info","message":"Updated balance for EUR: 97"}
+{"level":"info","message":"Deposited 300 EUR to wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"info","message":"Updated balance for USD: 100"}
+{"level":"info","message":"Deposited 100 USD to wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"info","message":"Updated balance for EUR: 197"}
+{"level":"info","message":"Deposited 100 EUR to wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"info","message":"Updated balance for USD: 0"}
+{"level":"info","message":"Withdrew 98.50 USD from wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68 (Fee: 1.50 USD)"}
+{"level":"info","message":"Updated balance for EUR: 95.5"}
+{"level":"info","message":"Withdrew 98.50 EUR from wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68 (Fee: 1.50 EUR)"}
+{"level":"warn","message":"Retrying transaction due to error: Insufficient balance. Your balance is 0.00 USD but tried to withdraw 100.00 USD plus a fee of 1.50 USD."}
+{"level":"warn","message":"Retrying transaction due to error: Insufficient balance. Your balance is 95.50 EUR but tried to withdraw 100.00 EUR plus a fee of 1.50 EUR."}
+{"level":"info","message":"Updated balance for EUR: 4.15"}
+{"level":"info","message":"Withdrew 88.65 EUR from wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68 (Fee: 1.35 EUR)"}
+{"level":"info","message":"Created wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"info","message":"Updated balance for EUR: 104.15"}
+{"level":"info","message":"Deposited 100 EUR to wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"warn","message":"Retrying transaction due to error: Invalid wallet password"}
+{"level":"warn","message":"Retrying transaction due to error: Insufficient balance. You have 0.00 undefined but tried to process 50.00 undefined."}
+{"level":"info","message":"Updated balance for USD: 100"}
+{"level":"info","message":"Deposited 100 USD to wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"info","message":"Updated balance for GBP: 200"}
+{"level":"info","message":"Deposited 200 GBP to wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"warn","message":"Retrying transaction due to error: precision is not defined"}
+{"level":"warn","message":"Retrying transaction due to error: currency is not defined"}
+{"level":"info","message":"Updated balance for GBP: 0"}
+{"level":"warn","message":"Retrying transaction due to error: feeForFullBalance.toFixed is not a function"}
+{"level":"info","message":"Updated balance for GBP: 98.5"}
+{"level":"info","message":"Withdrew 98.50 GBP from wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68 (Fee: 1.50 GBP)"}
+{"level":"warn","message":"Retrying transaction due to error: Invalid wallet password"}
+{"level":"warn","message":"Retrying transaction due to error: Invalid wallet password"}
+{"level":"warn","message":"Retrying transaction due to error: Invalid wallet password"}
+{"level":"warn","message":"Retrying transaction due to error: transferAmount is not defined"}
+{"level":"warn","message":"Retrying transaction due to error: transferAmount is not defined"}
+{"level":"info","message":"Using API rate for GBP to EUR: 1.188428465150552"}
+{"level":"warn","message":"Retrying transaction due to error: transferAmount is not defined"}
+{"level":"info","message":"Using API rate for GBP to EUR: 1.1884284986484848"}
+{"level":"info","message":"Updated balance for GBP: 48.5"}
+{"level":"info","message":"Updated balance for EUR: 162.6801035584378764"}
+{"level":"warn","message":"Retrying transaction due to error: Invalid wallet password"}
+{"level":"warn","message":"Retrying transaction due to error: Invalid wallet password"}
+{"level":"info","message":"Updated balance for EUR: 112.68"}
+{"level":"info","message":"Updated balance for EUR: 49.25"}
+{"level":"info","message":"Updated balance for GBP: 28.5"}
+{"level":"info","message":"Updated balance for GBP: 19.7"}
+{"level":"info","message":"Using API rate for EUR to USD: 1.1078797832507725"}
+{"level":"info","message":"Updated balance for EUR: 62.68"}
+{"level":"info","message":"Updated balance for USD: 54.563079325100545625"}
+{"level":"info","message":"Using API rate for EUR to GBP: 0.8410541154663347"}
+{"level":"info","message":"Updated balance for EUR: 62.68"}
+{"level":"info","message":"Using API rate for EUR to GBP: 0.8409948974860341"}
+{"level":"info","message":"Updated balance for EUR: 62.68"}
+{"level":"info","message":"Updated balance for GBP: 61.12"}
+{"level":"info","message":"Using API rate for EUR to GBP: 0.8409354617569288"}
+{"level":"info","message":"Updated balance for EUR: 62.68"}
+{"level":"info","message":"Updated balance for GBP: 61.12"}
+{"level":"info","message":"Using API rate for EUR to USD: 1.10810075943646"}
+{"level":"info","message":"Updated balance for EUR: 62.68"}
+{"level":"info","message":"Updated balance for USD: 54.57"}
+{"level":"info","message":"Using API rate for EUR to USD: 1.1084901428718648"}
+{"level":"info","message":"Updated balance for EUR: 62.68"}
+{"level":"info","message":"Updated balance for USD: 54.59"}
+{"level":"info","message":"Using API rate for EUR to USD: 1.1084901428718648"}
+{"level":"info","message":"Updated balance for EUR: 62.68"}
+{"level":"info","message":"Updated balance for USD: 54.59"}
+{"level":"info","message":"Using API rate for EUR to USD: 1.108490149963262"}
+{"level":"info","message":"Updated balance for EUR: 62.68"}
+{"level":"info","message":"Updated balance for USD: 54.59"}

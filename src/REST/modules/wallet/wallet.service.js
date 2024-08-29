@@ -157,40 +157,38 @@ class WalletService {
                 const wallet = await this.#findWallet(walletId, userId, t);
                 const currentBalance = new BigNumber(wallet.balances[currency] || 0);
                 
-                // Check if the wallet is locked
                 if (wallet.isLocked) throw new Error("Wallet is locked. Please unlock it to perform transactions.");
     
                 const today = new Date().toISOString().slice(0, 10);
-                
+    
                 // Reset daily limit if it's a new day
                 if (wallet.lastWithdrawalDate !== today) {
                     wallet.withdrawnToday = new BigNumber(0);
                 }
     
                 const newWithdrawnToday = wallet.withdrawnToday.plus(amountBig);
-                
+    
                 // Check daily withdrawal limit
                 if (newWithdrawnToday.gt(wallet.dailyLimit)) {
                     throw new Error(`Daily withdrawal limit exceeded. You can withdraw up to ${wallet.dailyLimit.minus(wallet.withdrawnToday).toFixed(2)} ${currency} more today.`);
                 }
-                
     
                 // Calculate the fee based on the requested withdrawal amount
                 const fee = this.#calculateFee(amountBig, this.defaultFees.withdrawal);
                 const totalCost = amountBig.plus(fee);
-               
-                // If the user is trying to withdraw their full balance
+    
+                // Check if the user is trying to withdraw their full balance
                 if (amountBig.eq(currentBalance)) {
                     const feeForFullBalance = this.#calculateFee(currentBalance, this.defaultFees.withdrawal);
-
+    
                     if (currentBalance.lte(feeForFullBalance)) {
                         throw new Error(`Insufficient balance to cover the withdrawal fee. Your balance is ${currentBalance.toFixed(2)} ${currency}, and the fee is ${feeForFullBalance.toFixed(2)} ${currency}.`);
                     }
                     const withdrawableAmount = currentBalance.minus(feeForFullBalance);
-                    
+    
                     // Update balance to zero
                     this.#updateBalance(wallet, currency, currentBalance.negated());
-
+    
                     wallet.withdrawnToday = newWithdrawnToday.toFixed(2);
                     wallet.lastWithdrawalDate = today;
     
@@ -223,14 +221,16 @@ class WalletService {
                     };
                 }
     
+                // Ensure sufficient balance
+                if (totalCost.gt(currentBalance)) {
+                    throw new Error(`Insufficient balance. Your balance is ${currentBalance.toFixed(2)} ${currency} but tried to withdraw ${amountBig.toFixed(2)} ${currency} plus a fee of ${fee.toFixed(2)} ${currency}.`);
+                }
     
                 // Update wallet balance after withdrawal
                 this.#updateBalance(wallet, currency, totalCost.negated());
     
-                // Update daily withdrawal limits and last withdrawal date
                 wallet.withdrawnToday = newWithdrawnToday.toFixed(2);
                 wallet.lastWithdrawalDate = today;
-
     
                 await wallet.save({ transaction: t });
     
@@ -247,7 +247,8 @@ class WalletService {
                 }, { transaction: t });
     
                 await this.logAuditAction(userId, `Withdrew ${actualWithdrawAmount.toFixed(2)} ${currency} from wallet (Fee: ${fee.toFixed(2)} ${currency})`, t);
-                logger.info(`Withdrew ${amountBig.toFixed(2)} ${currency} from wallet for user ${userId} (Fee: ${fee.toFixed(2)} ${currency})`);
+                logger.info(`Withdrew ${actualWithdrawAmount.toFixed(2)} ${currency} from wallet for user ${userId} (Fee: ${fee.toFixed(2)} ${currency})`);
+    
                 // Return the details for partial withdrawal
                 return {
                     message: "Funds withdrawn successfully",
@@ -263,82 +264,105 @@ class WalletService {
     }
     
     
-    async transferFunds(senderWalletId, recipientWalletId, amount, password) {
+    
+    async transferFunds(senderWalletId, recipientWalletId, amount, currency, password) {
         const amountBig = this.#validateAmount(amount);
+        this.#validateCurrency(currency);
     
         return this.retryTransaction(async () => {
             return sequelize.transaction(async (t) => {
                 const senderWallet = await Wallet.findOne({ where: { id: senderWalletId }, transaction: t });
-                if (!senderWallet) throw new Error(`Sender wallet with ID ${senderWalletId} not found.`);
-
-                // Find the recipient's wallet directly within the transaction block
                 const recipientWallet = await Wallet.findOne({ where: { id: recipientWalletId }, transaction: t });
-                if (!recipientWallet) throw new Error(`Recipient wallet with ID ${recipientWalletId} not found.`)
     
-                if (senderWallet.isLocked || recipientWallet.isLocked) {
-                    throw new Error('One of the wallets is locked');
-                }
+                if (!senderWallet || !recipientWallet) throw new Error('One of the wallets was not found.');
+                if (senderWallet.isLocked || recipientWallet.isLocked) throw new Error('One of the wallets is locked.');
     
                 await this.#validateWalletPassword(senderWallet, password);
     
-                let transferAmount = amountBig;
+                const precision = fiatCurrencies.includes(currency.toUpperCase()) ? fiatPrecision : cryptoPrecision;
+    
                 let fee = this.#calculateFee(amountBig, this.defaultFees.withdrawal);
-                let finalTransferAmount = transferAmount.minus(fee);
+                let finalTransferAmount = amountBig.minus(fee);
     
                 if (finalTransferAmount.lte(0)) {
                     throw new Error('Transfer amount must be greater than the fee.');
                 }
     
-                this.#checkSufficientBalance(senderWallet, senderWallet.currency, transferAmount);
-    
-                if (senderWallet.currency !== recipientWallet.currency) {
-                    const rate = await this.getExchangeRate(senderWallet.currency, recipientWallet.currency);
-                    finalTransferAmount = finalTransferAmount.multipliedBy(rate);
-    
-                    // Log the conversion within the transaction context
-                    await this.#transaction_model.create({
-                        walletId: senderWallet.id,
-                        userId: senderWallet.userId,
-                        type: 'transfer',
-                        amount: amountBig.toFixed(8),
-                        currency: senderWallet.currency,
-                        convertedAmount: finalTransferAmount.toFixed(8),
-                        convertedCurrency: recipientWallet.currency,
-                        fee: fee.toFixed(8),
-                        status: 'completed'
-                    }, { transaction: t });
-                }
+                this.#checkSufficientBalance(senderWallet, currency, amountBig);
     
                 // Deduct the amount from the sender's wallet
-                this.#updateBalance(senderWallet, senderWallet.currency, transferAmount.negated());
+                this.#updateBalance(senderWallet, currency, amountBig.negated());
                 await senderWallet.save({ transaction: t });
     
-                // Add the amount to the recipient's wallet
-                this.#updateBalance(recipientWallet, recipientWallet.currency, finalTransferAmount);
+                // Add the amount to the recipient's wallet, even if the currency doesn't exist yet
+                if (!recipientWallet.balances[currency]) {
+                    recipientWallet.balances[currency] = '0.00'; // Initialize the currency in the recipient's wallet if it doesn't exist
+                }
+                this.#updateBalance(recipientWallet, currency, finalTransferAmount);
                 await recipientWallet.save({ transaction: t });
     
                 // Log the transfer within the transaction context
-                await this.#logTransfer(senderWallet, recipientWallet, finalTransferAmount, t);
+                await this.#transaction_model.create({
+                    walletId: senderWallet.id,
+                    userId: senderWallet.userId,
+                    type: 'transfer',
+                    amount: amountBig.toFixed(precision),
+                    currency,
+                    fee: fee.toFixed(precision),
+                    status: 'completed'
+                }, { transaction: t });
+    
+                await this.#transaction_model.create({
+                    walletId: recipientWallet.id,
+                    userId: recipientWallet.userId,
+                    type: 'transfer',
+                    amount: finalTransferAmount.toFixed(precision),
+                    currency,
+                    fee: '0.00', // No fee for receiving wallet
+                    status: 'completed'
+                }, { transaction: t });
     
                 return {
                     message: 'Transfer completed successfully',
                     senderWallet: {
                         id: senderWallet.id,
-                        currency: senderWallet.currency,
-                        balance: senderWallet.balances[senderWallet.currency],
-                        fee: fee.toFixed(8)
+                        currency,
+                        balance: senderWallet.balances[currency],
+                        fee: fee.toFixed(precision)
                     },
                     recipientWallet: {
                         id: recipientWallet.id,
-                        currency: recipientWallet.currency,
-                        balance: recipientWallet.balances[recipientWallet.currency],
-                        receivedAmount: finalTransferAmount.toFixed(8)
+                        currency,
+                        balance: recipientWallet.balances[currency],
+                        receivedAmount: finalTransferAmount.toFixed(precision)
                     }
                 };
             });
         });
     }
     
+    
+    
+    
+    async getAvailableCurrenciesForUser(userId){
+        const wallets = await this.#model.findAll({
+            where: {userId},
+            attributes: ['balances' ,'walletName']
+        })
+        if(!wallets || wallets.length === 0){
+            throw new Error('No wallets found for this user');
+        }
+        const availableCurrencies = wallets.map(wallet => {
+            const currencies = Object.keys(wallet.balances || {});
+            return {
+                walletId: wallet.id,
+                walletName: wallet.walletName,
+                availableCurrencies: currencies,
+                balances: wallet.balances
+            };
+        });
+        return availableCurrencies
+    }
     
 
     async getTransactionHistory(walletId){
@@ -361,43 +385,66 @@ class WalletService {
         return { balance: wallet.balances };
     }
 
-    async convertFunds(userId,walletId, fromCurrency, toCurrency, amount){
-        const amountBig = new BigNumber(amount)
+    async convertFunds(userId, walletId, fromCurrency, toCurrency, amount) {
+        const amountBig = this.#validateAmount(amount);
         const rate = await this.getExchangeRate(fromCurrency, toCurrency);
-
-        if(!rate || rate <= 0){
-            throw new Error(`Invalid exchange rate from ${fromCurrency} to ${toCurrency}`)
+    
+        if (!rate || rate <= 0) {
+            throw new Error(`Invalid exchange rate from ${fromCurrency} to ${toCurrency}`);
         }
-        
-        
+    
         return sequelize.transaction(async (t) => {
-            const wallet = await this.#findWallet(walletId, userId, t);
-            this.#checkSufficientBalance(wallet, fromCurrency, amountBig)
+            try {
+                const wallet = await this.#findWallet(walletId, userId, t);
+            this.#checkSufficientBalance(wallet, fromCurrency, amountBig);
+    
+            const fee = this.#calculateFee(amountBig, this.defaultFees.withdrawal);
+            const finalAmount = amountBig.minus(fee);
             
-            const fee = this.#calculateFee(amountBig, this.defaultFees.withdrawal)
-            const finalAmount = amountBig.minus(fee)
+            if (finalAmount.lte(0)) {
+                throw new Error('Conversion amount must be greater than the fee.');
+            }
+            
             const convertedAmount = finalAmount.multipliedBy(rate);
-
+            const precision = fiatCurrencies.includes(toCurrency.toUpperCase()) ? fiatPrecision : cryptoPrecision;
+    
             this.#updateBalance(wallet, fromCurrency, amountBig.negated());
-            this.#updateBalance(wallet, toCurrency, new BigNumber(convertedAmount));
-
+            this.#updateBalance(wallet, toCurrency, new BigNumber(convertedAmount).toFixed(precision));
+    
             await wallet.save({ transaction: t });
-
+    
             await this.#transaction_model.create({
                 walletId: wallet.id,
                 userId: wallet.userId,
-                type: 'conversion',
+                type: 'transfer',
                 amount: amountBig.toFixed(),
                 currency: fromCurrency,
-                convertedAmount: convertedAmount,
+                convertedAmount: convertedAmount.toFixed(precision),
                 convertedCurrency: toCurrency,
                 status: 'completed'
             }, { transaction: t });
-
-            await this.logAuditAction(wallet.userId, `Converted ${amountBig} ${fromCurrency} to ${convertedAmount} ${toCurrency}`, t);
-            return wallet;
-        })
+    
+            await this.logAuditAction(wallet.userId, `Converted ${amountBig.toFixed()} ${fromCurrency} to ${convertedAmount.toFixed(precision)} ${toCurrency}`, t);
+            
+            return {
+                wallet,
+                conversionDetails: {
+                    fromCurrency,
+                    toCurrency,
+                    originalAmount: amountBig.toFixed(),
+                    convertedAmount: convertedAmount.toFixed(precision),
+                    fee: fee.toFixed(),
+                    finalAmount: finalAmount.toFixed(precision)
+                }
+            };
+            } catch (error) {
+                logger.error(`Transaction failed: ${error.message}`);
+                throw error;
+            }
+            
+        });
     }
+    
 
     async getExchangeRate(fromCurrency, toCurrency){
         try {
@@ -539,6 +586,8 @@ class WalletService {
         const fiatCurrencies = ['USD', 'EUR', 'GBP']
         return fiatCurrencies.includes(currency.toUpperCase())
     }
+
+
 
     #getDefaultExchangeRate(fromCurrency, toCurrency){
         const defaultRates = defaultExchangeRates[fromCurrency.toUpperCase()];

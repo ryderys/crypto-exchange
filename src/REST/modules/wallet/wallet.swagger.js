@@ -73,6 +73,7 @@
  *              required:
  *                  -   senderWalletId
  *                  -   recipientWalletId
+ *                  -   currency
  *                  -   amount
  *                  -   password
  *              properties:
@@ -82,6 +83,9 @@
  *                  recipientWalletId:
  *                      type: string
  *                      description: the wallet ID
+ *                  currency:
+ *                      type: string
+ *                      description: the currency thats being transferred
  *                  amount:
  *                      type: string
  *                      description: the amount of deposit
@@ -91,10 +95,14 @@
  *          Convert:
  *              type: object
  *              required:
+ *                  -   walletId
  *                  -   fromCurrency
  *                  -   toCurrency
  *                  -   amount
  *              properties:
+ *                  walletId:
+ *                      type: string
+ *                      description: the id of the wallet
  *                  fromCurrency:
  *                      type: string
  *                      description: the original currency
@@ -144,6 +152,20 @@
  * /wallet/myWallet:
  *  get:
  *      summary: Get all wallets for a user
+ *      tags:
+ *          -   Wallet
+ *      responses:
+ *          200:
+ *              description: Wallets fetched successfully
+ *          400:
+ *              description: User not found or no wallets found for the user
+ *              
+ */
+/**
+ * @swagger
+ * /wallet/myWallet/currencies:
+ *  get:
+ *      summary: Get available currencies inside user's wallet
  *      tags:
  *          -   Wallet
  *      responses:
