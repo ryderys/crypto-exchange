@@ -7,7 +7,8 @@ const { sequelize } = require("../../../../config/sequelize");
 const AuditLog = require("../transactions/auditLog.schema");
 const { default: axios } = require("axios");
 const saltRounds = process.env.SALT_ROUNDS || 12;
-const {logger} = require("../../../common/utils")
+const {logger} = require("../../../common/utils");
+const marketService = require("../market/market.service");
 const defaultExchangeRates = {
     USD: { EUR: 0.85, BTC: 0.000022, ETH: 0.00032 },
     EUR: { USD: 1.18, BTC: 0.000025, ETH: 0.00038 },
@@ -44,23 +45,19 @@ class WalletService {
     }
 
 
-    async createWallet(userId, walletName, currency, password){
-
-        this.#validateCurrency(currency)
+    async createWallet(userId, walletName, password){
         return sequelize.transaction(async (t) => {
-           await this.#validateWalletNotExists(userId, currency, t)
-
             const hashedPassword = await bcrypt.hash(password, saltRounds);
+            
             const wallet = await this.#model.create({
                 userId,
                 walletName,
-                currency,
                 password: hashedPassword,
                 balances: {}
             }, { transaction: t });
 
-            await this.logAuditAction(userId, `Created wallet with ${currency}`, t);
-            logger.info(`Created wallet with ${currency} for user ${userId}`);
+            await this.logAuditAction(userId, `Created wallet`, t);
+            logger.info(`Created wallet for user ${userId}`);
             return wallet;
         })
     }
@@ -68,12 +65,12 @@ class WalletService {
     async getWalletByUserId(userId){
         const wallets = await this.#model.findAll({
             where: { userId },
-            attributes: ['id', 'walletName', 'balances', 'currency', 'createdAt', 'updatedAt'],
+            attributes: ['id', 'walletName', 'balances', 'createdAt', 'updatedAt'],
             // limit: limit || 10,  // Default limit set to 10
             // offset: offset || 0  // Default offset set to 0
         });
         
-        if (!wallets.length) throw new WalletNotFoundError('No wallets found for this user');
+        if (!wallets.length) throw new Error('No wallets found for this user');
         return wallets;
     }
 
@@ -83,7 +80,7 @@ class WalletService {
                 const wallet = await this.#findWallet(walletId, userId, t);
 
                 const hasBalance = Object.values(wallet.balances).some(balance => new BigNumber(balance).gt(0));
-                if (hasBalance) throw new InsufficientBalanceError('Cannot delete a wallet with a remaining balance.');
+                if (hasBalance) throw new Error('Cannot delete a wallet with a remaining balance.');
 
                 await this.#model.destroy({ where: { id: walletId }, transaction: t });
                 await this.logAuditAction(userId, `Deleted wallet ${walletId}`, t);
@@ -115,14 +112,14 @@ class WalletService {
         });
     }
 
-    async depositFunds(userId, walletId, currency ,amount, preferredCurrency = null){
+    async depositFunds(userId, walletId, currency, amount, preferredCurrency = null) {
         this.#validateCurrency(currency)
         const amountBig = this.#validateAmount(amount);
 
         return this.retryTransaction(async () => {
             return sequelize.transaction(async (t) => {
                 const wallet = await this.#findWallet(walletId, userId, t);
-                this.#validateCurrencyMatch(wallet, currency);
+                // this.#validateCurrencyMatch(wallet, currency);
 
                 let depositAmount = amountBig;
                 if (preferredCurrency && preferredCurrency !== currency) {
@@ -149,6 +146,7 @@ class WalletService {
             })
         })
     }
+    
 
     async withdrawFunds(walletId, userId, currency, requestedAmount, preferredCurrency = null) {
         this.#validateCurrency(currency);
@@ -265,51 +263,83 @@ class WalletService {
     }
     
     
-    async transferFunds(senderWalletId, recipientWalletId, amount, password){
-        const amountBig = this.#validateAmount(amount)
-
+    async transferFunds(senderWalletId, recipientWalletId, amount, password) {
+        const amountBig = this.#validateAmount(amount);
+    
         return this.retryTransaction(async () => {
             return sequelize.transaction(async (t) => {
-                const senderWallet = await this.#findWallet(senderWalletId,{transaction: t})
-                const recipientWallet = await this.#findWallet(recipientWalletId,{transaction: t})
+                const senderWallet = await Wallet.findOne({ where: { id: senderWalletId }, transaction: t });
+                if (!senderWallet) throw new Error(`Sender wallet with ID ${senderWalletId} not found.`);
+
+                // Find the recipient's wallet directly within the transaction block
+                const recipientWallet = await Wallet.findOne({ where: { id: recipientWalletId }, transaction: t });
+                if (!recipientWallet) throw new Error(`Recipient wallet with ID ${recipientWalletId} not found.`)
     
-                if (senderWallet.isLocked || recipientWallet.isLocked) throw new Error('One of the wallets is locked');
-    
-                await this.#validateWalletPassword(senderWallet, password)  
-                
-                let transferAmount = amountBig;
-    
-                if(senderWallet.currency !== recipientWallet.currency){
-                    const rate = await this.getExchangeRate(senderWallet.currency, recipientWallet.currency);
-                    const fee = this.#calculateFee(amountBig, this.defaultFees.withdrawal); // Optional: Apply conversion fee
-                    transferAmount = amountBig.minus(fee).multipliedBy(rate);
-    
-                // Log the conversion
-                await this.#transaction_model.create({
-                    walletId: senderWallet.id,
-                    userId: senderWallet.userId,
-                    type: 'conversion',
-                    amount: amountBig.toFixed(8),
-                    currency: senderWallet.currency,
-                    convertedAmount: transferAmount.toFixed(8),
-                    convertedCurrency: recipientWallet.currency,
-                    fee: fee.toFixed(8),
-                    status: 'completed'
-                }, { transaction: t });
+                if (senderWallet.isLocked || recipientWallet.isLocked) {
+                    throw new Error('One of the wallets is locked');
                 }
     
-                this.#checkSufficientBalance(senderWallet, senderWallet.currency, amountBig);
-                this.#updateBalance(senderWallet, senderWallet.currency, amountBig.negated());
-                this.#updateBalance(recipientWallet, recipientWallet.currency, amountBig);
+                await this.#validateWalletPassword(senderWallet, password);
     
+                let transferAmount = amountBig;
+                let fee = this.#calculateFee(amountBig, this.defaultFees.withdrawal);
+                let finalTransferAmount = transferAmount.minus(fee);
     
-                await senderWallet.save({transaction: t})
-                await recipientWallet.save({transaction: t})
+                if (finalTransferAmount.lte(0)) {
+                    throw new Error('Transfer amount must be greater than the fee.');
+                }
     
-                await this.#logTransfer(senderWallet, recipientWallet, transferAmount, t)
-            })
-        })
+                this.#checkSufficientBalance(senderWallet, senderWallet.currency, transferAmount);
+    
+                if (senderWallet.currency !== recipientWallet.currency) {
+                    const rate = await this.getExchangeRate(senderWallet.currency, recipientWallet.currency);
+                    finalTransferAmount = finalTransferAmount.multipliedBy(rate);
+    
+                    // Log the conversion within the transaction context
+                    await this.#transaction_model.create({
+                        walletId: senderWallet.id,
+                        userId: senderWallet.userId,
+                        type: 'transfer',
+                        amount: amountBig.toFixed(8),
+                        currency: senderWallet.currency,
+                        convertedAmount: finalTransferAmount.toFixed(8),
+                        convertedCurrency: recipientWallet.currency,
+                        fee: fee.toFixed(8),
+                        status: 'completed'
+                    }, { transaction: t });
+                }
+    
+                // Deduct the amount from the sender's wallet
+                this.#updateBalance(senderWallet, senderWallet.currency, transferAmount.negated());
+                await senderWallet.save({ transaction: t });
+    
+                // Add the amount to the recipient's wallet
+                this.#updateBalance(recipientWallet, recipientWallet.currency, finalTransferAmount);
+                await recipientWallet.save({ transaction: t });
+    
+                // Log the transfer within the transaction context
+                await this.#logTransfer(senderWallet, recipientWallet, finalTransferAmount, t);
+    
+                return {
+                    message: 'Transfer completed successfully',
+                    senderWallet: {
+                        id: senderWallet.id,
+                        currency: senderWallet.currency,
+                        balance: senderWallet.balances[senderWallet.currency],
+                        fee: fee.toFixed(8)
+                    },
+                    recipientWallet: {
+                        id: recipientWallet.id,
+                        currency: recipientWallet.currency,
+                        balance: recipientWallet.balances[recipientWallet.currency],
+                        receivedAmount: finalTransferAmount.toFixed(8)
+                    }
+                };
+            });
+        });
     }
+    
+    
 
     async getTransactionHistory(walletId){
         const transactions = await this.#transaction_model.findAll({
@@ -394,13 +424,8 @@ class WalletService {
     }
     
     async getSupportedCurrencies(){
-        const currencies = {
-            USD: { description: 'United States Dollar' },
-            EUR: { description: 'Euro' },
-            BTC: { description: 'Bitcoin' },
-            ETH: { description: 'Ethereum' }
-        };
-        return currencies;
+        const supportedCurrencies = await marketService.getSupportedCurrencies()
+        return supportedCurrencies
     }
     #validateCurrency(currency) {
         if (!fiatCurrencies.includes(currency.toUpperCase())) {
@@ -442,11 +467,11 @@ class WalletService {
         return amountBig;
     }
 
-    #validateCurrencyMatch(wallet, currency) {
-        if (wallet.currency !== currency.toUpperCase()) {
-            throw new Error(`This wallet only accepts deposits in ${wallet.currency}.`);
-        }
-    }
+    // #validateCurrencyMatch(wallet, currency) {
+    //     if (wallet.currency !== currency.toUpperCase()) {
+    //         throw new Error(`This wallet only accepts deposits in ${wallet.currency}.`);
+    //     }
+    // }
 
     #calculateFee(amount, feePercentage){
         return new BigNumber(amount).multipliedBy(feePercentage);
@@ -482,7 +507,7 @@ class WalletService {
     }
 
     async #findWallet(walletId, userId, transaction){
-        const wallet = await this.#model.findOne({ where: { id: walletId, userId }, transaction, lock: transaction.LOCK.UPDATE });
+        const wallet = await this.#model.findOne({ where: { id: walletId, userId }, transaction: transaction });
         if (!wallet) throw new Error(`Wallet with ID ${walletId} not found for user ${userId}.`);
         return wallet;
     }
@@ -506,9 +531,9 @@ class WalletService {
         await this.logAuditAction(senderWallet.userId, `Transferred ${amount.toFixed(8)} from wallet ${senderWallet.id} to wallet ${recipientWallet.id}`, transaction)
     }
 
-    #isCurrencySupported(currency){
-        return Object.keys(defaultExchangeRates).includes(currency.toUpperCase())
-    }
+    // #isCurrencySupported(currency){
+    //     return Object.keys(defaultExchangeRates).includes(currency.toUpperCase())
+    // }
 
     #isFiatCurrency(currency){
         const fiatCurrencies = ['USD', 'EUR', 'GBP']

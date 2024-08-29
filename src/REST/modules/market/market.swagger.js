@@ -181,6 +181,24 @@
  *                              total_volume:
  *                                  type: object
  */
+/**
+ * @swagger
+ * /market/supported-currencies:
+ *  get:
+ *      summary:  Get supported Currencies
+ *      tags:
+ *          -   Market
+ *      responses:
+ *          200:
+ *              description: supported Currencies
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          properties:
+ *                              currencies:
+ *                                  type: string
+ */
 
 
 

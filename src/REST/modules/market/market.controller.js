@@ -69,6 +69,14 @@ class MarketController{
             next(error)
         }
     }
+    async getSupportedCurrencies(req, res, next){
+        try {
+            const currencies = await this.#service.getSupportedCurrencies()
+            return res.status(200).json({currencies})
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = new MarketController()

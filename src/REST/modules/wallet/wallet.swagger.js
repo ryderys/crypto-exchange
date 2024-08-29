@@ -13,15 +13,8 @@
  *              type: object
  *              required:
  *                  -   password
- *                  -   currency
+ *                  -   walletName
  *              properties:
- *                  currency:
- *                      type: string
- *                      description: The currency for storing on the wallet 
- *                      enum:
- *                          -   USD
- *                          -   EUR
- *                          -   GBP
  *                  password:
  *                      type: string
  *                      description: Password to protect the wallet

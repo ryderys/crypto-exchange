@@ -20,9 +20,9 @@ class WalletController{
 
     async createWallet(req, res, next) {
         try {
-            const {walletName,currency, password} = req.body;
+            const {walletName, password} = req.body;
             const userId = req.user.id
-            const wallet = await this.#service.createWallet(userId,walletName ,currency, password)
+            const wallet = await this.#service.createWallet(userId,walletName , password)
             return this.#sendResponse(res, 201, 'Wallet created successfully', {wallet})
         } catch (error) {
             next(error)
@@ -44,6 +44,7 @@ class WalletController{
         try {
             const userId = req.user.id;
             const wallets = await this.#service.getWalletByUserId(userId)
+    
             return this.#sendResponse(res, 200, 'Wallet details fetched successfully', {wallets})
         } catch (error) {
             next(error)

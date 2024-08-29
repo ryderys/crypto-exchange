@@ -109,7 +109,21 @@ class MarketService {
         }
     }
 
-
+    async getSupportedCurrencies(){
+        const url = 'https://api.coingecko.com/api/v3/simple/supported_vs_currencies';
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    accept: 'application/json',
+                    'x-cg-demo-api-key': ' CG-A8496fii4gtpiNk6DEebo3ok '
+                }
+            })
+            return response.data
+        } catch (error) {
+            console.error('Error fetching supported currencies data:', error)
+            throw error
+        }
+    }
 
 }
 

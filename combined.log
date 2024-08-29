@@ -1,0 +1,26 @@
+{"level":"info","message":"Checked balance for wallet 947abf0d-1a83-4615-a472-7e96e0da2eda"}
+{"level":"info","message":"Deposited 100 USD to wallet for user a23bce39-ab0b-42fc-bf1f-abdeb0cbbc72"}
+{"level":"info","message":"Deposited 100 USD to wallet for user a23bce39-ab0b-42fc-bf1f-abdeb0cbbc72"}
+{"level":"info","message":"Deposited 100 USD to wallet for user a23bce39-ab0b-42fc-bf1f-abdeb0cbbc72"}
+{"level":"info","message":"Deposited 100 USD to wallet for user a23bce39-ab0b-42fc-bf1f-abdeb0cbbc72"}
+{"level":"info","message":"Deposited 100 USD to wallet for user a23bce39-ab0b-42fc-bf1f-abdeb0cbbc72"}
+{"level":"info","message":"Deposited 100 USD to wallet for user a23bce39-ab0b-42fc-bf1f-abdeb0cbbc72"}
+{"level":"info","message":"Deposited 100 USD to wallet for user a23bce39-ab0b-42fc-bf1f-abdeb0cbbc72"}
+{"level":"info","message":"Deposited 100 USD to wallet for user a23bce39-ab0b-42fc-bf1f-abdeb0cbbc72"}
+{"level":"info","message":"User Ashkan successfully logged in"}
+{"level":"info","message":"Created wallet for user cb27c550-023f-4978-b234-0ba8387fffc9"}
+{"level":"info","message":"Deposited 100 USD to wallet for user cb27c550-023f-4978-b234-0ba8387fffc9"}
+{"level":"info","message":"Checked balance for wallet 5e3e5368-f726-417e-8e76-7ba2649b37f1"}
+{"level":"info","message":"User ashkan successfully logged in"}
+{"level":"info","message":"Created wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"warn","message":"Retrying transaction due to error: This wallet only accepts deposits in undefined."}
+{"level":"info","message":"Updated balance for USD: 100"}
+{"level":"info","message":"Deposited 100 USD to wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"info","message":"Updated balance for USD: 200"}
+{"level":"info","message":"Deposited 100 USD to wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"info","message":"Updated balance for EUR: 100"}
+{"level":"info","message":"Deposited 100 EUR to wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68"}
+{"level":"info","message":"Updated balance for EUR: 0"}
+{"level":"info","message":"Withdrew 98.50 EUR from wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68 (Fee: 1.50 EUR)"}
+{"level":"info","message":"Updated balance for EUR: -203"}
+{"level":"info","message":"Withdrew 200.00 EUR from wallet for user d3d97ce3-5672-4037-85ed-7d5a688cbc68 (Fee: 3.00 EUR)"}
