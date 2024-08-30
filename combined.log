@@ -95,3 +95,6 @@
 {"level":"info","message":"Using API rate for EUR to USD: 1.108490149963262"}
 {"level":"info","message":"Updated balance for EUR: 62.68"}
 {"level":"info","message":"Updated balance for USD: 54.59"}
+{"level":"info","message":"Locked wallet 27a3f89f-bf79-4c96-80c7-8b85e0c4ca94"}
+{"level":"warn","message":"Retrying transaction due to error: Wallet is locked. Please unlock it to perform transactions."}
+{"level":"info","message":"Unlocked wallet 27a3f89f-bf79-4c96-80c7-8b85e0c4ca94"}
