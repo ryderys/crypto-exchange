@@ -20,7 +20,7 @@ router.get('/supportedCurrencies', walletController.getSupportedCurrencies)
 router.post('/lock', authenticate, walletController.lockWallet)
 router.post('/unlock', authenticate, walletController.unlockWallet)
 
-router.post('/convert', walletController.convertFunds)
+router.post('/convert',authenticate, walletController.convertFunds)
 
 router.get('/transactions:walletId/', authenticate, walletController.getTransactionHistory)
 

@@ -38,3 +38,5 @@ class TradeController{
         }
     }
 }
+
+module.exports = new TradeController()

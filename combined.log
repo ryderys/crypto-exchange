@@ -98,3 +98,378 @@
 {"level":"info","message":"Locked wallet 27a3f89f-bf79-4c96-80c7-8b85e0c4ca94"}
 {"level":"warn","message":"Retrying transaction due to error: Wallet is locked. Please unlock it to perform transactions."}
 {"level":"info","message":"Unlocked wallet 27a3f89f-bf79-4c96-80c7-8b85e0c4ca94"}
+{"level":"info","message":"Updated balance for usd: 0"}
+{"level":"info","message":"Updated balance for 01coin: 10"}
+{"level":"info","message":"Updated balance for usd: 0"}
+{"level":"info","message":"Updated balance for 01coin: 10"}
+{"level":"info","message":"Updated balance for usd: 0"}
+{"level":"info","message":"Updated balance for 01coin: 10"}
+{"level":"info","message":"Updated balance for usd: 0"}
+{"level":"info","message":"Updated balance for 01coin: 10"}
+{"level":"info","message":"Updated balance for USD: NaN"}
+{"level":"info","message":"Updated balance for 01coin: 20"}
+{"level":"info","message":"Updated balance for USD: NaN"}
+{"level":"info","message":"Updated balance for 01coin: 10.1"}
+{"level":"info","message":"Updated balance for USD: NaN"}
+{"level":"info","message":"Updated balance for 01coin: 10.1"}
+{"level":"error","message":"Error fetching coin price for Zus in USD: "}
+{"level":"error","message":"Error fetching coin price for Zus in USD: "}
+{"level":"error","message":"Error fetching coin price for Zus in USD: Cannot read properties of undefined (reading 'USD')"}
+{"level":"error","message":"Error fetching coin price for Zus in USD: Cannot read properties of undefined (reading 'USD')"}
+{"level":"error","message":"Error fetching coin price for Zus in USD: Cannot read properties of undefined (reading 'USD')"}
+{"level":"error","message":"Error fetching coin price for Zus in USD: Cannot read properties of undefined (reading 'USD')"}
+{"level":"info","message":"Updated balance for USD: 53.89851"}
+{"level":"info","message":"Updated balance for 0chain: 10"}
+{"level":"info","message":"Updated balance for USD: 53.20851"}
+{"level":"info","message":"Updated balance for 0chain: 20"}
+{"level":"info","message":"Updated balance for USD: 52.50732"}
+{"level":"info","message":"Updated balance for 0chain: 30"}
+{"level":"info","message":"Updated balance for USD: 51.80732"}
+{"level":"info","message":"Updated balance for 0chain: 40"}
+{"level":"info","message":"Updated balance for USD: 51.10732"}
+{"level":"info","message":"Updated balance for 0chain: 50"}
+{"level":"info","message":"Updated balance for USD: 50.40732"}
+{"level":"info","message":"Updated balance for 0chain: 60"}
+{"level":"info","message":"User Ashkanhs successfully logged in"}
+{"level":"info","message":"Created wallet for user f7dc7cc7-d1c4-4688-b4dd-95c4cdc90791"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"info","message":"Updated balance for USD: 100"}
+{"level":"info","message":"Deposited 100 USD to wallet for user f7dc7cc7-d1c4-4688-b4dd-95c4cdc90791"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"info","message":"Fetching price for undefined in USD"}
+{"level":"error","message":"Error fetching coin price for undefined in usd: Cannot read properties of undefined (reading 'usd')"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Updated balance for USD: 99.9967993"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance before update (01coin): undefined"}
+{"level":"info","message":"Updated balance for 01coin: 10"}
+{"level":"info","message":"Balance after update (01coin): 10.00000000"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Updated balance for USD: 99.9967993"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance before update (01coin): 10.00000000"}
+{"level":"info","message":"Updated balance for 01coin: 20"}
+{"level":"info","message":"Balance after update (01coin): 20.00000000"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Updated balance for USD: 99.9967993"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance before update (01coin): 20.00000000"}
+{"level":"info","message":"Updated balance for 01coin: 30"}
+{"level":"info","message":"Balance after update (01coin): 30.00000000"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Updated balance for USD: 99.9967993"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance before update (01coin): 30.00000000"}
+{"level":"info","message":"Updated balance for 01coin: 40"}
+{"level":"info","message":"Balance after update (01coin): 40.00000000"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Updated balance for USD: 99.9967986"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance before update (01coin): 40.00000000"}
+{"level":"info","message":"Updated balance for 01coin: 50"}
+{"level":"info","message":"Balance after update (01coin): 50.00000000"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 60.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Calculated total cost: 0.0032012"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Updated balance should be (USD): 99.9967988"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 60.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Calculated total cost: 0.0032012"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Updated balance should be (USD): 99.9967988"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 70.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 80.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 80.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 80.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 80.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 71.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 71.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 71.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 71.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 71.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 73.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Balance before update (USD): 100.00"}
+{"level":"info","message":"Balance after update (USD): 100.00"}
+{"level":"info","message":"Balance after update (01coin): 74.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 100.00"}
+{"level":"info","message":"Updated crypto balance (01coin): 75.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 100.00"}
+{"level":"info","message":"Updated crypto balance (01coin): 75.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 100.00"}
+{"level":"info","message":"Updated crypto balance (01coin): 75.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Fetching price for 01coin in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 100.00"}
+{"level":"info","message":"Updated crypto balance (01coin): 80.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 100.00"}
+{"level":"info","message":"Refreshed wallet balance (USD): 100.00"}
+{"level":"info","message":"Created wallet for user f7dc7cc7-d1c4-4688-b4dd-95c4cdc90791"}
+{"level":"info","message":"Updated balance for USD: 150"}
+{"level":"info","message":"Deposited 150 USD to wallet for user f7dc7cc7-d1c4-4688-b4dd-95c4cdc90791"}
+{"level":"info","message":"Fetching price for 0dog in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.89"}
+{"level":"info","message":"Updated crypto balance (0dog): 10.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.89"}
+{"level":"info","message":"Refreshed wallet balance (USD): 150.00"}
+{"level":"info","message":"Fetching price for 0dog in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.89"}
+{"level":"info","message":"Updated crypto balance (0dog): 10.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.89"}
+{"level":"info","message":"Refreshed wallet balance (USD): 150.00"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.64"}
+{"level":"info","message":"Refreshed wallet balance (USD): 150.00"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.64"}
+{"level":"info","message":"Refreshed wallet balance (USD): 150.00"}
+{"level":"info","message":"Refreshed wallet crypto balance (50cent): undefined"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.64"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"error","message":"Transaction failed: commit has been called on this transaction(dc92f0c7-110b-41c6-8622-09216ab54b4b), you can no longer use it. (The rejected query is attached as the 'sql' property of this error)"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 150.00"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): undefined"}
+{"level":"error","message":"Transaction failed: Balance mismatch detected after saving wallet. Please try again."}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"error","message":"Transaction failed: commit has been called on this transaction(b59c75a6-c741-4c70-a4a5-c6038a6e5d46), you can no longer use it. (The rejected query is attached as the 'sql' property of this error)"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 150.00"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): undefined"}
+{"level":"error","message":"Transaction failed: Balance mismatch detected after saving wallet. Please try again."}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"error","message":"Transaction failed: totalCost.isNaN is not a function"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 150.00"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): undefined"}
+{"level":"error","message":"Transaction failed: Balance mismatch detected after saving wallet. Please try again."}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.64"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 149.64"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 10.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.28"}
+{"level":"info","message":"Updated crypto balance (50cent): 20.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.28"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 149.28"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 20.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 148.92"}
+{"level":"info","message":"Updated crypto balance (50cent): 30.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.92"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.92"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 30.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 148.56"}
+{"level":"info","message":"Updated crypto balance (50cent): 40.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.56"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.56"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 40.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 148.20"}
+{"level":"info","message":"Updated crypto balance (50cent): 50.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.20"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.20"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 50.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 147.84"}
+{"level":"info","message":"Updated crypto balance (50cent): 60.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 147.84"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 147.84"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 60.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated crypto balance (50cent): 50.00000000"}
+{"level":"info","message":"Updated fiat balance (USD): 148.20"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.20"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.20"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 50.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated crypto balance (50cent): 40.00000000"}
+{"level":"info","message":"Updated fiat balance (USD): 148.56"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.56"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.56"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 40.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated crypto balance (50cent): 30.00000000"}
+{"level":"info","message":"Updated fiat balance (USD): 148.92"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.92"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.92"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 30.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated crypto balance (50cent): 20.00000000"}
+{"level":"info","message":"Updated fiat balance (USD): 149.28"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.28"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 149.28"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 20.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.64"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 149.64"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 10.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated crypto balance (50cent): 0.00000000"}
+{"level":"info","message":"Updated fiat balance (USD): 150.00"}
+{"level":"info","message":"Wallet saved. Balance (USD): 150.00"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 150.00"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 0.00000000"}
+{"level":"error","message":"Transaction failed: Insufficient balance. You have 0.00 50cent but tried to process 10.00 50cent."}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.64"}
+{"level":"info","message":"Updated crypto balance (50cent): 10.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.64"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 149.64"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 10.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 149.10"}
+{"level":"info","message":"Updated crypto balance (50cent): 25.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.10"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 149.10"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 25.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 148.56"}
+{"level":"info","message":"Updated crypto balance (50cent): 40.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.56"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.56"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 40.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 148.02"}
+{"level":"info","message":"Updated crypto balance (50cent): 55.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.02"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.02"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 55.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated crypto balance (50cent): 45.00000000"}
+{"level":"info","message":"Updated fiat balance (USD): 148.38"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.38"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.38"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 45.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated crypto balance (50cent): 35.00000000"}
+{"level":"info","message":"Updated fiat balance (USD): 148.74"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.74"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.74"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 35.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated crypto balance (50cent): 25.00000000"}
+{"level":"info","message":"Updated fiat balance (USD): 149.10"}
+{"level":"info","message":"Wallet saved. Balance (USD): 149.10"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 149.10"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 25.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 148.56"}
+{"level":"info","message":"Updated crypto balance (50cent): 40.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.56"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.56"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 40.00000000"}
+{"level":"info","message":"Fetching price for 50cent in USD"}
+{"level":"info","message":"Updated fiat balance (USD): 148.02"}
+{"level":"info","message":"Updated crypto balance (50cent): 55.00000000"}
+{"level":"info","message":"Wallet saved. Balance (USD): 148.02"}
+{"level":"info","message":"Wallet reloaded. Balance (USD): 148.02"}
+{"level":"info","message":"Wallet reloaded. Balance (50cent): 55.00000000"}

@@ -23,7 +23,11 @@ const TradeSchema = sequelize.define('Trade', {
         type: DataTypes.ENUM('buy', 'sell'),
         allowNull: false
     },
-    currencyPair: {
+    currency: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    crypto: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -31,7 +35,7 @@ const TradeSchema = sequelize.define('Trade', {
         type: DataTypes.DECIMAL(18, 8),
         allowNull: false
     },
-    price: {
+    cryptoAmount: {
         type: DataTypes.DECIMAL(18, 8),
         allowNull: false
     },

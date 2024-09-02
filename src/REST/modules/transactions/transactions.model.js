@@ -10,7 +10,7 @@ const TransactionSchema = sequelize.define('Transaction', {
         primaryKey: true
     },
     type: {
-        type: DataTypes.ENUM('deposit', 'withdrawal', 'transfer'),
+        type: DataTypes.ENUM('deposit', 'withdrawal', 'transfer', 'buy', 'sell'),
         allowNull: false
     },
     sourceWalletId: {
