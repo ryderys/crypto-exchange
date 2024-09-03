@@ -2,22 +2,25 @@ const autoBind = require("auto-bind");
 const { default: BigNumber } = require("bignumber.js");
 const { sequelize } = require("../../../../config/sequelize");
 const walletService = require("../wallet/wallet.service");
+const MarketService = require("../market/market.service")
 const TradeSchema = require("./trade.model");
 const WalletSchema = require("../wallet/wallet.model");
 const AuditLog = require("../transactions/auditLog.schema");
 const { Op } = require("sequelize");
 const TransactionSchema = require("../transactions/transactions.model");
-const { default: axios } = require("axios");
 const { logger } = require("../../../common/utils");
+const LimitOrder = require("../order/limitOrder.model");
 const fiatCurrencies = ['USD', 'EUR', 'GBP']; // List of fiat currencies
 const cryptoPrecision = 8;
 const fiatPrecision = 2;
 class TradingService {
     #WalletService
     #model
+    #limitOrder_model
     #wallet_model
     #auditLog_model
     #transaction_model
+    #marketService
     constructor(){
         autoBind(this)
         this.#WalletService = walletService
@@ -25,6 +28,8 @@ class TradingService {
         this.#wallet_model = WalletSchema
         this.#auditLog_model = AuditLog
         this.#transaction_model = TransactionSchema
+        this.#marketService = MarketService
+        this.#limitOrder_model = LimitOrder
 
     }
     async logAuditAction(userId, action, transaction = null){
@@ -35,202 +40,213 @@ class TradingService {
         return auditLog
     }
 
-    async getCoinPrice(crypto, currency) {   
-        const lowerCaseCurrency = currency.toLowerCase();
-        const url = `https://api.coingecko.com/api/v3/simple/price?ids=${crypto}&vs_currencies=${lowerCaseCurrency}`;
-        try {
-            const response = await axios.get(url, {
-                headers: {
-                    accept: 'application/json',
-                    'x-cg-demo-api-key': ' CG-A8496fii4gtpiNk6DEebo3ok '
-                }
-            });
-            return response.data[crypto][lowerCaseCurrency];
-        } catch (error) {
-            logger.error(`Error fetching coin price for ${crypto} in ${lowerCaseCurrency}: ${error.message}`);
-            throw new Error('Error fetching coin price');
+    
+    async processOrder(userId, walletId, crypto, amount, currency, type, orderType = 'market', targetPrice = null){
+        return sequelize.transaction(async (t) => {
+            if (!crypto || !currency) throw new ValidationError("Invalid parameters: crypto and currency are required.");
+    
+            const standardizedCurrency = currency.toUpperCase();
+            const cryptoKey = crypto.toLowerCase();
+    
+            const validAmount = this.#validateAmount(amount);
+            let wallet = await this.#findOrCreateWallet(userId, walletId, standardizedCurrency, t);
+            
+            if(orderType === 'limit' || orderType === 'stop'){
+                if(!targetPrice) throw new Error("Target price required for limit/stop orders.")
+                await this.#createLimitOrStopOrder(userId, walletId, cryptoKey, validAmount, targetPrice, orderType, t)
+                return { message: `${orderType.charAt(0).toUpperCase() + orderType.slice(1)} order placed`}
+            }
+
+            if (type === 'buy') {
+                return this.#processBuyOrder(wallet, validAmount, standardizedCurrency, cryptoKey, t);
+            } else if (type === 'sell') {
+                return this.#processSellOrder(wallet, validAmount, standardizedCurrency, cryptoKey, t);
+            } else {
+                throw new ValidationError("Invalid order type. Must be 'buy' or 'sell'.");
+            }
+        });
+    }
+
+    async checkPendingOrder(crypto, currentPrice){
+        const limitOrders = await this.#limitOrder_model.findAll({where: {crypto, status: 'open'}})
+
+        for (const order of limitOrders) {
+            if(order.type === 'limit' && currentPrice >= order.price){
+                await this.#executeLimitOrder(order)
+            }    
+            else if(order.type === 'stop' && currentPrice <= order.price){
+                await this.#executeStopOrder(order)
+            }    
+        }
+    }
+
+    async getOrderBook(crypto){
+        const buyOrders = await this.#limitOrder_model.findAll({
+            where: {crypto, type: 'buy', status: 'open'},
+            order: [['price', 'DESC']]
+        })
+        const sellOrders = await this.#limitOrder_model.findAll({
+            where: {crypto, type: 'sell', status: 'open'},
+            order: [['price', 'ASC']]
+        })
+        return {
+            buyOrders, 
+            sellOrders
+        }
+    }
+
+    async getTradeHistory(userId){
+        const trades = await this.#transaction_model.findAll({
+            where: { userId },
+            order: [['createdAt', 'DESC']]
+        })
+        return trades
+    }
+
+    async getTradeAnalytics(userId){
+        const trades = await this.getTradeHistory(userId);
+
+        let totalProfit = new BigNumber(0);
+        let totalVolume = new BigNumber(0)
+
+        trades.forEach(trade => {
+            const tradeValue = new BigNumber(trade.amount)
+            if(trade.type === 'sell'){
+                totalProfit = totalProfit.plus(tradeValue)
+            }
+            totalVolume = totalVolume.plus(tradeValue)
+        })
+
+        return {
+            totalProfit: totalProfit.toFixed(2),
+            totalVolume: totalVolume.toFixed(2)
+        }
+    }
+
+    async processMultiCurrencyOrder(userId, walletId, fromCurrency, toCurrency, amount, type){
+        const exchangeRate = await this.#marketService.getExchangeRate(fromCurrency, toCurrency)
+        const convertedAmount = new BigNumber(amount).multipliedBy(exchangeRate)
+
+        const wallet = await this.#findOrCreateWallet(userId, walletId, fromCurrency)
+
+        if(type === 'buy'){
+            this.#checkSufficientBalance(wallet, fromCurrency, amount)
+            this.#updateBalance(wallet, fromCurrency, amount.negated())
+            this.#updateBalance(wallet, toCurrency, convertedAmount)
+        } else if(type === 'sell'){
+            this.#checkSufficientBalance(wallet, toCurrency, convertedAmount)
+            this.#updateBalance(wallet, toCurrency, convertedAmount.negated())
+            this.#updateBalance(wallet, fromCurrency, convertedAmount)
+        }
+        await wallet.save()
+    }
+
+    async calculateFees(userId, tradeAmount, tradeType){
+        let feePercentage;
+
+        if (tradeType === 'buy'){
+            feePercentage = 0.01; // 1% fee for buys
+        } else if (tradeType === 'sell'){
+            feePercentage = 0.015; // 1.5% fee for buys
+        }
+        const fee = new BigNumber(tradeAmount).multipliedBy(feePercentage)
+        return fee
+    }
+
+    async #executeLimitOrder(order){
+        const wallet = await this.#findOrCreateWallet(order.userId, order.walletId, order.crypto)    
+        await this.#processBuyOrder(wallet, order.amount, 'USD', order.crypto, sequelize.transaction())
+        order.status = 'executed'
+        await order.save()
+    }
+    async #executeStopOrder(order){
+        const wallet = await this.#findOrCreateWallet(order.userId, order.walletId, order.crypto)    
+        await this.#processSellOrder(wallet, order.amount, 'USD', order.crypto, sequelize.transaction())
+        order.status = 'executed'
+        await order.save()
+    }
+
+    async#createLimitOrStopOrder(userId, walletId, crypto, amount, targetPrice, orderType, transaction){
+        await this.#limitOrder_model.create({
+            userId,
+            walletId,
+            crypto,
+            amount: amount.toFixed(cryptoPrecision),
+            price: targetPrice.toFixed(fiatPrecision),
+            type: orderType,
+            status: 'open',
+        }, {transaction})
+    }
+
+    async getPortfolio(userId){
+        const wallet = await this.getDefaultWallet(userId, 'USD')
+        const portfolio = []
+
+        for (const [currency, balance] of Object.entries(wallet.balances)) {
+            const currentPrice = await this.#marketService.getCoinPrice(currency, 'USD')
+            const value = new BigNumber(balance).multipliedBy(currentPrice)
+            portfolio.push({currency, balance, value: value.toFixed(2)})
+        }
+        
+        const totalValue = portfolio.reduce((acc, asset) => acc.plus(asset.value), new BigNumber(0))
+        portfolio.forEach(asset => {
+            asset.percentageAllocation = new BigNumber(asset.value).dividedBy(totalValue).multipliedBy(100).toFixed(2)
+        })
+        return {
+            totalValue: totalValue.toFixed(2),
+            assets: portfolio
         }
     }
 
 
-    async buyOrder(userId, walletId, crypto, amount, currency) {
-        return sequelize.transaction(async (t) => {
-            if (!crypto || !currency) {
-                throw new Error("Invalid parameters: crypto and currency are required.");
-            }
+    async #processBuyOrder(wallet, validAmount, standardizedCurrency, cryptoKey, transaction) {
+        const rate = await this.#marketService.getCoinPrice(cryptoKey, standardizedCurrency.toLowerCase());
+        const totalCost = validAmount.multipliedBy(rate);
     
-            const standardizedCurrency = currency.toUpperCase();
-            const cryptoKey = crypto.toLowerCase();
-    
-            // Step 1: Find or create the wallet
-            let wallet = walletId 
-                ? await this.#wallet_model.findOne({ where: { id: walletId, userId }, transaction: t })
-                : await this.findOrCreateWallet(userId, standardizedCurrency, t);
-    
-            if (!wallet) throw new Error(`Wallet with ID ${walletId} not found for user ${userId}.`);
-    
-            // Step 2: Validate the amount
-            const validAmount = new BigNumber(amount);
-            if (validAmount.isNaN() || validAmount.lte(0)) {
-                throw new Error("Invalid amount provided. Please provide a valid number greater than zero.");
-            }
-    
-            // Step 3: Fetch the price of the crypto
-            logger.info(`Fetching price for ${cryptoKey} in ${standardizedCurrency}`);
-            const rate = await this.getCoinPrice(cryptoKey, standardizedCurrency.toLowerCase());
-            if (!rate || isNaN(rate)) {
-                throw new Error("Invalid rate received. Please check the currency or crypto.");
-            }
-    
-            // Step 4: Calculate the total cost
-            const totalCost = validAmount.multipliedBy(rate);
-            if (totalCost.isNaN()) {
-                throw new Error("Invalid cost calculation. Please check the amount and rate.");
-            }
-    
-            // Step 5: Check if the wallet has sufficient balance in the specified currency
-            this.#checkSufficientBalance(wallet, standardizedCurrency, totalCost);
-    
-            // Step 6: Update the fiat currency balance
-            const currentFiatBalance = new BigNumber(wallet.balances[standardizedCurrency] || '0');
-            const updatedFiatBalance = currentFiatBalance.minus(totalCost).toFixed(fiatPrecision);
-            wallet.balances[standardizedCurrency] = updatedFiatBalance;
-            logger.info(`Updated fiat balance (${standardizedCurrency}): ${updatedFiatBalance}`);
-    
-            // Step 7: Update the crypto balance
-            const currentCryptoBalance = new BigNumber(wallet.balances[cryptoKey] || '0');
-            const updatedCryptoBalance = currentCryptoBalance.plus(validAmount).toFixed(cryptoPrecision);
-            wallet.balances[cryptoKey] = updatedCryptoBalance;
-            logger.info(`Updated crypto balance (${cryptoKey}): ${updatedCryptoBalance}`);
-    
-            // Ensure the balances are marked as changed
-            wallet.changed('balances', true);
-    
-            // Step 8: Save the wallet with updated balances
-            await wallet.save({ transaction: t });
-            logger.info(`Wallet saved. Balance (${standardizedCurrency}): ${wallet.balances[standardizedCurrency]}`);
-    
-            // Reload the wallet to ensure the data was persisted correctly
-            const refreshedWallet = await this.#wallet_model.findOne({ where: { id: wallet.id }, transaction: t, lock: true });
-            logger.info(`Wallet reloaded. Balance (${standardizedCurrency}): ${refreshedWallet.balances[standardizedCurrency]}`);
-            logger.info(`Wallet reloaded. Balance (${cryptoKey}): ${refreshedWallet.balances[cryptoKey]}`);
-    
-            // Step 9: Validate the saved balances
-            if (refreshedWallet.balances[standardizedCurrency] !== updatedFiatBalance ||
-                refreshedWallet.balances[cryptoKey] !== updatedCryptoBalance) {
-                throw new Error("Balance mismatch detected after saving wallet. Please try again.");
-            }
-    
-            // Step 10: Log the transaction
-            await this.#transaction_model.create({
-                userId,
-                walletId: wallet.id,
-                type: 'buy',
-                currency: standardizedCurrency,
-                amount: totalCost.toFixed(fiatPrecision),
-                crypto: cryptoKey,
-                cryptoAmount: validAmount.toFixed(cryptoPrecision),
-                status: 'completed'
-            }, { transaction: t });
-    
-            return { wallet: refreshedWallet };
-        }).catch(error => {
-            logger.error(`Transaction failed: ${error.message}`);
-            throw error;
-        });
+        this.#checkSufficientBalance(wallet, standardizedCurrency, totalCost);
+        
+        this.#updateBalance(wallet, standardizedCurrency, totalCost.negated());
+        this.#updateBalance(wallet, cryptoKey, validAmount);
+        await wallet.save({ transaction });
+        
+        return this.#finalizeOrder(wallet, 'buy', validAmount, standardizedCurrency, totalCost, cryptoKey, transaction);
     }
     
-    
-    
-    async sellOrder(userId, walletId, crypto, amount, currency) {
-        return sequelize.transaction(async (t) => {
-            if (!crypto || !currency) {
-                throw new Error("Invalid parameters: crypto and currency are required.");
-            }
-    
-            const standardizedCurrency = currency.toUpperCase();
-            const cryptoKey = crypto.toLowerCase();
-    
-            // Step 1: Find or create the wallet and lock it for the transaction
-            let wallet = walletId 
-                ? await this.#wallet_model.findOne({ where: { id: walletId, userId }, transaction: t, lock: true })
-                : await this.findOrCreateWallet(userId, standardizedCurrency, t);
-    
-            if (!wallet) throw new Error(`Wallet with ID ${walletId} not found for user ${userId}.`);
-    
-            // Step 2: Validate the amount
-            const validAmount = new BigNumber(amount);
-            if (validAmount.isNaN() || validAmount.lte(0)) {
-                throw new Error("Invalid amount provided. Please provide a valid number greater than zero.");
-            }
-    
-            // Step 3: Check if the wallet has sufficient balance of the cryptocurrency
-            this.#checkSufficientBalance(wallet, cryptoKey, validAmount);
-    
-            // Step 4: Fetch the price of the crypto
-            logger.info(`Fetching price for ${cryptoKey} in ${standardizedCurrency}`);
-            const rate = await this.getCoinPrice(cryptoKey, standardizedCurrency.toLowerCase());
-            if (!rate || isNaN(rate)) {
-                throw new Error("Invalid rate received. Please check the currency or crypto.");
-            }
-    
-            // Step 5: Calculate the total value in the specified currency
-            const totalValue = validAmount.multipliedBy(rate);
-            if (totalValue.isNaN()) {
-                throw new Error("Invalid value calculation. Please check the amount and rate.");
-            }
-    
-            // Step 6: Update the crypto balance (deduct the amount)
-            const currentCryptoBalance = new BigNumber(wallet.balances[cryptoKey] || '0');
-            const updatedCryptoBalance = currentCryptoBalance.minus(validAmount).toFixed(cryptoPrecision);
-            wallet.balances[cryptoKey] = updatedCryptoBalance;
-            logger.info(`Updated crypto balance (${cryptoKey}): ${updatedCryptoBalance}`);
-    
-            // Step 7: Update the fiat currency balance (add the value)
-            const currentFiatBalance = new BigNumber(wallet.balances[standardizedCurrency] || '0');
-            const updatedFiatBalance = currentFiatBalance.plus(totalValue).toFixed(fiatPrecision);
-            wallet.balances[standardizedCurrency] = updatedFiatBalance;
-            logger.info(`Updated fiat balance (${standardizedCurrency}): ${updatedFiatBalance}`);
-    
-            // Ensure the balances are marked as changed
-            wallet.changed('balances', true);
-    
-            // Step 8: Save the wallet with updated balances and await full completion
-            await wallet.save({ transaction: t });
-            logger.info(`Wallet saved. Balance (${standardizedCurrency}): ${wallet.balances[standardizedCurrency]}`);
-    
-            // Reload the wallet to ensure the data was persisted correctly
-            const refreshedWallet = await this.#wallet_model.findOne({ where: { id: wallet.id }, transaction: t, lock: true });
-            logger.info(`Wallet reloaded. Balance (${standardizedCurrency}): ${refreshedWallet.balances[standardizedCurrency]}`);
-            logger.info(`Wallet reloaded. Balance (${cryptoKey}): ${refreshedWallet.balances[cryptoKey]}`);
-    
-            // Step 9: Validate the saved balances
-            if (refreshedWallet.balances[standardizedCurrency] !== updatedFiatBalance ||
-                refreshedWallet.balances[cryptoKey] !== updatedCryptoBalance) {
-                throw new Error("Balance mismatch detected after saving wallet. Please try again.");
-            }
-    
-            // Step 10: Log the transaction
-            await this.#transaction_model.create({
-                userId,
-                walletId: wallet.id,
-                type: 'sell',
-                currency: standardizedCurrency,
-                amount: totalValue.toFixed(fiatPrecision),
-                crypto: cryptoKey,
-                cryptoAmount: validAmount.toFixed(cryptoPrecision),
-                status: 'completed'
-            }, { transaction: t });
-    
-            return { wallet: refreshedWallet };
-        }).catch(error => {
-            logger.error(`Transaction failed: ${error.message}`);
-            throw error;
-        });
+    async #processSellOrder(wallet, validAmount, standardizedCurrency, cryptoKey, transaction) {
+        const rate = await this.#marketService.getCoinPrice(cryptoKey, standardizedCurrency.toLowerCase());
+        const totalValue = validAmount.multipliedBy(rate);
+        
+        this.#checkSufficientBalance(wallet, cryptoKey, validAmount);
+        
+        this.#updateBalance(wallet, cryptoKey, validAmount.negated());
+        this.#updateBalance(wallet, standardizedCurrency, totalValue);
+        await wallet.save({ transaction });
+        
+        return this.#finalizeOrder(wallet, 'sell', validAmount, standardizedCurrency, totalValue, cryptoKey, transaction);
     }
-    
 
-    
+    async #finalizeOrder(wallet, type, validAmount, standardizedCurrency, totalValue, cryptoKey, transaction) {
+        await this.#transaction_model.create({
+            userId: wallet.userId,
+            walletId: wallet.id,
+            type,
+            currency: standardizedCurrency,
+            amount: totalValue.toFixed(fiatPrecision),
+            crypto: cryptoKey,
+            cryptoAmount: validAmount.toFixed(cryptoPrecision),
+            status: 'completed'
+        }, { transaction });
+        
+        return { wallet };
+    }
+
+    async #validateAmount(amount){
+        const validAmount = new BigNumber(amount);
+            if (validAmount.isNaN() || validAmount.lte(0)) {
+                throw new Error("Invalid amount provided. Please provide a valid number greater than zero.");
+            }
+        return validAmount
+    } 
 
     async getDefaultWallet(userId, currency){
         const wallet = await this.#wallet_model.findOne({where: { userId, balances: { [currency]: {[Op.gt]: 0} }}})
@@ -238,7 +254,7 @@ class TradingService {
         return wallet
     }
 
-    async findOrCreateWallet(userId, currency, transaction){
+    async #findOrCreateWallet(userId, currency, transaction){
         let wallet = await this.#wallet_model.findOne({
             where: { userId, [`balances.${currency}`]: { [Op.gt]: 0 } }, 
             transaction

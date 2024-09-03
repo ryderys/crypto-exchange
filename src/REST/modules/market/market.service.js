@@ -125,6 +125,53 @@ class MarketService {
         }
     }
 
+    async getCoinPrice(crypto, currency) {   
+        const lowerCaseCurrency = currency.toLowerCase();
+        const url = `https://api.coingecko.com/api/v3/simple/price?ids=${crypto}&vs_currencies=${lowerCaseCurrency}`;
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    accept: 'application/json',
+                    'x-cg-demo-api-key': ' CG-A8496fii4gtpiNk6DEebo3ok '
+                }
+            });
+            return response.data[crypto][lowerCaseCurrency];
+        } catch (error) {
+            logger.error(`Error fetching coin price for ${crypto} in ${lowerCaseCurrency}: ${error.message}`);
+            throw new Error('Error fetching coin price');
+        }
+    }
+
+    async getExchangeRate(fromCurrency, toCurrency) {
+        const cacheKey = `${fromCurrency}_${toCurrency}`;
+        if (exchangeRateCache[cacheKey]) {
+            logger.info(`Using cached exchange rate for ${fromCurrency} to ${toCurrency}`);
+            return exchangeRateCache[cacheKey];
+        }
+
+        try {
+            const response = await axios.get("https://api.coingecko.com/api/v3/exchange_rates", {
+                headers: { accept: 'application/json' }
+            });
+
+            const apiRates = response.data.rates;
+            const fromRate = apiRates[fromCurrency.toLowerCase()];
+            const toRate = apiRates[toCurrency.toLowerCase()];
+
+            if (fromRate && toRate) {
+                const rate = toRate.value / fromRate.value;
+                exchangeRateCache[cacheKey] = rate;
+                setTimeout(() => delete exchangeRateCache[cacheKey], 3600000); // Cache expires in 1 hour
+                logger.info(`Using API rate for ${fromCurrency} to ${toCurrency}: ${rate}`);
+                return rate;
+            }
+
+            throw new Error("Invalid rates returned from API");
+        } catch (error) {
+            logger.error(`Failed to fetch exchange rate: ${error.message}. Falling back to default rates.`);
+        }
+    }
+
 }
 
 module.exports = new MarketService()
