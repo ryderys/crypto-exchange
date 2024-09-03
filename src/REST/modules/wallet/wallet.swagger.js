@@ -32,9 +32,9 @@
  *                      type: string
  *                      description: The currency for storing on the wallet 
  *                      enum:
- *                          -   USD
- *                          -   EUR
- *                          -   GBP
+ *                          -   usd
+ *                          -   eur
+ *                          -   gbp
  *                  amount:
  *                      type: number
  *                      description: the amount of deposit
@@ -55,9 +55,9 @@
  *                      type: string
  *                      description: The currency for storing on the wallet 
  *                      enum:
- *                          -   USD
- *                          -   EUR
- *                          -   GBP
+ *                          -   usd
+ *                          -   eur
+ *                          -   gbp
  *                  amount:
  *                      type: number
  *                      description: the amount of deposit

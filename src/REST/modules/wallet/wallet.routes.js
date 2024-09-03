@@ -22,7 +22,7 @@ router.post('/unlock', authenticate, walletController.unlockWallet)
 
 router.post('/convert',authenticate, walletController.convertFunds)
 
-router.get('/transactions:walletId/', authenticate, walletController.getTransactionHistory)
+router.get('/transactions/:walletId', authenticate, walletController.getTransactionHistory)
 
 router.get('/balance/:walletId', authenticate, walletController.checkBalance)
 
