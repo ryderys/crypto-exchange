@@ -1,5 +1,6 @@
 const autoBind = require("auto-bind");
 const { default: axios } = require("axios");
+const { logger } = require("../../../common/utils");
 
 class MarketService {
     constructor(){
@@ -135,7 +136,14 @@ class MarketService {
                     'x-cg-demo-api-key': ' CG-A8496fii4gtpiNk6DEebo3ok '
                 }
             });
-            return response.data[crypto][lowerCaseCurrency];
+            const rate = response.data[crypto]?.[lowerCaseCurrency];
+            logger.info(`Fetched price for ${crypto} in ${currency}: ${rate}`);
+
+            if (!rate) {
+                throw new Error(`No rate found for ${crypto} in ${currency}`);
+            }
+
+            return rate;
         } catch (error) {
             logger.error(`Error fetching coin price for ${crypto} in ${lowerCaseCurrency}: ${error.message}`);
             throw new Error('Error fetching coin price');

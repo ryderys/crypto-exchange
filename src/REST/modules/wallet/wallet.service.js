@@ -7,7 +7,7 @@ const { sequelize } = require("../../../../config/sequelize");
 const AuditLog = require("../transactions/auditLog.schema");
 const { default: axios } = require("axios");
 const saltRounds = process.env.SALT_ROUNDS || 12;
-const logger  = require("../../../common/utils");
+const {logger}  = require("../../../common/utils");
 const marketService = require("../market/market.service");
 const Sequelize = require("sequelize");
 

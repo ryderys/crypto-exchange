@@ -3,8 +3,11 @@ const tradeController = require("./trade.controller")
 
 const router = require("express").Router()
 
-router.post("/buy-crypto", authenticate, tradeController.buyOrder)
-router.post("/sell-crypto", authenticate, tradeController.sellOrder)
+router.post("/order", authenticate, tradeController.processOrder)
+router.get("/orderbook", authenticate, tradeController.getOrderBook)
+router.get("/history", authenticate, tradeController.getTradeHistory)
+router.get("/analytics", authenticate, tradeController.getTradeAnalytics)
+router.get("/portfolio", authenticate, tradeController.getPortfolio)
 
 module.exports = {
     tradeRoutes : router

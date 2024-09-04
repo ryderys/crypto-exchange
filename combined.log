@@ -16,3 +16,88 @@
 2024-09-03T10:06:48.411Z [info]: Updated balance for usd: 15.00
 2024-09-03T10:06:48.412Z [info]: Updated balance for btc: 0.00142215
 2024-09-03T10:09:45.833Z [info]: Fetched transaction history for wallet 13e88109-d57c-4b9d-8192-aa642ef168d9
+2024-09-04T07:29:05.770Z [error]: Error processing order: WHERE parameter "userId" has invalid "undefined" value
+2024-09-04T07:50:53.059Z [error]: Error processing order: WHERE parameter "userId" has invalid "undefined" value
+2024-09-04T08:28:10.058Z [error]: Error processing order: logger is not defined
+2024-09-04T08:29:49.244Z [error]: Error processing order: logger is not defined
+2024-09-04T08:32:09.236Z [error]: Error processing order: logger is not defined
+2024-09-04T08:34:07.947Z [error]: Error processing order: logger is not defined
+2024-09-04T08:37:22.895Z [error]: Error fetching coin price for btc in usd: Cannot read properties of undefined (reading 'usd')
+2024-09-04T08:37:22.899Z [error]: Error processing order: Error fetching coin price
+2024-09-04T09:01:05.897Z [error]: Error processing order: validAmount.multipliedBy is not a function
+2024-09-04T09:04:23.164Z [info]: Updated balance for USD: NaN
+2024-09-04T09:04:23.166Z [info]: Updated balance for 0dog: NaN
+2024-09-04T09:04:23.181Z [error]: Error processing order: validAmount.toFixed is not a function
+2024-09-04T09:21:14.733Z [info]: Updated balance for USD: NaN
+2024-09-04T09:21:14.735Z [info]: Updated balance for 0dog: NaN
+2024-09-04T09:21:14.754Z [error]: Error processing order: Data truncated for column 'amount' at row 1
+2024-09-04T09:27:27.564Z [error]: Error fetching coin price for 0dog in usd: Request failed with status code 503
+2024-09-04T09:27:27.566Z [error]: Error processing order: Error fetching coin price
+2024-09-04T09:27:33.207Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 0dog.
+2024-09-04T09:29:36.398Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 0dog.
+2024-09-04T10:37:58.550Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 01coin.
+2024-09-04T10:42:31.576Z [info]: Fetched price for 01coin in usd: 0.00020395
+2024-09-04T10:42:31.580Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 01coin.
+2024-09-04T10:45:13.449Z [info]: Fetched price for 01coin in usd: 0.00020405
+2024-09-04T10:45:13.452Z [error]: Error processing order: validAmount.multipliedBy is not a function
+2024-09-04T10:49:37.233Z [info]: Validated amount: [object Promise]
+2024-09-04T10:49:37.764Z [info]: Fetched price for 01coin in usd: 0.00020405
+2024-09-04T10:49:37.765Z [error]: Error processing order: validAmount.multipliedBy is not a function
+2024-09-04T10:50:47.527Z [info]: Validated amount: [object Promise]
+2024-09-04T10:50:48.689Z [info]: Fetched price for 01coin in usd: 0.00020383
+2024-09-04T10:50:48.691Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 01coin.
+2024-09-04T10:52:09.580Z [info]: Validated amount: [object Promise]
+2024-09-04T10:52:10.403Z [info]: Fetched price for 01coin in usd: 0.00020383
+2024-09-04T10:52:10.405Z [error]: Error processing order: validAmount.multipliedBy is not a function
+2024-09-04T10:53:21.071Z [info]: Validated amount: 10
+2024-09-04T10:53:21.942Z [info]: Fetched price for 01coin in usd: 0.00020383
+2024-09-04T10:53:21.943Z [info]: Updated balance for USD: 149.9979617
+2024-09-04T10:53:21.944Z [info]: Updated balance for 01coin: 10
+2024-09-04T10:53:32.447Z [info]: Validated amount: 10
+2024-09-04T10:53:32.882Z [info]: Fetched price for 01coin in usd: 0.00020383
+2024-09-04T10:53:32.883Z [info]: Updated balance for USD: 149.9979617
+2024-09-04T10:53:32.883Z [info]: Updated balance for 01coin: 20
+2024-09-04T10:53:55.461Z [info]: Validated amount: 10
+2024-09-04T10:53:55.930Z [info]: Fetched price for 01coin in usd: 0.00020383
+2024-09-04T10:53:55.930Z [info]: Updated balance for USD: 149.9979617
+2024-09-04T10:53:55.931Z [info]: Updated balance for 01coin: 30
+2024-09-04T11:22:10.125Z [info]: Validated amount: 10
+2024-09-04T11:22:11.186Z [info]: Fetched price for 01coin in usd: 0.00020384
+2024-09-04T11:22:11.187Z [info]: Updated balance for usd: 14.9979616
+2024-09-04T11:22:11.188Z [info]: Updated balance for 01coin: 40
+2024-09-04T11:22:16.898Z [info]: Validated amount: 10
+2024-09-04T11:22:18.348Z [info]: Fetched price for 01coin in usd: 0.00020384
+2024-09-04T11:22:18.349Z [info]: Updated balance for usd: 14.9979616
+2024-09-04T11:22:18.349Z [info]: Updated balance for 01coin: 50
+2024-09-04T11:26:16.295Z [info]: Validated amount: 10
+2024-09-04T11:26:17.112Z [info]: Fetched price for 01coin in usd: 0.00020384
+2024-09-04T11:26:17.113Z [info]: Updated balance for usd: 14.9979616
+2024-09-04T11:26:17.114Z [info]: Updated balance for 01coin: 60
+2024-09-04T11:26:21.629Z [info]: Validated amount: 10
+2024-09-04T11:26:21.810Z [info]: Fetched price for 01coin in usd: 0.00020384
+2024-09-04T11:26:21.810Z [info]: Updated balance for usd: 14.9979616
+2024-09-04T11:26:21.810Z [info]: Updated balance for 01coin: 70
+2024-09-04T15:53:11.158Z [info]: Validated amount: 10
+2024-09-04T15:53:13.361Z [info]: Fetched price for 01coin in usd: 0.00020401
+2024-09-04T15:53:13.362Z [info]: Total cost for 10 01coin at rate 0.00020401 is: 0.0020401
+2024-09-04T15:53:13.362Z [info]: Current balances: USD = 15.00, Crypto = 70.00000000
+2024-09-04T15:53:13.363Z [info]: Updated balance for usd: 14.9979599
+2024-09-04T15:53:13.363Z [info]: Updated balance for 01coin: 80
+2024-09-04T15:53:13.363Z [info]: After updating, wallet balances: USD = 14.99795990, Crypto = 80.00000000
+2024-09-04T15:53:13.371Z [info]: Wallet saved. Final balance for usd: 14.99795990, Crypto: 80.00000000
+2024-09-04T15:53:28.623Z [info]: Validated amount: 50
+2024-09-04T15:53:29.344Z [info]: Fetched price for 01coin in usd: 0.00020401
+2024-09-04T15:53:29.344Z [info]: Total cost for 50 01coin at rate 0.00020401 is: 0.0102005
+2024-09-04T15:53:29.344Z [info]: Current balances: USD = 14.99795990, Crypto = 80.00000000
+2024-09-04T15:53:29.345Z [info]: Updated balance for usd: 14.9877594
+2024-09-04T15:53:29.345Z [info]: Updated balance for 01coin: 130
+2024-09-04T15:53:29.345Z [info]: After updating, wallet balances: USD = 14.98775940, Crypto = 130.00000000
+2024-09-04T15:53:29.348Z [info]: Wallet saved. Final balance for usd: 14.98775940, Crypto: 130.00000000
+2024-09-04T15:55:12.108Z [info]: Validated amount: 130
+2024-09-04T15:55:12.854Z [info]: Fetched price for 01coin in usd: 0.00020401
+2024-09-04T15:55:12.855Z [info]: Updated balance for 01coin: 0
+2024-09-04T15:55:12.856Z [info]: Updated balance for usd: 15.0142807
+2024-09-04T15:55:33.225Z [info]: Validated amount: 10
+2024-09-04T15:55:33.768Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-04T15:55:33.769Z [info]: Updated balance for 50cent: 9.85
+2024-09-04T15:55:33.769Z [info]: Updated balance for usd: 15.373968

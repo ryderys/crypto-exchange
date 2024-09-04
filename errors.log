@@ -1,1 +1,22 @@
 2024-09-03T10:01:45.874Z [error]: Failed to fetch exchange rate: Invalid rates returned from API. Falling back to default rates.
+2024-09-04T07:29:05.770Z [error]: Error processing order: WHERE parameter "userId" has invalid "undefined" value
+2024-09-04T07:50:53.059Z [error]: Error processing order: WHERE parameter "userId" has invalid "undefined" value
+2024-09-04T08:28:10.058Z [error]: Error processing order: logger is not defined
+2024-09-04T08:29:49.244Z [error]: Error processing order: logger is not defined
+2024-09-04T08:32:09.236Z [error]: Error processing order: logger is not defined
+2024-09-04T08:34:07.947Z [error]: Error processing order: logger is not defined
+2024-09-04T08:37:22.895Z [error]: Error fetching coin price for btc in usd: Cannot read properties of undefined (reading 'usd')
+2024-09-04T08:37:22.899Z [error]: Error processing order: Error fetching coin price
+2024-09-04T09:01:05.897Z [error]: Error processing order: validAmount.multipliedBy is not a function
+2024-09-04T09:04:23.181Z [error]: Error processing order: validAmount.toFixed is not a function
+2024-09-04T09:21:14.754Z [error]: Error processing order: Data truncated for column 'amount' at row 1
+2024-09-04T09:27:27.564Z [error]: Error fetching coin price for 0dog in usd: Request failed with status code 503
+2024-09-04T09:27:27.566Z [error]: Error processing order: Error fetching coin price
+2024-09-04T09:27:33.207Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 0dog.
+2024-09-04T09:29:36.398Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 0dog.
+2024-09-04T10:37:58.550Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 01coin.
+2024-09-04T10:42:31.580Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 01coin.
+2024-09-04T10:45:13.452Z [error]: Error processing order: validAmount.multipliedBy is not a function
+2024-09-04T10:49:37.765Z [error]: Error processing order: validAmount.multipliedBy is not a function
+2024-09-04T10:50:48.691Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 01coin.
+2024-09-04T10:52:10.405Z [error]: Error processing order: validAmount.multipliedBy is not a function
