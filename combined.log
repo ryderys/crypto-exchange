@@ -101,3 +101,40 @@
 2024-09-04T15:55:33.768Z [info]: Fetched price for 50cent in usd: 0.03596873
 2024-09-04T15:55:33.769Z [info]: Updated balance for 50cent: 9.85
 2024-09-04T15:55:33.769Z [info]: Updated balance for usd: 15.373968
+2024-09-05T08:19:26.090Z [info]: Validated amount: 10
+2024-09-05T08:19:26.097Z [error]: Error processing order: targetPrice.toFixed is not a function
+2024-09-05T08:22:48.856Z [info]: Validated amount: 10
+2024-09-05T08:22:48.875Z [info]: Created limit order: {"id":1,"userId":"f7dc7cc7-d1c4-4688-b4dd-95c4cdc90791","walletId":"13e88109-d57c-4b9d-8192-aa642ef168d9","crypto":"01coin","amount":"10.00000000","price":"0.00","type":"limit","status":"open","updatedAt":"2024-09-05T08:22:48.867Z","createdAt":"2024-09-05T08:22:48.867Z"}
+2024-09-05T08:27:43.840Z [info]: Validated amount: 10
+2024-09-05T08:27:43.857Z [info]: Created limit order: {"id":2,"userId":"f7dc7cc7-d1c4-4688-b4dd-95c4cdc90791","walletId":"13e88109-d57c-4b9d-8192-aa642ef168d9","crypto":"01coin","amount":"10.00000000","price":"0.00030111","type":"limit","status":"open","updatedAt":"2024-09-05T08:27:43.851Z","createdAt":"2024-09-05T08:27:43.851Z"}
+2024-09-05T08:33:29.701Z [info]: Buy orders: []
+2024-09-05T08:38:30.666Z [info]: Buy orders: []
+2024-09-05T11:58:07.675Z [info]: User ashiys successfully logged in
+2024-09-05T11:58:29.509Z [info]: Created wallet for user 60ee8d8f-e248-4356-bf6a-4b4be1b9901a
+2024-09-05T11:58:54.252Z [info]: Updated balance for usd: 200.00
+2024-09-05T11:58:54.265Z [info]: Deposited 200.00000000 usd to wallet for user 60ee8d8f-e248-4356-bf6a-4b4be1b9901a
+2024-09-05T11:59:49.924Z [info]: Validated amount: 30
+2024-09-05T11:59:50.483Z [info]: Fetched price for 01coin in usd: 0.00020111
+2024-09-05T11:59:50.484Z [info]: Total cost for 30 01coin at rate 0.00020111 is: 0.0060333
+2024-09-05T11:59:50.484Z [info]: Current balances: USD = 200.00, Crypto = undefined
+2024-09-05T11:59:50.485Z [info]: Updated balance for usd: 199.9939667
+2024-09-05T11:59:50.485Z [info]: Updated balance for 01coin: 30
+2024-09-05T11:59:50.485Z [info]: After updating, wallet balances: USD = 199.99396670, Crypto = 30.00000000
+2024-09-05T11:59:50.488Z [info]: Wallet saved. Final balance for usd: 199.99396670, Crypto: 30.00000000
+2024-09-05T12:04:07.152Z [info]: Validated amount: 30
+2024-09-05T12:04:08.108Z [info]: Fetched price for 01coin in usd: 0.00020111
+2024-09-05T12:04:08.108Z [info]: Total cost for 30 01coin at rate 0.00020111 is: 0.0060333
+2024-09-05T12:04:08.109Z [info]: Current balances: USD = 199.99396670, Crypto = 30.00000000
+2024-09-05T12:04:08.110Z [info]: Updated balance for usd: 199.9879334
+2024-09-05T12:04:08.110Z [info]: Updated balance for 01coin: 60
+2024-09-05T12:04:08.110Z [info]: After updating, wallet balances: USD = 199.98793340, Crypto = 60.00000000
+2024-09-05T12:04:08.117Z [info]: Wallet saved. Final balance for usd: 199.98793340, Crypto: 60.00000000
+2024-09-05T12:06:58.912Z [info]: Validated amount: 30
+2024-09-05T12:06:58.928Z [error]: Error processing order: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received an instance of Transaction
+2024-09-05T12:09:45.214Z [info]: Validated amount: 30
+2024-09-05T12:09:45.231Z [info]: Created limit order: {"id":1,"userId":"60ee8d8f-e248-4356-bf6a-4b4be1b9901a","walletId":"b11f2d32-54b0-479b-8ad1-7681493444f2","crypto":"01coin","amount":"30.00000000","price":"22.00000000","type":"buy","orderType":"limit","status":"open","updatedAt":"2024-09-05T12:09:45.224Z","createdAt":"2024-09-05T12:09:45.224Z"}
+2024-09-05T12:10:23.819Z [info]: Buy orders: [{"id":1,"userId":"60ee8d8f-e248-4356-bf6a-4b4be1b9901a","walletId":"b11f2d32-54b0-479b-8ad1-7681493444f2","crypto":"01coin","price":"22.00000000","amount":"30.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-05T12:09:45.000Z","updatedAt":"2024-09-05T12:09:45.000Z"}]
+2024-09-05T12:10:23.822Z [info]: Sell orders: []
+2024-09-05T12:10:52.607Z [error]: Error fetching trade analytics: WHERE parameter "userId" has invalid "undefined" value
+2024-09-05T12:10:59.481Z [error]: Error fetching portfolio: WHERE parameter "userId" has invalid "undefined" value
+2024-09-05T12:12:44.339Z [error]: Error fetching portfolio: No wallet found with sufficient balance for this currency

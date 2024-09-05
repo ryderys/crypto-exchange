@@ -54,7 +54,7 @@ class TradingService {
             
             if(orderType === 'limit' || orderType === 'stop'){
                 if(!targetPrice) throw new Error("Target price required for limit/stop orders.")
-                await this.#createLimitOrStopOrder(userId, walletId, cryptoKey, validAmount, targetPrice, orderType, t)
+                await this.#createLimitOrStopOrder(userId, walletId, cryptoKey, validAmount, targetPrice,type, orderType, t)
                 return { message: `${orderType.charAt(0).toUpperCase() + orderType.slice(1)} order placed`}
             }
 
@@ -86,10 +86,12 @@ class TradingService {
             where: {crypto, type: 'buy', status: 'open'},
             order: [['price', 'DESC']]
         })
+        logger.info(`Buy orders: ${JSON.stringify(buyOrders)}`);
         const sellOrders = await this.#limitOrder_model.findAll({
             where: {crypto, type: 'sell', status: 'open'},
             order: [['price', 'ASC']]
         })
+        logger.info(`Sell orders: ${JSON.stringify(sellOrders)}`);
         return {
             buyOrders, 
             sellOrders
@@ -167,14 +169,17 @@ class TradingService {
         await order.save()
     }
 
-    async#createLimitOrStopOrder(userId, walletId, crypto, amount, targetPrice, orderType, transaction){
+    async#createLimitOrStopOrder(userId, walletId, crypto, amount, targetPrice,type, orderType, transaction){
+        const bigTargetPrice = new BigNumber(targetPrice) ;
+
        const order =  await this.#limitOrder_model.create({
             userId,
             walletId,
             crypto,
             amount: amount.toFixed(cryptoPrecision),
-            price: targetPrice.toFixed(fiatPrecision),
-            type: orderType,
+            price: bigTargetPrice.toFixed(cryptoPrecision),
+            type,
+            orderType,
             status: 'open',
         }, {transaction})
         logger.info(`Created ${orderType} order: ${JSON.stringify(order)}`);
@@ -204,13 +209,17 @@ class TradingService {
 
     async #processBuyOrder(wallet, validAmount, standardizedCurrency, cryptoKey, transaction) {
         const rate = await this.#marketService.getCoinPrice(cryptoKey, standardizedCurrency.toLowerCase());
-
         const totalCost = validAmount.multipliedBy(new BigNumber(rate));
+
         logger.info(`Total cost for ${validAmount} ${cryptoKey} at rate ${rate} is: ${totalCost}`);
         if (totalCost.isNaN()) {
             throw new Error(`Invalid total cost calculation for currency: ${standardizedCurrency} and crypto: ${cryptoKey}.`);
         }
-        
+
+        if (!wallet.balances[standardizedCurrency] || !wallet.balances[cryptoKey]) {
+            throw new Error(`Missing balance for currency: ${standardizedCurrency} or crypto: ${cryptoKey}.`);
+        }
+
         logger.info(`Current balances: USD = ${wallet.balances[standardizedCurrency]}, Crypto = ${wallet.balances[cryptoKey]}`);
 
 
@@ -218,9 +227,15 @@ class TradingService {
         
         this.#updateBalance(wallet, standardizedCurrency, totalCost.negated());
         this.#updateBalance(wallet, cryptoKey, validAmount);
+
         logger.info(`After updating, wallet balances: USD = ${wallet.balances[standardizedCurrency]}, Crypto = ${wallet.balances[cryptoKey]}`);
     
-        await wallet.save({ transaction });
+        try {
+            await wallet.save({ transaction });
+        } catch (error) {
+            logger.error(`Error saving wallet: ${error.message}`);
+            throw error;
+        }
         logger.info(`Wallet saved. Final balance for ${standardizedCurrency}: ${wallet.balances[standardizedCurrency]}, Crypto: ${wallet.balances[cryptoKey]}`);
         return this.#finalizeOrder(wallet, 'buy', validAmount, standardizedCurrency, totalCost, cryptoKey, transaction);
     }

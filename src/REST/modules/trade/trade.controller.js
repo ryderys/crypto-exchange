@@ -35,6 +35,8 @@ class TradeController{
     async getOrderBook(req, res, next){
         try {
             const {crypto} = req.query //crypto symbol from query params
+            console.log(crypto);
+            
             const orderBook = await this.#service.getOrderBook(crypto)
             return this.#sendResponse(res, 200,'order book fetched', orderBook)
         } catch (error) {
@@ -44,7 +46,7 @@ class TradeController{
     }
     async getTradeHistory(req, res, next){
         try {
-            const {userId} = req.user; //crypto symbol from query params
+            const userId = req.user.id; //crypto symbol from query params
             const tradeHistory = await this.#service.getTradeHistory(userId)
             return this.#sendResponse(res, 200,'trade history fetched', tradeHistory)
         } catch (error) {
@@ -54,7 +56,7 @@ class TradeController{
     }
     async getTradeAnalytics(req, res, next){
         try {
-            const {userId} = req.user; //crypto symbol from query params
+            const userId = req.user.id; //crypto symbol from query params
             const analytics = await this.#service.getTradeAnalytics(userId)
             return this.#sendResponse(res, 200,'trade analytics fetched', analytics)
         } catch (error) {
@@ -64,7 +66,7 @@ class TradeController{
     }
     async getPortfolio(req, res, next){
         try {
-            const {userId} = req.user; //crypto symbol from query params
+            const userId = req.user.id; //crypto symbol from query params
             const portfolio = await this.#service.getPortfolio(userId)
             return this.#sendResponse(res, 200,'portfolio fetched', portfolio)
         } catch (error) {

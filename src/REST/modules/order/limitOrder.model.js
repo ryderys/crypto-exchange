@@ -24,6 +24,10 @@ const LimitOrder = sequelize.define('LimitOrder', {
         allowNull: false
     },
     type: {
+        type: DataTypes.ENUM('buy', 'sell'),
+        allowNull: false
+    },
+    orderType: {
         type: DataTypes.ENUM('limit', 'stop'),
         allowNull: false
     },

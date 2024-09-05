@@ -20,3 +20,8 @@
 2024-09-04T10:49:37.765Z [error]: Error processing order: validAmount.multipliedBy is not a function
 2024-09-04T10:50:48.691Z [error]: Error processing order: Invalid total cost calculation for currency: USD and crypto: 01coin.
 2024-09-04T10:52:10.405Z [error]: Error processing order: validAmount.multipliedBy is not a function
+2024-09-05T08:19:26.097Z [error]: Error processing order: targetPrice.toFixed is not a function
+2024-09-05T12:06:58.928Z [error]: Error processing order: The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received an instance of Transaction
+2024-09-05T12:10:52.607Z [error]: Error fetching trade analytics: WHERE parameter "userId" has invalid "undefined" value
+2024-09-05T12:10:59.481Z [error]: Error fetching portfolio: WHERE parameter "userId" has invalid "undefined" value
+2024-09-05T12:12:44.339Z [error]: Error fetching portfolio: No wallet found with sufficient balance for this currency
