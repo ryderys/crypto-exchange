@@ -4,7 +4,9 @@ const { AllRoutes } = require("./app.routes");
 const SwaggerConfig = require("../config/swagger.config");
 const { syncModels } = require("./REST/models");
 const cookieParser = require("cookie-parser");
-
+const cors = require("cors");
+const { expressMiddleware } = require("@apollo/server/express4");
+const startApolloServer = require("../config/graphql.config");
 module.exports = class Application {
     #app = express();
     #PORT = process.env.PORT;
@@ -34,7 +36,9 @@ module.exports = class Application {
         this.#app.use(express.json());
         this.#app.use(express.urlencoded({extended: true}))
         this.#app.use(cookieParser())
+        this.#app.use(cors())
         SwaggerConfig(this.#app)
+        
     }
 
     createRoutes(){
@@ -43,6 +47,7 @@ module.exports = class Application {
 
     async createServer(){
         try {
+            await startApolloServer(this.#app)
             this.#app.listen(this.#PORT, () => {
                 console.log(`Server is running on port ${this.#PORT}`);
             });

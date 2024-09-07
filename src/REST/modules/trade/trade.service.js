@@ -162,11 +162,11 @@ class TradingService {
         order.status = 'executed'
         await order.save({transaction})
     }
-    async #executeStopOrder(order){
+    async #executeStopOrder(order, transaction){
         const wallet = await this.#findOrCreateWallet(order.userId, order.walletId, order.crypto, transaction)    
-        await this.#processSellOrder(wallet, order.amount, 'USD', order.crypto, sequelize.transaction())
+        await this.#processSellOrder(wallet, order.amount, 'USD', order.crypto, transaction)
         order.status = 'executed'
-        await order.save()
+        await order.save({transaction})
     }
 
     async#createLimitOrStopOrder(userId, walletId, crypto, amount, targetPrice,type, orderType, transaction){
@@ -187,20 +187,22 @@ class TradingService {
     }
 
     async getPortfolio(userId){
-        const wallet = await this.#wallet_model.findOne({where: {userId}})
-        if(!wallet){
+        const wallets = await this.#wallet_model.findOne({where: {userId}})
+        if(!wallets){
             throw new Error("No wallet found for the user.")
         }
         const portfolio = []
 
-        for (const [currency, balance] of Object.entries(wallet.balances)) {
-            const currentPrice = await this.#marketService.getCoinPrice(currency, 'USD')
-            const value = new BigNumber(balance).multipliedBy(currentPrice)
-            portfolio.push({currency, balance, value: value.toFixed(2)})
+        for (const wallet of wallets) {
+            for (const [currency, balance] of Object.entries(wallet.balances)) {
+                const currentPrice = await this.#marketService.getCoinPrice(currency, 'USD');
+                const value = new BigNumber(balance).multipliedBy(currentPrice);
+                portfolio.push({ currency, balance, value: value.toFixed(2) });
+            }
         }
         
         const totalValue = portfolio.reduce((acc, asset) => acc.plus(asset.value), new BigNumber(0))
-        
+
         portfolio.forEach(asset => {
             asset.percentageAllocation = new BigNumber(asset.value).dividedBy(totalValue).multipliedBy(100).toFixed(2)
         })
@@ -238,7 +240,7 @@ class TradingService {
             await wallet.save({ transaction });
         } catch (error) {
             logger.error(`Error saving wallet: ${error.message}`);
-            throw error;
+            throw new Error(`Failed to save wallet with ID ${wallet.id}: ${error.message}`);
         }
         logger.info(`Wallet saved. Final balance for ${standardizedCurrency}: ${wallet.balances[standardizedCurrency]}, Crypto: ${wallet.balances[cryptoKey]}`);
         return this.#finalizeOrder(wallet, 'buy', validAmount, standardizedCurrency, totalCost, cryptoKey, transaction);
@@ -256,7 +258,8 @@ class TradingService {
             await wallet.save({ transaction });
         } catch (error) {
             logger.error(`Error saving wallet: ${error.message}`);
-            throw error;
+            throw new Error(`Failed to save wallet with ID ${wallet.id}: ${error.message}`);
+
         }
         
         return this.#finalizeOrder(wallet, 'sell', validAmount, standardizedCurrency, totalValue, cryptoKey, transaction);
@@ -292,29 +295,41 @@ class TradingService {
         return wallet
     }
 
-    async #findOrCreateWallet(userId,walletId, currency, transaction){
+    async #findOrCreateWallet(userId, walletId, currency, transaction) {
         let wallet;
-        if (walletId){
+    
+        // If a walletId is provided, try to find the wallet with that ID
+        if (walletId) {
             wallet = await this.#wallet_model.findOne({
-                where: {id: walletId, userId},
+                where: { id: walletId, userId },
                 transaction
-            })
-            if(!walletId){
-                throw new Error(`Wallet with ID ${walletId} not found`)
+            });
+    
+            if (!wallet) {
+                throw new Error(`Wallet with ID ${walletId} not found for user ${userId}`);
             }
-        } 
-         if(!wallet){
+        } else {
+            // If no walletId is provided, find any wallet for the user
+            wallet = await this.#wallet_model.findOne({
+                where: { userId },
+                transaction
+            });
+        }
+    
+        // If no wallet is found, create a new one
+        if (!wallet) {
             wallet = await this.#wallet_model.create({
                 userId,
-                walletName: `${currency} wallet`,
-                balances: { [currency]: '0.00'},
-            }, {transaction})
+                walletName: `${currency.toUpperCase()} wallet`, // Name based on currency
+                balances: { [currency]: '0.00' }, // Initialize with zero balance for the currency
+            }, { transaction });
+    
+            logger.info(`Created new wallet for user ${userId} with currency ${currency.toUpperCase()}`);
         }
-        return wallet
+    
+        return wallet;
     }
-
-  
-
+    
     #checkSufficientBalance(wallet, currency, amount) {
         const balance = new BigNumber(wallet.balances[currency] || 0);
         if (balance.lt(amount)) {
