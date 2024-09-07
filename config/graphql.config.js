@@ -2,6 +2,7 @@ const { ApolloServer} = require("apollo-server-express")
 const { ApolloServerPluginDrainHttpServer} = require("apollo-server-core")
 const { graphQLSchema } = require("../src/graphql/index.graphql")
 const http = require("http")
+const { expressMiddleware } = require("@apollo/server/express4")
 
 async function startApolloServer(app) {
     const httpServer = http.createServer(app)
@@ -18,7 +19,7 @@ async function startApolloServer(app) {
         })
     )
     
-    const port = 4000; // Define your port here
+    const port = 3000; // Define your port here
     const url = `http://localhost:${port}/graphql`;
   
     httpServer.listen(port, () => {
