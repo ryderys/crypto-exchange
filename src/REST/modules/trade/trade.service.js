@@ -43,7 +43,7 @@ class TradingService {
     
     async processOrder(userId, walletId, crypto, amount, currency, type, orderType = 'market', targetPrice = null){
         return sequelize.transaction(async (t) => {
-            if (!crypto || !currency) throw new ValidationError("Invalid parameters: crypto and currency are required.");
+            if (!crypto || !currency) throw new Error("Invalid parameters: crypto and currency are required.");
     
             const standardizedCurrency = currency.toLowerCase();
             const cryptoKey = crypto.toLowerCase();
@@ -63,7 +63,7 @@ class TradingService {
             } else if (type === 'sell') {
                 return this.#processSellOrder(wallet, validAmount, standardizedCurrency, cryptoKey, t);
             } else {
-                throw new ValidationError("Invalid order type. Must be 'buy' or 'sell'.");
+                throw new Error("Invalid order type. Must be 'buy' or 'sell'.");
             }
         });
     }
@@ -121,8 +121,8 @@ class TradingService {
         })
 
         return {
-            totalProfit: totalProfit.toFixed(2),
-            totalVolume: totalVolume.toFixed(2)
+            totalProfit: totalProfit.toString(),
+            totalVolume: totalVolume.toString()
         }
     }
 
@@ -132,11 +132,11 @@ class TradingService {
 
         const wallet = await this.#findOrCreateWallet(userId, walletId, fromCurrency)
 
-        if(type === 'buy'){
+        if (type === 'buy'){
             this.#checkSufficientBalance(wallet, fromCurrency, amount)
             this.#updateBalance(wallet, fromCurrency, amount.negated())
             this.#updateBalance(wallet, toCurrency, convertedAmount)
-        } else if(type === 'sell'){
+        } else if (type === 'sell'){
             this.#checkSufficientBalance(wallet, toCurrency, convertedAmount)
             this.#updateBalance(wallet, toCurrency, convertedAmount.negated())
             this.#updateBalance(wallet, fromCurrency, convertedAmount)
@@ -150,20 +150,20 @@ class TradingService {
         if (tradeType === 'buy'){
             feePercentage = 0.01; // 1% fee for buys
         } else if (tradeType === 'sell'){
-            feePercentage = 0.015; // 1.5% fee for buys
+            feePercentage = 0.015; // 1.5% fee for sells
         }
         const fee = new BigNumber(tradeAmount).multipliedBy(feePercentage)
         return fee
     }
 
-    async #executeLimitOrder(order){
-        const wallet = await this.#findOrCreateWallet(order.userId, order.walletId, order.crypto)    
-        await this.#processBuyOrder(wallet, order.amount, 'USD', order.crypto, sequelize.transaction())
+    async #executeLimitOrder(order, transaction){
+        const wallet = await this.#findOrCreateWallet(order.userId, order.walletId, order.crypto, transaction)    
+        await this.#processBuyOrder(wallet, order.amount, 'USD', order.crypto, transaction)
         order.status = 'executed'
-        await order.save()
+        await order.save({transaction})
     }
     async #executeStopOrder(order){
-        const wallet = await this.#findOrCreateWallet(order.userId, order.walletId, order.crypto)    
+        const wallet = await this.#findOrCreateWallet(order.userId, order.walletId, order.crypto, transaction)    
         await this.#processSellOrder(wallet, order.amount, 'USD', order.crypto, sequelize.transaction())
         order.status = 'executed'
         await order.save()
@@ -177,7 +177,7 @@ class TradingService {
             walletId,
             crypto,
             amount: amount.toFixed(cryptoPrecision),
-            price: bigTargetPrice.toFixed(cryptoPrecision),
+            price: bigTargetPrice.toString(),
             type,
             orderType,
             status: 'open',
@@ -187,7 +187,10 @@ class TradingService {
     }
 
     async getPortfolio(userId){
-        const wallet = await this.getDefaultWallet(userId, 'USD')
+        const wallet = await this.#wallet_model.findOne({where: {userId}})
+        if(!wallet){
+            throw new Error("No wallet found for the user.")
+        }
         const portfolio = []
 
         for (const [currency, balance] of Object.entries(wallet.balances)) {
@@ -197,11 +200,12 @@ class TradingService {
         }
         
         const totalValue = portfolio.reduce((acc, asset) => acc.plus(asset.value), new BigNumber(0))
+        
         portfolio.forEach(asset => {
             asset.percentageAllocation = new BigNumber(asset.value).dividedBy(totalValue).multipliedBy(100).toFixed(2)
         })
         return {
-            totalValue: totalValue.toFixed(2),
+            totalValue: totalValue.toString(),
             assets: portfolio
         }
     }
@@ -248,7 +252,12 @@ class TradingService {
         
         this.#updateBalance(wallet, cryptoKey, validAmount.negated());
         this.#updateBalance(wallet, standardizedCurrency, totalValue);
-        await wallet.save({ transaction });
+        try {
+            await wallet.save({ transaction });
+        } catch (error) {
+            logger.error(`Error saving wallet: ${error.message}`);
+            throw error;
+        }
         
         return this.#finalizeOrder(wallet, 'sell', validAmount, standardizedCurrency, totalValue, cryptoKey, transaction);
     }
@@ -260,7 +269,7 @@ class TradingService {
             walletId: wallet.id,
             type,
             currency: standardizedCurrency,
-            amount: amount.toFixed(fiatPrecision),
+            amount: amount.toString(),
             crypto: cryptoKey,
             cryptoAmount: amount.toFixed(cryptoPrecision),
             status: 'completed'
@@ -290,14 +299,11 @@ class TradingService {
                 where: {id: walletId, userId},
                 transaction
             })
-        } else {
-            wallet = await this.#wallet_model.findOne({
-                where: {userId},
-                transaction
-            })
-        }
-
-        if(!wallet){
+            if(!walletId){
+                throw new Error(`Wallet with ID ${walletId} not found`)
+            }
+        } 
+         if(!wallet){
             wallet = await this.#wallet_model.create({
                 userId,
                 walletName: `${currency} wallet`,
@@ -312,7 +318,7 @@ class TradingService {
     #checkSufficientBalance(wallet, currency, amount) {
         const balance = new BigNumber(wallet.balances[currency] || 0);
         if (balance.lt(amount)) {
-            throw new Error(`Insufficient balance. You have ${balance.toFixed(2)} ${currency} but tried to process ${amount.toFixed(2)} ${currency}.`);
+            throw new Error(`Insufficient balance. You have ${balance.toString()} ${currency} but tried to process ${amount.toString()} ${currency}.`);
         }
     }
 
@@ -321,7 +327,7 @@ class TradingService {
         const newBalance = currentBalance.plus(amount);
         const precision = fiatCurrencies.includes(currency.toLowerCase()) ? fiatPrecision : cryptoPrecision;
 
-        wallet.balances[currency] = newBalance.toFixed(precision);
+        wallet.balances[currency] = newBalance.toString();
         wallet.changed('balances', true);
         logger.info(`Updated balance for ${currency}: ${newBalance}`);
     }

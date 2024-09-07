@@ -25,3 +25,4 @@
 2024-09-05T12:10:52.607Z [error]: Error fetching trade analytics: WHERE parameter "userId" has invalid "undefined" value
 2024-09-05T12:10:59.481Z [error]: Error fetching portfolio: WHERE parameter "userId" has invalid "undefined" value
 2024-09-05T12:12:44.339Z [error]: Error fetching portfolio: No wallet found with sufficient balance for this currency
+2024-09-07T06:35:51.275Z [error]: Error fetching portfolio: No wallet found with sufficient balance for this currency
