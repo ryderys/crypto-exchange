@@ -10,7 +10,7 @@ const app = new Application(PORT, sequelize)
 async function startApp () {
     try {
         await app.connectToDatabase()
-        app.createServer()
+        await app.createServer()
     } catch (error) {
         console.error("Failed to initialize models or start the server:", error);
         process.exit(1);

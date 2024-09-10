@@ -6,7 +6,7 @@ const { syncModels } = require("./REST/models");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { expressMiddleware } = require("@apollo/server/express4");
-const startApolloServer = require("../config/graphql.config");
+const createApolloMiddleware = require("../config/graphql.config")
 module.exports = class Application {
     #app = express();
     #PORT = process.env.PORT;
@@ -14,16 +14,15 @@ module.exports = class Application {
 
     constructor(){
         this.configApplication()
-        this.createRoutes()
-        this.errorHandling()
+        // this.errorHandling()
     }
-
-
+    
+    
     async connectToDatabase(){
         try {
             await this.#sequelize.authenticate()
             console.log('Connection to the database successful!');
-
+            
             await syncModels()
             
         } catch (error) {
@@ -31,34 +30,45 @@ module.exports = class Application {
             process.exit(1)
         }
     }
-
-    configApplication(){
+    
+    async configApplication(){
         this.#app.use(express.json());
         this.#app.use(express.urlencoded({extended: true}))
-        this.#app.use(cookieParser())
-        this.#app.use(cors())
+        this.#app.use(cors({allowedHeaders: true,
+            credentials: true
+        }))
         SwaggerConfig(this.#app)
         
     }
+    
+    async createRoutes(){
+        try {
+            this.#app.use(cookieParser())
+            const apolloMiddleware  = await createApolloMiddleware()
+            this.#app.use('/graphql', apolloMiddleware)
 
-    createRoutes(){
-        this.#app.use(AllRoutes)
+            this.#app.use(AllRoutes)
+        } catch (error) {
+            console.error("Error creating routes:", error);
+            process.exit(1);
+        }
     }
-
+    
     async createServer(){
         try {
-            await startApolloServer(this.#app)
+            this.createRoutes()
+
             this.#app.listen(this.#PORT, () => {
-                console.log(`Server is running on port ${this.#PORT}`);
+                console.log(`🚀 Server is running on http://localhost:${this.#PORT}`);
             });
         } catch (error) {
             console.error("Failed to start the server", error);
         }
     }
-
     
     
-
+    
+    
     errorHandling(){
         this.#app.use((req, res, next) => {
             res.status(404).json({

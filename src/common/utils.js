@@ -1,5 +1,11 @@
 const { format, createLogger, transports } = require("winston")
 const { combine, timestamp, printf, colorize } = format;
+const jwt = require("jsonwebtoken");
+const UserSchema = require("../REST/modules/user/user.model");
+
+
+const secretKey = process.env.JWT_SECRET
+
 
 const myFormat = printf(({ level, message, timestamp }) => {
     return `${timestamp} [${level}]: ${message}`;
@@ -26,7 +32,33 @@ const logger = createLogger({
     ]
 })
 
-module.exports = {logger};
+async function VerifyAccessTokenInGraphQL(req) {
+    try {
+        if(!req) throw new Error('Request object is undefined')
+        const token = req.cookies?.token
+        if(!token) throw new Error("token is required")
+        
+        const decoded = jwt.verify(token, secretKey)
+        
+        const {username} = decoded
+
+        if(!username) throw new Error("Invalid token: no username found")
+
+        const user = await UserSchema.findOne({where: {username}})
+        
+        if(!user) throw new Error("account not found")
+        
+        return user
+    } catch (error) {
+        throw new Error("unAuthorized" + error.message)
+    }
+}
+
+module.exports = {
+    logger,
+    VerifyAccessTokenInGraphQL
+};
+
 
 
 
