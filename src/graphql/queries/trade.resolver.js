@@ -1,9 +1,11 @@
-const { GraphQLString } = require("graphql")
-const { PortFolioType } = require("../typeDefs/trade.types")
+const { GraphQLString, GraphQLList } = require("graphql")
+const { PortFolioType, OrderBookType, TradeType, tradeAnalyticsType, tradeHistoryType } = require("../typeDefs/trade.types")
 const { VerifyAccessTokenInGraphQL, logger } = require("../../common/utils")
 const WalletSchema = require("../../REST/modules/wallet/wallet.model")
 const { default: BigNumber } = require("bignumber.js")
 const { default: axios } = require("axios")
+const LimitOrder = require("../../REST/modules/order/limitOrder.model")
+const TransactionSchema = require("../../REST/modules/transactions/transactions.model")
 
 
 const marketService = {
@@ -87,8 +89,104 @@ const getPortfolio = {
 }
 
 
+const getOrderBook = {
+    type: OrderBookType,
+    args: {
+        crypto: {type: GraphQLString}
+    },
+    resolve: async (parent, {crypto}, {req}) => {
+        try {
+            const buyOrders = await LimitOrder.findAll({
+                where: {crypto, type: 'buy', status: 'open'},
+                order: [['price', 'DESC']]
+            })
+            logger.info(`Buy orders: ${JSON.stringify(buyOrders)}`);
+            const sellOrders = await LimitOrder.findAll({
+                where: {crypto, type: 'sell', status: 'open'},
+                order: [['price', 'DESC']]
+            })
+            logger.info(`Sell orders: ${JSON.stringify(sellOrders)}`);
+
+            return {
+                buyOrders,
+                sellOrders
+            }
+        } catch (error) {
+            throw new Error(`Error fetching order book: ${error.message}`);
+        }
+    }
+}
+
+const getTradeHistory = {
+    type: new GraphQLList(tradeHistoryType),
+    // args: {
+    //     userId: {type: GraphQLString}
+    // },
+    resolve: async (parent, args, {req}) => {
+        try {
+            const {id} = await VerifyAccessTokenInGraphQL(req)
+            
+            const trades = await TransactionSchema.findAll({
+                where: { userId: id},
+                order: [['createdAt', 'DESC']]
+            })
+            
+            return trades.map(trade => ({
+                tradeId: trade.id,                  // Trade ID
+                userId: trade.userId,               // User ID
+                walletId: trade.walletId,           // Wallet involved in the trade
+                type: trade.type,                   // Buy or Sell
+                currency: trade.currency,           // Fiat currency (e.g., USD)
+                crypto: trade.crypto,               // Crypto involved (e.g., BTC)
+                amount: trade.amount,               // Fiat amount involved
+                cryptoAmount: trade.cryptoAmount,   // Crypto amount traded
+                total: trade.total,                 // Total transaction amount (including fees)
+                fee: trade.fee,                     // Fee applied to the trade
+                status: trade.status,               // Status of the trade (pending, completed, etc.)
+                createdAt: trade.createdAt.toISOString() // Timestamp of the trade
+            }))
+        } catch (error) {
+            throw new Error(`Error fetching trade history for user ${id}: ${error.message}`);
+        }
+    }
+} 
+
+const getTradeAnalytics = {
+    type: tradeAnalyticsType,
+    resolve: async (parent, args, {req}) => {
+        try {
+            const {id} = await VerifyAccessTokenInGraphQL(req)
+            const trades = await TransactionSchema.findAll({
+                where: {userId: id},
+                order: [['createdAt', 'DESC']]
+            })
+            let totalProfit = new BigNumber(0)
+            let totalVolume = new BigNumber(0)
+
+            trades.forEach(trade => {
+                const tradeValue = new BigNumber(trade.amount)
+                if( trade.type === 'sell'){
+                    totalProfit = totalProfit.plus(tradeValue)
+                }
+                totalVolume = totalVolume.plus(tradeValue)
+            })
+
+            return {
+                totalProfit: totalProfit.toString(),
+                totalVolume: totalVolume.toString()
+            }
+        } catch (error) {
+            throw new Error(`Error calculating trade analytics for user ${userId}: ${error.message}`);
+        }
+    }
+}
+
+
 
 
 module.exports = {
-    getPortfolio
+    getPortfolio,
+    getOrderBook,
+    getTradeHistory,
+    getTradeAnalytics
 }

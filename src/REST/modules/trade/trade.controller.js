@@ -44,6 +44,7 @@ class TradeController{
             next(error)
         }
     }
+
     async getTradeHistory(req, res, next){
         try {
             const userId = req.user.id; //crypto symbol from query params
@@ -54,6 +55,7 @@ class TradeController{
             next(error)
         }
     }
+    
     async getTradeAnalytics(req, res, next){
         try {
             const userId = req.user.id; //crypto symbol from query params

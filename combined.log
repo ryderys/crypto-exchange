@@ -154,3 +154,10 @@
 2024-09-11T08:13:25.896Z [info]: Fetched price for 01coin in 01coin: 0.00022649
 2024-09-11T08:19:39.895Z [info]: Fetched price for usd in usd: 0.998439
 2024-09-11T08:19:40.218Z [info]: Fetched price for 01coin in 01coin: 0.00022617
+2024-09-11T08:53:07.241Z [info]: Buy orders: []
+2024-09-11T08:53:07.244Z [info]: Sell orders: []
+2024-09-11T08:54:11.168Z [error]: Error fetching portfolio: wallets is not iterable
+2024-09-11T08:54:37.238Z [info]: Fetched price for usd in usd: 0.999377
+2024-09-11T08:54:37.581Z [info]: Fetched price for 01coin in 01coin: 0.00022558
+2024-09-11T08:54:46.709Z [info]: Buy orders: [{"id":1,"userId":"60ee8d8f-e248-4356-bf6a-4b4be1b9901a","walletId":"b11f2d32-54b0-479b-8ad1-7681493444f2","crypto":"01coin","price":"22.00000000","amount":"30.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-05T12:09:45.000Z","updatedAt":"2024-09-05T12:09:45.000Z"}]
+2024-09-11T08:54:46.711Z [info]: Sell orders: []
