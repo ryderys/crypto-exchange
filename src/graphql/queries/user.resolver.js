@@ -1,5 +1,5 @@
 const { GraphQLList, GraphQLString, GraphQLID } = require("graphql");
-const {UserType, PortFolioType} = require("../typeDefs/user.types");
+const {UserType} = require("../typeDefs/user.types");
 const UserModel = require("../../REST/modules/user/user.model");
 const { VerifyAccessTokenInGraphQL } = require("../../common/utils");
 
@@ -34,17 +34,7 @@ const getUser = {
     }
 }
 
-const getPortfolio = {
-    type: PortFolioType,
-    args: {userId: {type: GraphQLString}},
-    resolve: async (parent, args) => {
-        try {
-            
-        } catch (error) {
-            throw new Error(`Error fetching portfolio: ${error.message}`)
-        }
-    }
-}
+
 
 module.exports = {
     getUser

@@ -1,9 +1,11 @@
 const {GraphQLObjectType, GraphQLSchema} = require("graphql")
 const { getUser } = require("./queries/user.resolver")
+const { getPortfolio } = require("./queries/trade.resolver")
 const RootQuery = new GraphQLObjectType({
     name: 'RootQuery',
     fields: {
-        user : getUser
+        user : getUser,
+        portfolio: getPortfolio
     }
 })
 

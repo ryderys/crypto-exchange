@@ -141,3 +141,16 @@
 2024-09-07T06:35:51.275Z [error]: Error fetching portfolio: No wallet found with sufficient balance for this currency
 2024-09-07T06:40:31.628Z [info]: Fetched price for usd in USD: 0.999435
 2024-09-07T06:40:31.934Z [info]: Fetched price for 01coin in USD: 0.00020111
+2024-09-11T07:11:50.409Z [error]: Error fetching coin price for [object Crypto] in usd: axios is not defined
+2024-09-11T07:24:22.102Z [info]: Fetched price for [object Crypto] in usd: 0.998688
+2024-09-11T07:24:22.426Z [info]: Fetched price for [object Crypto] in 01coin: 0.00022633
+2024-09-11T07:24:43.865Z [info]: Fetched price for [object Crypto] in usd: 0.998688
+2024-09-11T07:24:43.962Z [info]: Fetched price for [object Crypto] in 01coin: 0.00022633
+2024-09-11T07:25:01.494Z [info]: Fetched price for [object Crypto] in usd: 0.998688
+2024-09-11T07:25:01.588Z [info]: Fetched price for [object Crypto] in 01coin: 0.00022633
+2024-09-11T08:04:17.774Z [info]: Fetched price for usd in usd: 0.999717
+2024-09-11T08:04:18.119Z [info]: Fetched price for 01coin in 01coin: 0.00022673
+2024-09-11T08:13:25.562Z [info]: Fetched price for usd in usd: 1
+2024-09-11T08:13:25.896Z [info]: Fetched price for 01coin in 01coin: 0.00022649
+2024-09-11T08:19:39.895Z [info]: Fetched price for usd in usd: 0.998439
+2024-09-11T08:19:40.218Z [info]: Fetched price for 01coin in 01coin: 0.00022617

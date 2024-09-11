@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLString } = require("graphql");
+const { GraphQLObjectType, GraphQLString, GraphQLList } = require("graphql");
 
 const TradeType = new GraphQLObjectType({
     name: 'tradeType',
@@ -30,7 +30,26 @@ const OrderType = new GraphQLObjectType({
     }
 })
 
+const AssetType = new GraphQLObjectType({
+    name: 'assetType',
+    fields: {
+        currency: {type: GraphQLString},
+        balance: {type: GraphQLString},
+        value: {type: GraphQLString},
+        percentageAllocation: {type: GraphQLString},
+    }
+})
+const PortFolioType = new GraphQLObjectType({
+    name: 'portfolioType',
+    fields: {
+        totalValue: {type: GraphQLString},
+        assets: {type: new GraphQLList(AssetType)}
+    }
+})
+
 module.exports = {
     TradeType,
-    OrderType
+    OrderType,
+    PortFolioType,
+    AssetType
 }
