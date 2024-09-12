@@ -127,7 +127,8 @@ class TradingService {
     }
 
     async processMultiCurrencyOrder(userId, walletId, fromCurrency, toCurrency, amount, type){
-        const exchangeRate = await this.#marketService.getExchangeRate(fromCurrency, toCurrency)
+        try {
+            const exchangeRate = await this.#marketService.getExchangeRate(fromCurrency, toCurrency)
         const convertedAmount = new BigNumber(amount).multipliedBy(exchangeRate)
 
         const wallet = await this.#findOrCreateWallet(userId, walletId, fromCurrency)
@@ -142,6 +143,9 @@ class TradingService {
             this.#updateBalance(wallet, fromCurrency, convertedAmount)
         }
         await wallet.save()
+        } catch (error) {
+            next(error)
+        }
     }
 
     async calculateFees(userId, tradeAmount, tradeType){
@@ -187,7 +191,8 @@ class TradingService {
     }
 
     async getPortfolio(userId){
-        const wallets = await this.#wallet_model.findOne({where: {userId}})
+        try {
+            const wallets = await this.#wallet_model.findOne({where: {userId}})
         if(!wallets){
             throw new Error("No wallet found for the user.")
         }
@@ -210,11 +215,15 @@ class TradingService {
             totalValue: totalValue.toString(),
             assets: portfolio
         }
+        } catch (error) {
+            next(error)   
+        }
     }
 
 
     async #processBuyOrder(wallet, validAmount, standardizedCurrency, cryptoKey, transaction) {
-        const rate = await this.#marketService.getCoinPrice(cryptoKey, standardizedCurrency.toLowerCase());
+        try {
+            const rate = await this.#marketService.getCoinPrice(cryptoKey, standardizedCurrency.toLowerCase());
         const totalCost = validAmount.multipliedBy(new BigNumber(rate));
 
         logger.info(`Total cost for ${validAmount} ${cryptoKey} at rate ${rate} is: ${totalCost}`);
@@ -236,42 +245,43 @@ class TradingService {
 
         logger.info(`After updating, wallet balances: USD = ${wallet.balances[standardizedCurrency]}, Crypto = ${wallet.balances[cryptoKey]}`);
     
-        try {
             await wallet.save({ transaction });
+            logger.info(`Wallet saved. Final balance for ${standardizedCurrency}: ${wallet.balances[standardizedCurrency]}, Crypto: ${wallet.balances[cryptoKey]}`);
+            return this.#finalizeOrder(wallet, 'buy', validAmount, standardizedCurrency, totalCost, cryptoKey, transaction);
         } catch (error) {
             logger.error(`Error saving wallet: ${error.message}`);
             throw new Error(`Failed to save wallet with ID ${wallet.id}: ${error.message}`);
         }
-        logger.info(`Wallet saved. Final balance for ${standardizedCurrency}: ${wallet.balances[standardizedCurrency]}, Crypto: ${wallet.balances[cryptoKey]}`);
-        return this.#finalizeOrder(wallet, 'buy', validAmount, standardizedCurrency, totalCost, cryptoKey, transaction);
     }
     
     async #processSellOrder(wallet, validAmount, standardizedCurrency, cryptoKey, transaction) {
-        const rate = await this.#marketService.getCoinPrice(cryptoKey, standardizedCurrency.toLowerCase());
-        const totalValue = validAmount.multipliedBy(new BigNumber(rate));
-        
-        this.#checkSufficientBalance(wallet, cryptoKey, validAmount);
-        
-        this.#updateBalance(wallet, cryptoKey, validAmount.negated());
-        this.#updateBalance(wallet, standardizedCurrency, totalValue);
         try {
+            const rate = await this.#marketService.getCoinPrice(cryptoKey, standardizedCurrency.toLowerCase());
+            const totalValue = validAmount.multipliedBy(new BigNumber(rate));
+            
+            this.#checkSufficientBalance(wallet, cryptoKey, validAmount);
+            
+            this.#updateBalance(wallet, cryptoKey, validAmount.negated());
+            this.#updateBalance(wallet, standardizedCurrency, totalValue);
             await wallet.save({ transaction });
+            return this.#finalizeOrder(wallet, 'sell', validAmount, standardizedCurrency, totalValue, cryptoKey, transaction);
         } catch (error) {
             logger.error(`Error saving wallet: ${error.message}`);
             throw new Error(`Failed to save wallet with ID ${wallet.id}: ${error.message}`);
 
         }
         
-        return this.#finalizeOrder(wallet, 'sell', validAmount, standardizedCurrency, totalValue, cryptoKey, transaction);
     }
-
-    async #finalizeOrder(wallet, type, validAmount, standardizedCurrency, totalValue, cryptoKey, transaction) {
+    
+    async #finalizeOrder(wallet, type, validAmount, standardizedCurrency, totalValue, cryptoKey,price, fee, transaction) {
         const amount = new BigNumber(validAmount)
         await this.#transaction_model.create({
             userId: wallet.userId,
             walletId: wallet.id,
             type,
             currency: standardizedCurrency,
+            price,
+            fee,
             amount: amount.toString(),
             crypto: cryptoKey,
             cryptoAmount: amount.toFixed(cryptoPrecision),

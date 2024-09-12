@@ -28,3 +28,5 @@
 2024-09-07T06:35:51.275Z [error]: Error fetching portfolio: No wallet found with sufficient balance for this currency
 2024-09-11T07:11:50.409Z [error]: Error fetching coin price for [object Crypto] in usd: axios is not defined
 2024-09-11T08:54:11.168Z [error]: Error fetching portfolio: wallets is not iterable
+2024-09-12T11:08:59.632Z [error]: Error fetching coin price for btc in usd: No rate found for btc in usd
+2024-09-12T11:08:59.634Z [error]: Error processing order: Error fetching coin price

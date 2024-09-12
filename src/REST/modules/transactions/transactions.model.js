@@ -41,6 +41,22 @@ const TransactionSchema = sequelize.define('Transaction', {
             key: 'id'
         }
     },
+    currency: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    cryptoAmount: {
+        type: DataTypes.DECIMAL(18, 8), // High precision for cryptocurrency
+        allowNull: true // Only applicable for crypto transactions
+    },
+    price: {
+        type: DataTypes.DECIMAL(18, 8), // High precision for cryptocurrency
+        allowNull: true // Only applicable for crypto transactions
+    },
+    fee: {
+        type: DataTypes.DECIMAL(18, 8),
+        allowNull: true // Only applicable if a fee is charged
+    },
     status: {
         type: DataTypes.ENUM('pending', 'completed', 'failed'),
         defaultValue: 'pending' 

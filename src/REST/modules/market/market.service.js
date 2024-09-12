@@ -7,10 +7,14 @@ class MarketService {
         autoBind(this)
     }
 
-    async getCoinList(){
+    async getCoinList(page = 1, per_page = 20){
         const url = 'https://api.coingecko.com/api/v3/coins/list'
         try {
             const response = await axios.get(url, {
+                params: {
+                    page: page,
+                    per_page: per_page
+                },
                 headers: {
                     accept: 'application/json',
                     'x-cg-demo-api-key': ' CG-A8496fii4gtpiNk6DEebo3ok '
@@ -24,13 +28,15 @@ class MarketService {
         }
     }
 
-    async getCoinMarketData(coinId, vsCurrency = 'usd'){
+    async getCoinMarketData(coinId, vsCurrency = 'usd', page = 1, per_page = 20){
         const url = 'https://api.coingecko.com/api/v3/coins/markets'
         try {
             const response = await axios.get(url, {
                 params: {
                     vs_currency: vsCurrency,
-                    ids: coinId
+                    ids: coinId,
+                    page: page,
+                    per_page: per_page
                 },
                 headers: {
                     accept: 'application/json',
@@ -78,10 +84,14 @@ class MarketService {
         }
     }
 
-    async getTrendingCoins(){
+    async getTrendingCoins(page = 1, per_page = 20){
         const url = `https://api.coingecko.com/api/v3/search/trending`
         try {
             const response = await axios.get(url, {
+                params: {
+                    page,
+                    per_page
+                },
                 headers: {
                     accept: 'application/json',
                     'x-cg-demo-api-key': ' CG-A8496fii4gtpiNk6DEebo3ok '

@@ -12,6 +12,19 @@
  *      summary: Get a list of all available coins
  *      tags:
  *          -   Market
+ *      parameters:
+ *          -   in: query
+ *              name: page
+ *              schema:
+ *                  type: integer
+ *                  default: 1
+ *              description: the page number to fetch
+ *          -   in: query
+ *              name: per_page
+ *              schema:
+ *                  type: integer
+ *                  default: 20
+ *              description: number of results per page 
  *      responses:
  *          200:
  *              description: A list of all coins
@@ -50,6 +63,18 @@
  *                  type: string
  *                  default: usd
  *              description: Currency to compare (e.g., usd, eur)
+ *          -   in: query
+ *              name: page
+ *              schema:
+ *                  type: integer
+ *                  default: 1
+ *              description: the page number to fetch
+ *          -   in: query
+ *              name: per_page
+ *              schema:
+ *                  type: integer
+ *                  default: 20
+ *              description: number of results per page 
  *      responses:
  *          200:
  *              description: Market data for the coin
@@ -144,6 +169,19 @@
  *      summary:  Get a list of trending coins
  *      tags:
  *          -   Market
+ *      parameters:
+ *          -   in: query
+ *              name: page
+ *              schema:
+ *                  type: integer
+ *                  default: 1
+ *              description: the page number to fetch
+ *          -   in: query
+ *              name: per_page
+ *              schema:
+ *                  type: integer
+ *                  default: 20
+ *              description: number of results per page 
  *      responses:
  *          200:
  *              description: A list of trending coins

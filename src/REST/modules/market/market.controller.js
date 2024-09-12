@@ -9,7 +9,8 @@ class MarketController{
     }
     async getCoinList(req, res, next){
         try {
-            const coinList = await this.#service.getCoinList()
+            const {page = 1, per_page = 20} = req.query
+            const coinList = await this.#service.getCoinList(page, per_page)
             return res.status(200).json({coinList})
         } catch (error) {
             next(error)
@@ -17,11 +18,11 @@ class MarketController{
     }
     async getCoinMarketData(req, res, next){
         try {
-            const {coinId, vsCurrency = 'usd'} = req.query;
+            const {coinId, vsCurrency = 'usd', page = 1, per_page = 20} = req.query;
             if(!coinId){
                 throw new Error("coinId is required")
             }
-            const marketData = await this.#service.getCoinMarketData(coinId, vsCurrency)
+            const marketData = await this.#service.getCoinMarketData(coinId, vsCurrency, Number(page), Number(per_page))
             return res.status(200).json({marketData})
         } catch (error) {
             next(error)
@@ -30,7 +31,7 @@ class MarketController{
 
     async getCoinHistoricalData(req, res, next){
         try {
-            const {coinId, date} = req.query;
+            const {coinId, date,} = req.query;
             if(!coinId || !date){
                 throw new Error("coinId and date are required")
             }
@@ -55,7 +56,8 @@ class MarketController{
 
     async getTrendingCoins(req, res, next){
         try {
-            const trendingCoins = await this.#service.getTrendingCoins()
+            const {page = 1, per_page = 20} = req.query
+            const trendingCoins = await this.#service.getTrendingCoins(Number(page), Number(per_page))
             return res.status(200).json({trendingCoins})
         } catch (error) {
             next(error)

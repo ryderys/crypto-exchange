@@ -161,3 +161,11 @@
 2024-09-11T08:54:37.581Z [info]: Fetched price for 01coin in 01coin: 0.00022558
 2024-09-11T08:54:46.709Z [info]: Buy orders: [{"id":1,"userId":"60ee8d8f-e248-4356-bf6a-4b4be1b9901a","walletId":"b11f2d32-54b0-479b-8ad1-7681493444f2","crypto":"01coin","price":"22.00000000","amount":"30.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-05T12:09:45.000Z","updatedAt":"2024-09-05T12:09:45.000Z"}]
 2024-09-11T08:54:46.711Z [info]: Sell orders: []
+2024-09-12T11:07:03.972Z [info]: User ashiys successfully logged in
+2024-09-12T11:07:33.040Z [info]: Created wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-12T11:07:57.428Z [info]: Updated balance for usd: 300.00
+2024-09-12T11:07:57.434Z [info]: Deposited 300.00000000 usd to wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-12T11:08:59.125Z [info]: Validated amount: 10
+2024-09-12T11:08:59.632Z [info]: Fetched price for btc in usd: undefined
+2024-09-12T11:08:59.632Z [error]: Error fetching coin price for btc in usd: No rate found for btc in usd
+2024-09-12T11:08:59.634Z [error]: Error processing order: Error fetching coin price
