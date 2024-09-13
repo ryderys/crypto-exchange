@@ -6,7 +6,8 @@ const { syncModels } = require("./REST/models");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { expressMiddleware } = require("@apollo/server/express4");
-const createApolloMiddleware = require("../config/graphql.config")
+const createApolloMiddleware = require("../config/graphql.config");
+const { ExternalAPIError, InsufficientBalanceError, ValidationError } = require("./REST/modules/error.handling");
 module.exports = class Application {
     #app = express();
     #PORT = process.env.PORT;
@@ -77,10 +78,17 @@ module.exports = class Application {
         })
 
         this.#app.use((err, req, res, next) => {
-            const status = err?.status ?? err?.statusCode ?? err?.code ?? 500;
-            res.status(status).json({
-            message: err?.message ?? "InternalServerError"
-        });
+            logger.error(`Error: ${err.message}`);
+
+            if (err instanceof ValidationError) {
+                return res.status(400).json({ error: err.message });
+            } else if (err instanceof InsufficientBalanceError) {
+                return res.status(403).json({ error: err.message });
+            } else if (err instanceof ExternalAPIError) {
+                return res.status(502).json({ error: `External service error: ${err.message}` });
+            } else {
+                return res.status(500).json({ error: 'An unexpected error occurred' });
+            }
     });
         
     }

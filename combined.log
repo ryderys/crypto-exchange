@@ -169,3 +169,158 @@
 2024-09-12T11:08:59.632Z [info]: Fetched price for btc in usd: undefined
 2024-09-12T11:08:59.632Z [error]: Error fetching coin price for btc in usd: No rate found for btc in usd
 2024-09-12T11:08:59.634Z [error]: Error processing order: Error fetching coin price
+2024-09-12T15:47:11.594Z [error]: Error fetching portfolio: next is not defined
+2024-09-12T15:50:41.710Z [info]: Validated amount: 200
+2024-09-12T15:50:42.958Z [info]: Fetched price for 0chain in usd: 0.054263
+2024-09-12T15:50:42.959Z [info]: Total cost for 200 0chain at rate 0.054263 is: 10.8526
+2024-09-12T15:50:42.959Z [error]: Error saving wallet: Missing balance for currency: usd or crypto: 0chain.
+2024-09-12T15:50:42.961Z [error]: Error processing order: Failed to save wallet with ID f5a08180-4a76-4f23-9b6f-5d1845ae6f59: Missing balance for currency: usd or crypto: 0chain.
+2024-09-12T15:52:00.172Z [info]: Validated amount: 10
+2024-09-12T15:52:22.513Z [error]: Error fetching coin price for 01coin in usd: 
+2024-09-12T15:52:22.513Z [error]: Error saving wallet: Error fetching coin price
+2024-09-12T15:52:22.515Z [error]: Error processing order: Failed to save wallet with ID f5a08180-4a76-4f23-9b6f-5d1845ae6f59: Error fetching coin price
+2024-09-12T15:52:44.240Z [info]: Validated amount: 3
+2024-09-12T15:52:44.749Z [info]: Fetched price for 01coin in usd: 0.00023235
+2024-09-12T15:52:44.749Z [info]: Total cost for 3 01coin at rate 0.00023235 is: 0.00069705
+2024-09-12T15:52:44.750Z [error]: Error saving wallet: Missing balance for currency: usd or crypto: 01coin.
+2024-09-12T15:52:44.751Z [error]: Error processing order: Failed to save wallet with ID f5a08180-4a76-4f23-9b6f-5d1845ae6f59: Missing balance for currency: usd or crypto: 01coin.
+2024-09-12T16:20:30.070Z [info]: Validated amount: 20
+2024-09-12T16:20:31.690Z [info]: Fetched price for string in 01coin: undefined
+2024-09-12T16:20:31.690Z [error]: Error fetching coin price for string in 01coin: cryptoKey is not defined
+2024-09-12T16:20:31.692Z [error]: Error processing order: ExternalAPIError is not defined
+2024-09-12T17:46:52.566Z [info]: Fetched price for 01coin in usd: 0.00023235
+2024-09-12T17:46:52.573Z [error]: Error processing order: ExternalAPIError is not defined
+2024-09-12T17:48:03.940Z [info]: Fetched price for 01coin in usd: 0.00023235
+2024-09-12T17:48:03.943Z [error]: Unexpected error during buy order processing: Missing balance for currency: usd or crypto: 01coin.
+2024-09-12T17:48:03.945Z [error]: Error processing order: Failed to process buy order for wallet f5a08180-4a76-4f23-9b6f-5d1845ae6f59: Missing balance for currency: usd or crypto: 01coin.
+2024-09-12T18:26:20.298Z [info]: Fetched price for 01coin in usd: 0.00023235
+2024-09-12T18:26:20.300Z [info]: Current USD balance: 300.00
+2024-09-12T18:26:20.301Z [info]: Updated balance for usd: 299.9972118
+2024-09-12T18:26:20.301Z [info]: Updated balance for 01coin: 12
+2024-09-12T18:26:20.329Z [error]: Error processing order: Incorrect decimal value: '[object Object]' for column 'price' at row 1
+2024-09-12T18:31:00.323Z [info]: Fetched price for 01coin in usd: 0.00023235
+2024-09-12T18:31:00.326Z [info]: Current USD balance: 300.00
+2024-09-12T18:31:00.327Z [info]: Updated balance for usd: 299.9972118
+2024-09-12T18:31:00.328Z [info]: Updated balance for 01coin: 12
+2024-09-12T18:31:00.359Z [error]: Error processing order: Incorrect decimal value: '[object Object]' for column 'fee' at row 1
+2024-09-12T18:31:10.438Z [info]: Fetched price for 01coin in usd: 0.00023235
+2024-09-12T18:31:10.438Z [info]: Current USD balance: 300.00
+2024-09-12T18:31:10.439Z [info]: Updated balance for usd: 299.9972118
+2024-09-12T18:31:10.439Z [info]: Updated balance for 01coin: 12
+2024-09-12T18:31:10.447Z [error]: Error processing order: Incorrect decimal value: '[object Object]' for column 'fee' at row 1
+2024-09-12T18:33:02.590Z [info]: Fetched price for 01coin in usd: 0.00023235
+2024-09-12T18:33:02.594Z [info]: Current USD balance: 300.00
+2024-09-12T18:33:02.595Z [info]: Updated balance for usd: 299.9972118
+2024-09-12T18:33:02.596Z [info]: Updated balance for 01coin: 12
+2024-09-12T18:33:02.614Z [error]: Error processing order: Invalid fee value.
+2024-09-12T18:37:18.737Z [info]: Fetched price for 01coin in usd: 0.00023235
+2024-09-12T18:37:18.739Z [info]: Current USD balance: 300.00
+2024-09-12T18:37:18.740Z [info]: Updated balance for usd: 299.9972118
+2024-09-12T18:37:18.741Z [info]: Updated balance for 01coin: 12
+2024-09-13T09:42:42.880Z [info]: Fetched price for 0dog in usd: 0.01079132
+2024-09-13T09:42:42.883Z [error]: Unexpected error during buy order processing: totalCost.isNaN is not a function
+2024-09-13T09:42:42.886Z [error]: Error processing order: Failed to process buy order for wallet f5a08180-4a76-4f23-9b6f-5d1845ae6f59: totalCost.isNaN is not a function
+2024-09-13T09:43:51.320Z [info]: Fetched price for 0dog in usd: 0.01079132
+2024-09-13T09:43:51.323Z [info]: Current USD balance: 299.9972118
+2024-09-13T09:43:51.324Z [error]: Unexpected error during buy order processing: totalCost.negated is not a function
+2024-09-13T09:43:51.326Z [error]: Error processing order: Failed to process buy order for wallet f5a08180-4a76-4f23-9b6f-5d1845ae6f59: totalCost.negated is not a function
+2024-09-13T09:47:07.138Z [info]: Fetched price for 0dog in usd: 0.01079132
+2024-09-13T09:47:07.141Z [info]: Current USD balance: 299.9972118
+2024-09-13T09:47:07.142Z [info]: Updated balance for usd: 299.7772118
+2024-09-13T09:47:07.143Z [info]: Updated balance for 0dog: 20
+2024-09-13T10:05:32.786Z [info]: Fetched price for 0dog in usd: 0.01054393
+2024-09-13T10:05:32.789Z [info]: Current USD balance: 299.77721180
+2024-09-13T10:05:32.789Z [info]: Updated balance for usd: 299.5672118
+2024-09-13T10:05:32.790Z [info]: Updated balance for 0dog: 40
+2024-09-13T10:05:32.802Z [error]: Error processing order: Cannot read properties of undefined (reading 'usd')
+2024-09-13T10:06:00.157Z [info]: Fetched price for 0dog in usd: 0.01054393
+2024-09-13T10:06:00.158Z [info]: Current USD balance: 299.77721180
+2024-09-13T10:06:00.158Z [info]: Updated balance for usd: 299.5672118
+2024-09-13T10:06:00.158Z [info]: Updated balance for 0dog: 40
+2024-09-13T10:06:00.165Z [error]: Error processing order: Cannot read properties of undefined (reading 'usd')
+2024-09-13T10:08:44.315Z [info]: Fetched price for 0dog in usd: 0.01054393
+2024-09-13T10:08:44.319Z [info]: Current USD balance: 299.77721180
+2024-09-13T10:08:44.319Z [info]: Updated balance for usd: 299.5672118
+2024-09-13T10:08:44.320Z [info]: Updated balance for 0dog: 40
+2024-09-13T10:08:44.333Z [error]: Error processing order: Cannot read properties of undefined (reading 'usd')
+2024-09-13T10:31:36.779Z [info]: Fetched price for 0dog in usd: 0.01047486
+2024-09-13T10:31:36.782Z [info]: Current USD balance: 299.77721180
+2024-09-13T10:31:36.783Z [info]: Updated balance for usd: 299.5672118
+2024-09-13T10:31:36.784Z [info]: Updated balance for 0dog: 40
+2024-09-13T11:35:32.935Z [error]: Error fetching coin price for 0dog in usd: getaddrinfo ENOTFOUND api.coingecko.com
+2024-09-13T11:35:32.939Z [error]: Unexpected error during buy order processing: cryptoKey is not defined
+2024-09-13T11:35:32.945Z [error]: Error processing order: Failed to process buy order for wallet f5a08180-4a76-4f23-9b6f-5d1845ae6f59: cryptoKey is not defined
+2024-09-13T11:49:47.124Z [info]: Fetched price for 0x in usd: 0.284809
+2024-09-13T11:49:47.128Z [info]: Current USD balance: 299.56721180
+2024-09-13T11:49:47.129Z [info]: Updated balance for usd: 290.9418118
+2024-09-13T11:49:47.130Z [info]: Updated balance for 0x: 30
+2024-09-13T11:49:57.761Z [info]: Fetched price for 0x in usd: 0.284809
+2024-09-13T11:49:57.762Z [info]: Current USD balance: 290.94181180
+2024-09-13T11:49:57.762Z [info]: Updated balance for usd: 282.3164118
+2024-09-13T11:49:57.763Z [info]: Updated balance for 0x: 60
+2024-09-13T11:50:04.289Z [info]: Fetched price for 0x in usd: 0.284809
+2024-09-13T11:50:04.290Z [info]: Current USD balance: 282.31641180
+2024-09-13T11:50:04.291Z [info]: Updated balance for usd: 273.6910118
+2024-09-13T11:50:04.291Z [info]: Updated balance for 0x: 90
+2024-09-13T11:52:46.393Z [info]: Fetched price for 0x in usd: 0.284809
+2024-09-13T11:52:46.397Z [info]: Updated balance for 0x: 60
+2024-09-13T11:52:46.397Z [info]: Updated balance for usd: 282.10711775
+2024-09-13T11:52:46.411Z [error]: Error processing order: Invalid price value.
+2024-09-13T12:05:20.988Z [info]: Fetched price for 0x in usd: 0.28468
+2024-09-13T12:05:20.993Z [info]: Updated balance for 0x: 60
+2024-09-13T12:05:20.994Z [info]: Updated balance for usd: 282.1033058
+2024-09-13T14:10:07.850Z [info]: Fetched price for 01coin in usd: 0.00023252
+2024-09-13T14:10:07.853Z [info]: Current USD balance: 282.10330580
+2024-09-13T14:10:07.853Z [info]: Updated balance for usd: 282.1033058
+2024-09-13T14:10:07.854Z [info]: Updated balance for 01coin: 25
+2024-09-13T14:10:07.866Z [error]: Error processing order: validPrice.isNaN is not a function
+2024-09-13T14:11:22.780Z [info]: Fetched price for 01coin in usd: 0.00023252
+2024-09-13T14:11:22.787Z [info]: Current USD balance: 282.10330580
+2024-09-13T14:11:22.788Z [info]: Updated balance for usd: 282.1033058
+2024-09-13T14:11:22.788Z [info]: Updated balance for 01coin: 25
+2024-09-13T14:11:22.802Z [error]: Error processing order: validFee.isNaN is not a function
+2024-09-13T14:11:59.500Z [info]: Fetched price for 01coin in usd: 0.00023252
+2024-09-13T14:11:59.504Z [info]: Current USD balance: 282.10330580
+2024-09-13T14:11:59.505Z [info]: Updated balance for usd: 282.1033058
+2024-09-13T14:11:59.506Z [info]: Updated balance for 01coin: 25
+2024-09-13T14:12:16.536Z [info]: Fetched price for 01coin in usd: 0.00023252
+2024-09-13T14:12:16.537Z [info]: Current USD balance: 282.10330580
+2024-09-13T14:12:16.538Z [info]: Updated balance for usd: 282.1033058
+2024-09-13T14:12:16.538Z [info]: Updated balance for 01coin: 38
+2024-09-13T14:12:39.906Z [info]: Fetched price for 01coin in usd: 0.00023252
+2024-09-13T14:12:39.907Z [info]: Updated balance for 01coin: 0
+2024-09-13T14:12:39.907Z [info]: Updated balance for usd: 282.1120090236
+2024-09-13T14:29:43.403Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T14:29:43.408Z [info]: Current USD balance: 282.11200902
+2024-09-13T14:29:43.410Z [info]: Updated balance for usd: 278.47600902
+2024-09-13T14:29:43.410Z [info]: Updated balance for 50cent: 100
+2024-09-13T14:31:30.910Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T14:31:30.913Z [info]: Current USD balance: 278.47600902
+2024-09-13T14:31:30.914Z [info]: Updated balance for usd: 274.84000902
+2024-09-13T14:31:30.915Z [info]: Updated balance for 50cent: 200
+2024-09-13T14:34:59.911Z [info]: Fetched price for 8pay in usd: 0.00188002
+2024-09-13T14:34:59.915Z [info]: Current USD balance: 274.84000902
+2024-09-13T14:34:59.916Z [info]: Updated balance for usd: 274.64810902
+2024-09-13T14:34:59.916Z [info]: Updated balance for 8pay: 100
+2024-09-13T14:35:10.943Z [info]: Fetched price for 8pay in usd: 0.00188002
+2024-09-13T14:35:10.943Z [info]: Current USD balance: 274.64810902
+2024-09-13T14:35:10.944Z [info]: Updated balance for usd: 274.64810902
+2024-09-13T14:35:10.944Z [info]: Updated balance for 8pay: 100.011
+2024-09-13T14:35:22.360Z [info]: Fetched price for 8pay in usd: 0.00188002
+2024-09-13T14:35:22.360Z [info]: Current USD balance: 274.64810902
+2024-09-13T14:35:22.361Z [info]: Updated balance for usd: 274.64810902
+2024-09-13T14:35:22.361Z [info]: Updated balance for 8pay: 101.022
+2024-09-13T14:35:39.686Z [info]: Fetched price for 8pay in usd: 0.00188002
+2024-09-13T14:35:39.687Z [info]: Updated balance for 8pay: 100.011
+2024-09-13T14:35:39.688Z [info]: Updated balance for usd: 274.6499812097167
+2024-09-13T14:35:51.426Z [info]: Fetched price for 8pay in usd: 0.00188002
+2024-09-13T14:35:51.427Z [info]: Updated balance for 8pay: 100
+2024-09-13T14:35:51.427Z [info]: Updated balance for usd: 274.6500015800167
+2024-09-13T14:36:54.767Z [info]: Buy orders: []
+2024-09-13T14:36:54.771Z [info]: Sell orders: []
+2024-09-13T14:37:22.035Z [info]: Fetched price for 0x in USD: 0.284914
+2024-09-13T14:37:22.346Z [info]: Fetched price for usd in USD: 0.998466
+2024-09-13T14:37:22.680Z [info]: Fetched price for 0dog in USD: 0.01017208
+2024-09-13T14:37:22.784Z [info]: Fetched price for 8pay in USD: 0.00188002
+2024-09-13T14:37:23.142Z [info]: Fetched price for 01coin in USD: 0.00023182
+2024-09-13T14:37:23.680Z [info]: Fetched price for 50cent in USD: 0.03596873

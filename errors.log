@@ -30,3 +30,33 @@
 2024-09-11T08:54:11.168Z [error]: Error fetching portfolio: wallets is not iterable
 2024-09-12T11:08:59.632Z [error]: Error fetching coin price for btc in usd: No rate found for btc in usd
 2024-09-12T11:08:59.634Z [error]: Error processing order: Error fetching coin price
+2024-09-12T15:47:11.594Z [error]: Error fetching portfolio: next is not defined
+2024-09-12T15:50:42.959Z [error]: Error saving wallet: Missing balance for currency: usd or crypto: 0chain.
+2024-09-12T15:50:42.961Z [error]: Error processing order: Failed to save wallet with ID f5a08180-4a76-4f23-9b6f-5d1845ae6f59: Missing balance for currency: usd or crypto: 0chain.
+2024-09-12T15:52:22.513Z [error]: Error fetching coin price for 01coin in usd: 
+2024-09-12T15:52:22.513Z [error]: Error saving wallet: Error fetching coin price
+2024-09-12T15:52:22.515Z [error]: Error processing order: Failed to save wallet with ID f5a08180-4a76-4f23-9b6f-5d1845ae6f59: Error fetching coin price
+2024-09-12T15:52:44.750Z [error]: Error saving wallet: Missing balance for currency: usd or crypto: 01coin.
+2024-09-12T15:52:44.751Z [error]: Error processing order: Failed to save wallet with ID f5a08180-4a76-4f23-9b6f-5d1845ae6f59: Missing balance for currency: usd or crypto: 01coin.
+2024-09-12T16:20:31.690Z [error]: Error fetching coin price for string in 01coin: cryptoKey is not defined
+2024-09-12T16:20:31.692Z [error]: Error processing order: ExternalAPIError is not defined
+2024-09-12T17:46:52.573Z [error]: Error processing order: ExternalAPIError is not defined
+2024-09-12T17:48:03.943Z [error]: Unexpected error during buy order processing: Missing balance for currency: usd or crypto: 01coin.
+2024-09-12T17:48:03.945Z [error]: Error processing order: Failed to process buy order for wallet f5a08180-4a76-4f23-9b6f-5d1845ae6f59: Missing balance for currency: usd or crypto: 01coin.
+2024-09-12T18:26:20.329Z [error]: Error processing order: Incorrect decimal value: '[object Object]' for column 'price' at row 1
+2024-09-12T18:31:00.359Z [error]: Error processing order: Incorrect decimal value: '[object Object]' for column 'fee' at row 1
+2024-09-12T18:31:10.447Z [error]: Error processing order: Incorrect decimal value: '[object Object]' for column 'fee' at row 1
+2024-09-12T18:33:02.614Z [error]: Error processing order: Invalid fee value.
+2024-09-13T09:42:42.883Z [error]: Unexpected error during buy order processing: totalCost.isNaN is not a function
+2024-09-13T09:42:42.886Z [error]: Error processing order: Failed to process buy order for wallet f5a08180-4a76-4f23-9b6f-5d1845ae6f59: totalCost.isNaN is not a function
+2024-09-13T09:43:51.324Z [error]: Unexpected error during buy order processing: totalCost.negated is not a function
+2024-09-13T09:43:51.326Z [error]: Error processing order: Failed to process buy order for wallet f5a08180-4a76-4f23-9b6f-5d1845ae6f59: totalCost.negated is not a function
+2024-09-13T10:05:32.802Z [error]: Error processing order: Cannot read properties of undefined (reading 'usd')
+2024-09-13T10:06:00.165Z [error]: Error processing order: Cannot read properties of undefined (reading 'usd')
+2024-09-13T10:08:44.333Z [error]: Error processing order: Cannot read properties of undefined (reading 'usd')
+2024-09-13T11:35:32.935Z [error]: Error fetching coin price for 0dog in usd: getaddrinfo ENOTFOUND api.coingecko.com
+2024-09-13T11:35:32.939Z [error]: Unexpected error during buy order processing: cryptoKey is not defined
+2024-09-13T11:35:32.945Z [error]: Error processing order: Failed to process buy order for wallet f5a08180-4a76-4f23-9b6f-5d1845ae6f59: cryptoKey is not defined
+2024-09-13T11:52:46.411Z [error]: Error processing order: Invalid price value.
+2024-09-13T14:10:07.866Z [error]: Error processing order: validPrice.isNaN is not a function
+2024-09-13T14:11:22.802Z [error]: Error processing order: validFee.isNaN is not a function

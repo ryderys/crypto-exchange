@@ -1,6 +1,7 @@
 const autoBind = require("auto-bind");
 const { default: axios } = require("axios");
 const { logger } = require("../../../common/utils");
+const { ExternalAPIError } = require("../error.handling");
 
 class MarketService {
     constructor(){
@@ -150,13 +151,13 @@ class MarketService {
             logger.info(`Fetched price for ${crypto} in ${currency}: ${rate}`);
 
             if (!rate) {
-                throw new Error(`No rate found for ${crypto} in ${currency}`);
+                throw new ExternalAPIError(`Failed to retrieve price for ${cryptoKey} in ${currency}`, 'CoinGecko');
             }
 
             return rate;
         } catch (error) {
             logger.error(`Error fetching coin price for ${crypto} in ${lowerCaseCurrency}: ${error.message}`);
-            throw new Error('Error fetching coin price');
+            throw new Error(`Failed to retrieve price for ${cryptoKey} in ${currency}: ${error.message}`);
         }
     }
 
