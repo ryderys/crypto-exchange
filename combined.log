@@ -324,3 +324,63 @@
 2024-09-13T14:37:22.784Z [info]: Fetched price for 8pay in USD: 0.00188002
 2024-09-13T14:37:23.142Z [info]: Fetched price for 01coin in USD: 0.00023182
 2024-09-13T14:37:23.680Z [info]: Fetched price for 50cent in USD: 0.03596873
+2024-09-13T14:43:31.091Z [info]: Created wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-13T14:44:11.180Z [info]: Updated balance for usd: 300.00
+2024-09-13T14:44:11.190Z [info]: Deposited 300.00000000 usd to wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-13T14:49:34.155Z [info]: Fetched price for 8pay in usd: 0.00187849
+2024-09-13T14:49:34.157Z [info]: Current USD balance: 300.00
+2024-09-13T14:49:34.158Z [info]: Updated balance for usd: 299.8889
+2024-09-13T14:49:34.158Z [info]: Updated balance for 8pay: 60
+2024-09-13T14:50:14.093Z [info]: Fetched price for 8pay in usd: 0.00187849
+2024-09-13T14:50:14.093Z [info]: Current USD balance: 299.8889
+2024-09-13T14:50:14.094Z [info]: Updated balance for usd: 299.8889
+2024-09-13T14:50:14.094Z [info]: Updated balance for 8pay: 60.0002
+2024-09-13T14:50:50.807Z [info]: Fetched price for 8pay in usd: 0.00187849
+2024-09-13T14:50:50.808Z [info]: Updated balance for 8pay: 0
+2024-09-13T14:50:50.808Z [info]: Updated balance for usd: 299.99991912906253
+2024-09-13T15:01:14.829Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:01:14.832Z [info]: Current USD balance: 299.99991912906253
+2024-09-13T15:01:14.833Z [info]: Updated balance for usd: 297.81831912906253
+2024-09-13T15:01:14.833Z [info]: Updated balance for 50cent: 60
+2024-09-13T15:01:14.843Z [error]: Error processing order: currency is not defined
+2024-09-13T15:02:53.705Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:02:53.708Z [info]: Current USD balance: 299.99991912906253
+2024-09-13T15:02:53.709Z [info]: Updated balance for usd: 297.81831912906253
+2024-09-13T15:02:53.709Z [info]: Updated balance for 50cent: 60
+2024-09-13T15:04:55.821Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:04:55.824Z [info]: Current USD balance: 297.81831912906253
+2024-09-13T15:04:55.825Z [info]: Updated balance for usd: 295.63671912906253
+2024-09-13T15:04:55.825Z [info]: Updated balance for 50cent: 120
+2024-09-13T15:06:47.693Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:06:47.696Z [info]: Current USD balance: 295.63671912906253
+2024-09-13T15:06:47.697Z [info]: Updated balance for usd: 293.45511912906253
+2024-09-13T15:06:47.697Z [info]: Updated balance for 50cent: 180
+2024-09-13T15:07:20.427Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:07:20.427Z [info]: Updated balance for 50cent: 120
+2024-09-13T15:07:20.428Z [info]: Updated balance for usd: 295.58087107206253
+2024-09-13T15:07:52.659Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:07:52.660Z [info]: Updated balance for 50cent: 0
+2024-09-13T15:07:52.660Z [info]: Updated balance for usd: 299.83237495806253
+2024-09-13T15:31:56.535Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:31:56.537Z [info]: Current USD balance: 299.83237495806253
+2024-09-13T15:31:56.538Z [error]: Validation error while processing buy order: update balance failed 
+2024-09-13T15:31:56.540Z [error]: Error processing order: update balance failed 
+2024-09-13T15:32:46.939Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:32:46.942Z [info]: Current USD balance: 299.83237495806253
+2024-09-13T15:32:46.943Z [info]: Updated balance for usd: 295.46917495806253
+2024-09-13T15:32:46.943Z [info]: Updated balance for 50cent: 120
+2024-09-13T15:33:49.697Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:33:49.698Z [info]: Current USD balance: 295.47
+2024-09-13T15:33:49.698Z [info]: Updated balance for usd: 295.47
+2024-09-13T15:33:49.698Z [info]: Updated balance for 50cent: 120.001
+2024-09-13T15:34:05.245Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:34:05.245Z [info]: Current USD balance: 295.47
+2024-09-13T15:34:05.246Z [info]: Updated balance for usd: 295.47
+2024-09-13T15:34:05.246Z [info]: Updated balance for 50cent: 120.001
+2024-09-13T15:39:07.229Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:39:07.232Z [info]: Current USD balance: 295.47
+2024-09-13T15:39:07.232Z [info]: Updated balance for usd: 295.47
+2024-09-13T15:39:07.233Z [info]: Updated balance for 50cent: 120.001
+2024-09-13T15:40:05.239Z [info]: Fetched price for 50cent in usd: 0.03596873
+2024-09-13T15:40:05.240Z [info]: Updated balance for 50cent: 0
+2024-09-13T15:40:05.240Z [info]: Updated balance for usd: 299.72153931519905

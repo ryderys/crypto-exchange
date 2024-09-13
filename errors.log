@@ -60,3 +60,6 @@
 2024-09-13T11:52:46.411Z [error]: Error processing order: Invalid price value.
 2024-09-13T14:10:07.866Z [error]: Error processing order: validPrice.isNaN is not a function
 2024-09-13T14:11:22.802Z [error]: Error processing order: validFee.isNaN is not a function
+2024-09-13T15:01:14.843Z [error]: Error processing order: currency is not defined
+2024-09-13T15:31:56.538Z [error]: Validation error while processing buy order: update balance failed 
+2024-09-13T15:31:56.540Z [error]: Error processing order: update balance failed 

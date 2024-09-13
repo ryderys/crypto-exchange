@@ -313,7 +313,7 @@ class TradingService {
     async #finalizeOrder(wallet, type, validAmount, standardizedCurrency, totalValue, cryptoKey, price, fee, transaction) {
         const amount = new BigNumber(validAmount)
         const validPrice = new BigNumber(price)
-
+        const precision = fiatCurrencies.includes(standardizedCurrency) ? fiatPrecision : cryptoPrecision;
         if (new BigNumber(validPrice).isNaN()) {
             throw new Error('Invalid price value.');
         }
@@ -354,15 +354,15 @@ class TradingService {
                 crypto: cryptoKey,
                 amount: amount, //.toFixed(cryptoPrecision)
                 price: validPrice,
-                totalCost,
-                fee: validFee,
+                totalCost: totalCost.toFixed(fiatPrecision),
+                fee: validFee.toFixed(fiatPrecision),
                 timestamp: new Date().toISOString()
             },
             wallet: {
                 id: wallet.id,
                 walletName: wallet.walletName,
                 balances: {
-                    [standardizedCurrency]: new BigNumber(wallet.balances[standardizedCurrency]), //.toFixed(fiatPrecision),
+                    [standardizedCurrency]: new BigNumber(wallet.balances[standardizedCurrency]).toFixed(fiatPrecision),
                     [cryptoKey]: new BigNumber(wallet.balances[cryptoKey]) //.toFixed(cryptoPrecision)
                 },
                 userId: wallet.userId,
@@ -440,16 +440,19 @@ class TradingService {
         try {
             const currentBalance = new BigNumber(wallet.balances[currency] || 0);
             const newBalance = currentBalance.plus(amount);
-            const precision = fiatCurrencies.includes(currency.toLowerCase()) ? fiatPrecision : cryptoPrecision;
+            // const precision = fiatCurrencies.includes(currency.toLowerCase()) ? fiatPrecision : cryptoPrecision;
+            if(fiatCurrencies.includes(currency.toLowerCase())){
+                wallet.balances[currency] = newBalance.toFixed(fiatPrecision);
+            } else {
 
-            wallet.balances[currency] = newBalance.toFixed(precision);
+                wallet.balances[currency] = newBalance;
+            }
             wallet.changed('balances', true);
-            logger.info(`Updated balance for ${currency}: ${newBalance}`);
+            logger.info(`Updated balance for ${currency}: ${wallet.balances[currency]}`);
         } catch (error) {
             throw new ValidationError("update balance failed ")
         }
     }
-
 
 }
 module.exports = new TradingService()
