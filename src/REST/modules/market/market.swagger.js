@@ -238,6 +238,36 @@
  *                                  type: string
  */
 
+/**
+ * @swagger
+ * /market/coin-price:
+ *  get:
+ *      summary:  Get coin price vs currency
+ *      tags:
+ *          -   Market
+ *      parameters:
+ *          -   in: query
+ *              name: crypto
+ *              required: true
+ *              type: string
+ *              description: the ID of the crypto coin
+ *          -   in: query
+ *              name: currency
+ *              required: true  
+ *              type: string
+ *              description: the name of the currency
+ *      responses:
+ *          200:
+ *              description: supported Currencies
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          properties:
+ *                              currencies:
+ *                                  type: string
+ */
+
 
 
 

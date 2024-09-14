@@ -50,7 +50,7 @@ const TransactionSchema = sequelize.define('Transaction', {
         allowNull: true // Only applicable for crypto transactions
     },
     price: {
-        type: DataTypes.DECIMAL(18, 8), // High precision for cryptocurrency
+        type: DataTypes.DECIMAL(18, 2), // High precision for cryptocurrency
         allowNull: true // Only applicable for crypto transactions
     },
     fee: {

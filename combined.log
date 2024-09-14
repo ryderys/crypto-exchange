@@ -384,3 +384,65 @@
 2024-09-13T15:40:05.239Z [info]: Fetched price for 50cent in usd: 0.03596873
 2024-09-13T15:40:05.240Z [info]: Updated balance for 50cent: 0
 2024-09-13T15:40:05.240Z [info]: Updated balance for usd: 299.72153931519905
+2024-09-13T17:02:24.103Z [warn]: Retrying transaction due to error: Insufficient balance. Your balance is 299.72 usd but tried to withdraw 299.72 usd plus a fee of 4.50 usd.
+2024-09-14T06:37:24.627Z [warn]: Retrying transaction due to error: precision is not defined
+2024-09-14T06:38:40.616Z [info]: Updated balance for eur: 250
+2024-09-14T06:38:40.636Z [warn]: Retrying transaction due to error: Data truncated for column 'amount' at row 1
+2024-09-14T06:39:26.956Z [info]: Updated balance for usd: 549.72153931519905
+2024-09-14T06:39:26.963Z [warn]: Retrying transaction due to error: Data truncated for column 'amount' at row 1
+2024-09-14T06:42:16.336Z [info]: Updated balance for usd: 549.72153931519905
+2024-09-14T06:42:16.350Z [warn]: Retrying transaction due to error: Data truncated for column 'amount' at row 1
+2024-09-14T06:43:31.319Z [info]: Updated balance for usd: 549.72153931519905
+2024-09-14T06:43:31.334Z [warn]: Retrying transaction due to error: Data truncated for column 'amount' at row 1
+2024-09-14T06:44:31.008Z [warn]: Retrying transaction due to error: Cannot delete a wallet with a remaining balance.
+2024-09-14T06:48:02.717Z [warn]: Retrying transaction due to error: Insufficient balance. Your balance is 299.72 usd but tried to withdraw 299.72 usd plus a fee of 4.50 usd.
+2024-09-14T07:09:37.882Z [info]: Created wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-14T07:10:26.098Z [info]: Updated balance for usd: 200
+2024-09-14T07:10:26.106Z [warn]: Retrying transaction due to error: Data truncated for column 'amount' at row 1
+2024-09-14T07:23:39.686Z [info]: Updated balance for usd: 200
+2024-09-14T07:23:39.704Z [info]: Deposited 200 usd to wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-14T07:25:45.408Z [info]: Updated balance for usd: 0
+2024-09-14T07:26:12.433Z [info]: Updated balance for usd: 200
+2024-09-14T07:26:12.438Z [info]: Deposited 200 usd to wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-14T07:27:12.335Z [info]: Fetched price for 0chain in usd: 0.057716
+2024-09-14T07:27:12.336Z [info]: Current USD balance: 200.00
+2024-09-14T07:27:12.337Z [info]: Updated balance for usd: 185.4257
+2024-09-14T07:27:12.337Z [info]: Updated balance for 0chain: 250
+2024-09-14T07:27:30.056Z [info]: Fetched price for 0chain in usd: 0.057716
+2024-09-14T07:27:30.057Z [info]: Current USD balance: 185.4257
+2024-09-14T07:27:30.057Z [info]: Updated balance for usd: 185.4257
+2024-09-14T07:27:30.058Z [info]: Updated balance for 0chain: 250.003
+2024-09-14T07:27:41.224Z [info]: Fetched price for 0chain in usd: 0.057716
+2024-09-14T07:27:41.225Z [info]: Current USD balance: 185.4257
+2024-09-14T07:27:41.225Z [info]: Updated balance for usd: 173.7703
+2024-09-14T07:27:41.226Z [info]: Updated balance for 0chain: 450.003
+2024-09-14T07:28:48.748Z [info]: Fetched price for 0chain in usd: 0.057716
+2024-09-14T07:28:48.749Z [info]: Updated balance for 0chain: 0
+2024-09-14T07:28:48.749Z [info]: Updated balance for usd: 199.35308755078
+2024-09-14T07:59:05.768Z [info]: Created wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-14T07:59:28.700Z [info]: Updated balance for eur: 300
+2024-09-14T07:59:28.707Z [info]: Deposited 300 eur to wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-14T08:00:16.162Z [info]: Fetched price for 0chain in eur: 0.052096
+2024-09-14T08:00:16.163Z [info]: Current USD balance: 300.00
+2024-09-14T08:00:16.164Z [info]: Updated balance for eur: 284.2137
+2024-09-14T08:00:16.164Z [info]: Updated balance for 0chain: 300
+2024-09-14T08:09:32.435Z [info]: Updated balance for eur: 0
+2024-09-14T08:09:49.783Z [info]: Updated balance for eur: 300
+2024-09-14T08:09:49.789Z [info]: Deposited 300 eur to wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-14T08:10:01.474Z [info]: Fetched price for 0chain in eur: 0.052083
+2024-09-14T08:10:01.475Z [info]: Updated balance for 0chain: 0
+2024-09-14T08:10:01.476Z [info]: Updated balance for eur: 315.3905265
+2024-09-14T08:11:55.165Z [info]: Updated balance for eur: 0
+2024-09-14T08:12:03.405Z [info]: Updated balance for eur: 300
+2024-09-14T08:12:03.409Z [info]: Deposited 300 eur to wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-14T08:12:13.422Z [info]: Fetched price for 0chain in eur: 0.052083
+2024-09-14T08:12:13.423Z [info]: Current USD balance: 300.00
+2024-09-14T08:12:13.424Z [info]: Updated balance for eur: 284.22
+2024-09-14T08:12:13.424Z [info]: Updated balance for 0chain: 300
+2024-09-14T08:12:24.136Z [info]: Fetched price for 0chain in eur: 0.052083
+2024-09-14T08:12:24.137Z [info]: Updated balance for 0chain: 150
+2024-09-14T08:12:24.137Z [info]: Updated balance for eur: 291.92
+2024-09-14T08:12:41.131Z [info]: Fetched price for 0chain in eur: 0.052083
+2024-09-14T08:12:41.132Z [info]: Updated balance for 0chain: 0
+2024-09-14T08:12:41.132Z [info]: Updated balance for eur: 299.62
+2024-09-14T09:24:34.566Z [info]: Fetched price for 0chain in usd: 0.057675

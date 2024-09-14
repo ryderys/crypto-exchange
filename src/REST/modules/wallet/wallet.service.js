@@ -158,9 +158,8 @@ class WalletService {
                     status: 'completed'
                 }, { transaction: t });
 
-                await this.logAuditAction(userId, `Deposited ${depositAmount.toFixed(cryptoPrecision)} ${currency} to wallet`, t);
-                console.log(`Debugging depositFunds: depositAmount=${depositAmount.toFixed(cryptoPrecision)}, currency=${currency}, userId=${userId}`);
-                logger.info(`Deposited ${depositAmount.toFixed(cryptoPrecision)} ${currency} to wallet for user ${userId}`);
+                await this.logAuditAction(userId, `Deposited ${depositAmount} ${currency} to wallet`, t);
+               logger.info(`Deposited ${depositAmount} ${currency} to wallet for user ${userId}`);
                 return wallet;
             });
         });
@@ -427,11 +426,18 @@ class WalletService {
     #updateBalance(wallet, currency, amount) {
         const currentBalance = new BigNumber(wallet.balances[currency] || 0);
         const newBalance = currentBalance.plus(amount);
-        const precision = fiatCurrencies.includes(currency) ? fiatPrecision : cryptoPrecision;
-        wallet.balances[currency] = newBalance.toFixed(precision);
+        
+        // const precision = fiatCurrencies.includes(currency) ? fiatPrecision : cryptoPrecision;
+        // wallet.balances[currency] = newBalance.toFixed(precision);
+        if(fiatCurrencies.includes(currency.toLowerCase())){
+            wallet.balances[currency] = newBalance.toFixed(fiatPrecision);
+        } else {
+
+            wallet.balances[currency] = newBalance;
+        }
         wallet.changed('balances', true);
-        console.log(`Debugging #updateBalance: newBalance=${newBalance.toFixed(precision)}, currency=${currency}`);
-        logger.info(`Updated balance for ${currency.toLowerCase()}: ${newBalance.toFixed(precision)}`);
+        console.log(`Debugging #updateBalance: newBalance=${newBalance}, currency=${currency}`);
+        logger.info(`Updated balance for ${currency.toLowerCase()}: ${newBalance}`);
     }
 
     #checkSufficientBalance(wallet, currency, amount) {
@@ -468,9 +474,9 @@ class WalletService {
                 walletId: senderWallet.id,
                 userId: senderWallet.userId,
                 type: 'transfer',
-                amount: amount.toFixed(precision),
+                amount: amount, //.toFixed(precision),
                 currency: currency,
-                fee: fee.toFixed(precision),
+                fee: fee, //.toFixed(precision),
                 status: 'completed'
             }, { transaction }),
 
@@ -478,7 +484,7 @@ class WalletService {
                 walletId: recipientWallet.id,
                 userId: recipientWallet.userId,
                 type: 'transfer',
-                amount: amount.toFixed(precision),
+                amount: amount, //.toFixed(precision),
                 currency: currency,
                 fee: '0.00',
                 status: 'completed'

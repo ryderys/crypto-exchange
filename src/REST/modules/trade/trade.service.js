@@ -12,7 +12,7 @@ const  {logger}  = require("../../../common/utils");
 const LimitOrder = require("../order/limitOrder.model");
 const { ValidationError, ExternalAPIError } = require("../error.handling");
 
-const fiatCurrencies = ['USD', 'EUR', 'GBP']; // List of fiat currencies
+const fiatCurrencies = ['usd', 'eur', 'gbp']; // List of fiat currencies
 const cryptoPrecision = 8;
 const fiatPrecision = 2;
 
@@ -51,7 +51,6 @@ class TradingService {
         
                 const standardizedCurrency = currency.toLowerCase();
                 const cryptoKey = crypto.toLowerCase();
-                console.log(cryptoKey);
                 
                 const validAmount = await this.#validateAmount(amount);
                 let wallet = await this.#findOrCreateWallet(userId, walletId, standardizedCurrency, t);
@@ -313,7 +312,7 @@ class TradingService {
     async #finalizeOrder(wallet, type, validAmount, standardizedCurrency, totalValue, cryptoKey, price, fee, transaction) {
         const amount = new BigNumber(validAmount)
         const validPrice = new BigNumber(price)
-        const precision = fiatCurrencies.includes(standardizedCurrency) ? fiatPrecision : cryptoPrecision;
+        // const precision = fiatCurrencies.includes(standardizedCurrency) ? fiatPrecision : cryptoPrecision;
         if (new BigNumber(validPrice).isNaN()) {
             throw new Error('Invalid price value.');
         }
@@ -339,8 +338,8 @@ class TradingService {
             walletId: wallet.id,
             type,
             currency: standardizedCurrency,
-            price: validPrice.toString(),
-            fee: validFee.toString(),
+            price: validPrice.toFixed(fiatPrecision),
+            fee: validFee.toFixed(fiatPrecision),
             amount: amount.toString(),
             crypto: cryptoKey,
             cryptoAmount: amount,
@@ -353,7 +352,7 @@ class TradingService {
                 type,
                 crypto: cryptoKey,
                 amount: amount, //.toFixed(cryptoPrecision)
-                price: validPrice,
+                price: validPrice.toFixed(fiatPrecision),
                 totalCost: totalCost.toFixed(fiatPrecision),
                 fee: validFee.toFixed(fiatPrecision),
                 timestamp: new Date().toISOString()

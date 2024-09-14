@@ -79,6 +79,16 @@ class MarketController{
             next(error)
         }
     }
+    async getCoinPrice(req, res, next){
+        try {
+            const {crypto, currency} = req.query;
+            const price = await this.#service.getCoinPrice(crypto, currency)
+            console.log(price);
+            return res.status(200).json({price})
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = new MarketController()

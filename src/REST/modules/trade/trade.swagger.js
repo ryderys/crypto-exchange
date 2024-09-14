@@ -23,7 +23,7 @@
  *                      description: the id of the wallet
  *                  crypto:
  *                      type: string
- *                      description: the id of the crypto
+ *                      description: the id of the crypto, ref to market/coins/list
  *                  amount:
  *                      type: string
  *                      description: the amount 

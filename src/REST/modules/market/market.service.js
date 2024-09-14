@@ -151,13 +151,13 @@ class MarketService {
             logger.info(`Fetched price for ${crypto} in ${currency}: ${rate}`);
 
             if (!rate) {
-                throw new ExternalAPIError(`Failed to retrieve price for ${cryptoKey} in ${currency}`, 'CoinGecko');
+                throw new ExternalAPIError(`Failed to retrieve price for ${crypto} in ${currency}`, 'CoinGecko');
             }
 
             return rate;
         } catch (error) {
             logger.error(`Error fetching coin price for ${crypto} in ${lowerCaseCurrency}: ${error.message}`);
-            throw new Error(`Failed to retrieve price for ${cryptoKey} in ${currency}: ${error.message}`);
+            throw new Error(`Failed to retrieve price for ${crypto} in ${currency}: ${error.message}`);
         }
     }
 
