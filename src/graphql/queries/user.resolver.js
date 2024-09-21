@@ -16,8 +16,7 @@ const getUser = {
              
             
             const result = await UserModel.findOne({where: { id }})
-            
-
+        
             if(!result){
                 throw new Error(`User with ID not found`)
             }
@@ -25,7 +24,7 @@ const getUser = {
                 id: result.id,
                 username: result.username,
                 phoneNumber: result.phoneNumber,
-                email: result.email,
+                email: result.email
             }
             return user
         } catch (error) {

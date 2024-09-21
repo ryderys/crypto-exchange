@@ -1,5 +1,5 @@
 const { GraphQLString, GraphQLList } = require("graphql")
-const { PortFolioType, OrderBookType, TradeType, tradeAnalyticsType, tradeHistoryType } = require("../typeDefs/trade.types")
+const { PortFolioType, OrderBookType, TradeType, tradeAnalyticsType, tradeHistoryType, TradeAnalyticsType } = require("../typeDefs/trade.types")
 const { VerifyAccessTokenInGraphQL, logger } = require("../../common/utils")
 const WalletSchema = require("../../REST/modules/wallet/wallet.model")
 const { default: BigNumber } = require("bignumber.js")
@@ -91,21 +91,19 @@ const getPortfolio = {
 
 const getOrderBook = {
     type: OrderBookType,
-    args: {
-        crypto: {type: GraphQLString}
-    },
-    resolve: async (parent, {crypto}, {req}) => {
+    // args: {
+    //     crypto: {type: GraphQLString}
+    // },
+    resolve: async (parent, _ , {req}) => {
         try {
             const buyOrders = await LimitOrder.findAll({
-                where: {crypto, type: 'buy', status: 'open'},
-                order: [['price', 'DESC']]
+                where: { type: 'buy', status: 'open'},
+                order: [['targetPrice', 'DESC']]
             })
-            logger.info(`Buy orders: ${JSON.stringify(buyOrders)}`);
             const sellOrders = await LimitOrder.findAll({
-                where: {crypto, type: 'sell', status: 'open'},
-                order: [['price', 'DESC']]
+                where: { type: 'sell', status: 'open'},
+                order: [['targetPrice', 'DESC']]
             })
-            logger.info(`Sell orders: ${JSON.stringify(sellOrders)}`);
 
             return {
                 buyOrders,
@@ -140,7 +138,7 @@ const getTradeHistory = {
                 crypto: trade.crypto,               // Crypto involved (e.g., BTC)
                 amount: trade.amount,               // Fiat amount involved
                 cryptoAmount: trade.cryptoAmount,   // Crypto amount traded
-                total: trade.total,                 // Total transaction amount (including fees)
+                // total: trade.total,                 // Total transaction amount (including fees)
                 fee: trade.fee,                     // Fee applied to the trade
                 status: trade.status,               // Status of the trade (pending, completed, etc.)
                 createdAt: trade.createdAt.toISOString() // Timestamp of the trade
@@ -152,7 +150,7 @@ const getTradeHistory = {
 } 
 
 const getTradeAnalytics = {
-    type: tradeAnalyticsType,
+    type: TradeAnalyticsType,
     resolve: async (parent, args, {req}) => {
         try {
             const {id} = await VerifyAccessTokenInGraphQL(req)

@@ -63,3 +63,26 @@
 2024-09-13T15:01:14.843Z [error]: Error processing order: currency is not defined
 2024-09-13T15:31:56.538Z [error]: Validation error while processing buy order: update balance failed 
 2024-09-13T15:31:56.540Z [error]: Error processing order: update balance failed 
+2024-09-19T13:57:25.522Z [error]: Error fetching coin price for 300fit in usd: 
+2024-09-19T13:57:25.523Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:57:25.526Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:57:52.713Z [error]: Error fetching coin price for 300fit in usd: 
+2024-09-19T13:57:52.714Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:57:52.715Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:58:26.572Z [error]: Error fetching coin price for 300fit in usd: 
+2024-09-19T13:58:26.573Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:58:26.574Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:59:50.174Z [error]: Error fetching coin price for 0chain in usd: 
+2024-09-19T13:59:50.174Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 0chain in usd: 
+2024-09-19T13:59:50.175Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 0chain in usd: 
+2024-09-19T14:02:46.843Z [error]: Error fetching coin price for 0chain in usd: 
+2024-09-19T14:02:46.843Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 0chain in usd: 
+2024-09-19T14:02:46.844Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 0chain in usd: 
+2024-09-19T14:06:04.931Z [error]: Error fetching coin price for 0chain in usd: 
+2024-09-19T14:59:21.454Z [error]: Error fetching coin price for 0dog in usd: 
+2024-09-19T14:59:21.454Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 0dog in usd: 
+2024-09-19T14:59:21.456Z [error]: Error processing order: Failed to process buy order for wallet 49f40b5e-b562-415b-8f15-667b722aa572: Failed to retrieve price for 0dog in usd: 
+2024-09-19T15:04:20.389Z [error]: Error fetching coin price for 0dog in usd: 
+2024-09-19T15:05:54.438Z [error]: Error fetching coin price for 0dog in usd: 
+2024-09-19T15:05:54.439Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 0dog in usd: 
+2024-09-19T15:05:54.442Z [error]: Error processing order: Failed to process buy order for wallet 49f40b5e-b562-415b-8f15-667b722aa572: Failed to retrieve price for 0dog in usd: 

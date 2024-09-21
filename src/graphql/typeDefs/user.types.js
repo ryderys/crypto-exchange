@@ -8,8 +8,7 @@ const UserType = new GraphQLObjectType({
         username: {type: GraphQLString},
         phoneNumber: {type: GraphQLString},
         email: {type: GraphQLString},
-        wallets: {type: new GraphQLList(WalletType)},
-        
+        // wallets: {type: new GraphQLList(WalletType)},
     }
 })
 

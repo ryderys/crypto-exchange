@@ -446,3 +446,73 @@
 2024-09-14T08:12:41.132Z [info]: Updated balance for 0chain: 0
 2024-09-14T08:12:41.132Z [info]: Updated balance for eur: 299.62
 2024-09-14T09:24:34.566Z [info]: Fetched price for 0chain in usd: 0.057675
+2024-09-19T13:54:01.722Z [info]: User ashiys successfully logged in
+2024-09-19T13:54:40.609Z [info]: Updated balance for usd: 0
+2024-09-19T13:55:04.404Z [info]: Updated balance for usd: 300
+2024-09-19T13:55:04.410Z [info]: Deposited 300 usd to wallet for user a905ecbf-6787-4ba9-91de-eff82543c50a
+2024-09-19T13:57:25.522Z [error]: Error fetching coin price for 300fit in usd: 
+2024-09-19T13:57:25.523Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:57:25.526Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:57:52.713Z [error]: Error fetching coin price for 300fit in usd: 
+2024-09-19T13:57:52.714Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:57:52.715Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:58:26.572Z [error]: Error fetching coin price for 300fit in usd: 
+2024-09-19T13:58:26.573Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:58:26.574Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 300fit in usd: 
+2024-09-19T13:59:50.174Z [error]: Error fetching coin price for 0chain in usd: 
+2024-09-19T13:59:50.174Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 0chain in usd: 
+2024-09-19T13:59:50.175Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 0chain in usd: 
+2024-09-19T14:02:46.843Z [error]: Error fetching coin price for 0chain in usd: 
+2024-09-19T14:02:46.843Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 0chain in usd: 
+2024-09-19T14:02:46.844Z [error]: Error processing order: Failed to process buy order for wallet 106d2958-b8fe-465f-b98a-41849ec3f284: Failed to retrieve price for 0chain in usd: 
+2024-09-19T14:06:04.931Z [error]: Error fetching coin price for 0chain in usd: 
+2024-09-19T14:14:06.168Z [info]: User ashiys successfully logged in
+2024-09-19T14:14:28.289Z [info]: Created wallet for user 549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9
+2024-09-19T14:14:54.426Z [info]: Updated balance for usd: 300
+2024-09-19T14:14:54.434Z [warn]: Retrying transaction due to error: notNull Violation: Transaction.crypto cannot be null
+2024-09-19T14:58:09.723Z [info]: Updated balance for usd: 300
+2024-09-19T14:58:09.736Z [info]: Deposited 300 usd to wallet for user 549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9
+2024-09-19T14:59:21.454Z [error]: Error fetching coin price for 0dog in usd: 
+2024-09-19T14:59:21.454Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 0dog in usd: 
+2024-09-19T14:59:21.456Z [error]: Error processing order: Failed to process buy order for wallet 49f40b5e-b562-415b-8f15-667b722aa572: Failed to retrieve price for 0dog in usd: 
+2024-09-19T15:02:19.778Z [info]: Fetched price for 0dog in usd: 0.00941704
+2024-09-19T15:02:19.780Z [info]: Current USD balance: 300.00
+2024-09-19T15:02:19.781Z [info]: Updated balance for usd: 299.33
+2024-09-19T15:02:19.782Z [info]: Updated balance for 0dog: 70
+2024-09-19T15:02:41.271Z [info]: Fetched price for 0dog in usd: 0.00941704
+2024-09-19T15:02:41.272Z [info]: Current USD balance: 299.33
+2024-09-19T15:02:41.273Z [info]: Updated balance for usd: 299.00
+2024-09-19T15:02:41.273Z [info]: Updated balance for 0dog: 105
+2024-09-19T15:03:17.694Z [info]: Fetched price for 0dog in usd: 0.00941704
+2024-09-19T15:03:17.695Z [info]: Updated balance for 0dog: 45
+2024-09-19T15:03:17.696Z [info]: Updated balance for usd: 299.56
+2024-09-19T15:04:20.389Z [error]: Error fetching coin price for 0dog in usd: 
+2024-09-19T15:05:09.550Z [info]: Fetched price for 0dog in usd: 0.00941704
+2024-09-19T15:05:54.438Z [error]: Error fetching coin price for 0dog in usd: 
+2024-09-19T15:05:54.439Z [error]: Unexpected error during buy order processing: Failed to retrieve price for 0dog in usd: 
+2024-09-19T15:05:54.442Z [error]: Error processing order: Failed to process buy order for wallet 49f40b5e-b562-415b-8f15-667b722aa572: Failed to retrieve price for 0dog in usd: 
+2024-09-19T15:05:57.336Z [info]: Fetched price for 0dog in usd: 0.00941704
+2024-09-19T15:05:57.336Z [info]: Current USD balance: 299.56
+2024-09-19T15:05:57.337Z [info]: Updated balance for usd: 298.98
+2024-09-19T15:05:57.337Z [info]: Updated balance for 0dog: 105
+2024-09-19T15:06:19.617Z [info]: Created limit order: {"id":1,"userId":"549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9","walletId":"49f40b5e-b562-415b-8f15-667b722aa572","crypto":"0dog","amount":"60.00000000","price":"0.00949999","type":"buy","orderType":"limit","status":"open","updatedAt":"2024-09-19T15:06:19.616Z","createdAt":"2024-09-19T15:06:19.616Z"}
+2024-09-19T15:06:38.093Z [info]: Buy orders: [{"id":1,"userId":"549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9","walletId":"49f40b5e-b562-415b-8f15-667b722aa572","crypto":"0dog","price":"0.00949999","amount":"60.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-19T15:06:19.000Z","updatedAt":"2024-09-19T15:06:19.000Z"}]
+2024-09-19T15:06:38.096Z [info]: Sell orders: []
+2024-09-19T15:07:06.412Z [info]: Fetched price for usd in USD: 1
+2024-09-19T15:07:06.518Z [info]: Fetched price for 0dog in USD: 0.00941704
+2024-09-19T15:17:59.314Z [info]: Buy orders: [{"id":1,"userId":"549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9","walletId":"49f40b5e-b562-415b-8f15-667b722aa572","crypto":"0dog","price":"0.00949999","amount":"60.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-19T15:06:19.000Z","updatedAt":"2024-09-19T15:06:19.000Z"}]
+2024-09-19T15:18:03.801Z [info]: Buy orders: [{"id":1,"userId":"549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9","walletId":"49f40b5e-b562-415b-8f15-667b722aa572","crypto":"0dog","price":"0.00949999","amount":"60.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-19T15:06:19.000Z","updatedAt":"2024-09-19T15:06:19.000Z"}]
+2024-09-19T15:22:21.312Z [info]: Buy orders: [{"id":1,"userId":"549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9","walletId":"49f40b5e-b562-415b-8f15-667b722aa572","crypto":"0dog","price":"0.00949999","amount":"60.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-19T15:06:19.000Z","updatedAt":"2024-09-19T15:06:19.000Z"}]
+2024-09-19T15:22:21.317Z [info]: Sell orders: []
+2024-09-19T15:22:27.266Z [info]: Buy orders: [{"id":1,"userId":"549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9","walletId":"49f40b5e-b562-415b-8f15-667b722aa572","crypto":"0dog","price":"0.00949999","amount":"60.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-19T15:06:19.000Z","updatedAt":"2024-09-19T15:06:19.000Z"}]
+2024-09-19T15:22:27.269Z [info]: Sell orders: []
+2024-09-19T15:22:33.439Z [info]: Buy orders: [{"id":1,"userId":"549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9","walletId":"49f40b5e-b562-415b-8f15-667b722aa572","crypto":"0dog","price":"0.00949999","amount":"60.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-19T15:06:19.000Z","updatedAt":"2024-09-19T15:06:19.000Z"}]
+2024-09-19T15:22:33.440Z [info]: Sell orders: []
+2024-09-19T15:23:48.387Z [info]: Buy orders: [{"id":1,"userId":"549aba0c-5f7f-4bf0-a68b-8bc21f0d76e9","walletId":"49f40b5e-b562-415b-8f15-667b722aa572","crypto":"0dog","price":"0.00949999","amount":"60.00000000","type":"buy","orderType":"limit","status":"open","createdAt":"2024-09-19T15:06:19.000Z","updatedAt":"2024-09-19T15:06:19.000Z"}]
+2024-09-19T15:23:48.388Z [info]: Sell orders: []
+2024-09-19T15:39:28.567Z [info]: Fetched price for usd in usd: 0.999376
+2024-09-19T15:39:28.902Z [info]: Fetched price for 0dog in 0dog: 0.01015854
+2024-09-19T15:39:32.635Z [info]: Fetched price for usd in usd: 0.999376
+2024-09-19T15:39:32.737Z [info]: Fetched price for 0dog in 0dog: 0.01015854
+2024-09-20T12:25:58.284Z [info]: Checked balance for wallet 49f40b5e-b562-415b-8f15-667b722aa572
+2024-09-20T12:26:58.483Z [info]: Fetched transaction history for wallet 49f40b5e-b562-415b-8f15-667b722aa572

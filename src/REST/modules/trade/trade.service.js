@@ -97,12 +97,10 @@ class TradingService {
             where: {crypto, type: 'buy', status: 'open'},
             order: [['price', 'DESC']]
         })
-        logger.info(`Buy orders: ${JSON.stringify(buyOrders)}`);
         const sellOrders = await this.#limitOrder_model.findAll({
             where: {crypto, type: 'sell', status: 'open'},
             order: [['price', 'ASC']]
         })
-        logger.info(`Sell orders: ${JSON.stringify(sellOrders)}`);
         return {
             buyOrders, 
             sellOrders

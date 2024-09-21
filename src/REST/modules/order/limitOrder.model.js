@@ -15,7 +15,7 @@ const LimitOrder = sequelize.define('LimitOrder', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    price: {
+    targetPrice: {
         type: DataTypes.DECIMAL(18, 8),
         allowNull: false
     },

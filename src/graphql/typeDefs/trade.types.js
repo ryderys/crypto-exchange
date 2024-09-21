@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLFloat } = require("graphql");
+ const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLFloat } = require("graphql");
 
 const TradeType = new GraphQLObjectType({
     name: 'tradeType',
@@ -56,7 +56,7 @@ const PortFolioType = new GraphQLObjectType({
 })
 
 const TradeAnalyticsType = new GraphQLObjectType({
-    name: 'tradingAnalytics',
+    name: 'tradeAnalyticsType',
     fields: {
         totalProfit: {type: GraphQLString},
         totalVolume: {type: GraphQLString},
@@ -74,7 +74,7 @@ const tradeHistoryType = new GraphQLObjectType({
         crypto: { type: GraphQLString },             // Crypto involved in the trade (BTC, ETH, etc.)
         amount: { type: GraphQLFloat },              // Amount of fiat currency traded
         cryptoAmount: { type: GraphQLFloat },        // Amount of crypto traded
-        total: { type: GraphQLFloat },               // Total transaction amount
+        // total: { type: GraphQLFloat },              // Total transaction amount
         fee: { type: GraphQLFloat },                 // Transaction fee
         status: { type: GraphQLString },             // Status (pending, completed, failed)
         createdAt: { type: GraphQLString } 
